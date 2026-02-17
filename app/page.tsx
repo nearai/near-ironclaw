@@ -18,6 +18,14 @@ const sites = [
     tagColor: 'text-[#ccff00] bg-[#ccff00]/10 border-[#ccff00]/20',
     accent: 'group-hover:border-[#ccff00]/30',
   },
+  {
+    slug: 'ironclaw-forest',
+    name: 'IronClaw — Forest',
+    description: 'Clean SaaS design with deep forest green palette, terminal hero mockup, and card-based sections.',
+    tag: 'Security',
+    tagColor: 'text-[#c9ffad] bg-[#052e26]/60 border-[#c9ffad]/20',
+    accent: 'group-hover:border-[#c9ffad]/30',
+  },
 ];
 
 export default function HomePage() {
