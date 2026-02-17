@@ -10,6 +10,14 @@ const sites = [
     tagColor: 'text-orange-400 bg-orange-500/10 border-orange-500/20',
     accent: 'group-hover:border-orange-500/30',
   },
+  {
+    slug: 'ironclaw-magnetic',
+    name: 'IronClaw — Magnetic',
+    description: 'Editorial variant with lime palette, magnetic dot canvas, and brutalist typography.',
+    tag: 'Security',
+    tagColor: 'text-[#ccff00] bg-[#ccff00]/10 border-[#ccff00]/20',
+    accent: 'group-hover:border-[#ccff00]/30',
+  },
 ];
 
 export default function HomePage() {

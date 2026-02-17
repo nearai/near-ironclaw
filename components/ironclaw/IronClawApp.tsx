@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import {
   Shield,
   Lock,
@@ -35,6 +36,15 @@ const IronClawApp = () => {
 
   return (
     <div className="min-h-screen bg-[#000000] text-gray-300 font-sans selection:bg-orange-500/30 selection:text-orange-200 overflow-x-hidden">
+
+      {/* --- TOP BAR: Back to hub --- */}
+      <div className="bg-black border-b border-white/5 px-6 py-2 flex items-center justify-between z-50 relative">
+        <Link href="/" className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-gray-600 hover:text-orange-400 transition-colors">
+          <span>←</span>
+          <span>All demos</span>
+        </Link>
+        <span className="font-mono text-xs text-gray-700 uppercase tracking-widest">ironclaw</span>
+      </div>
 
       {/* --- NAVIGATION (Floating Pill) --- */}
       <nav className={`fixed top-6 left-0 right-0 z-50 flex justify-center transition-all duration-300`}>
