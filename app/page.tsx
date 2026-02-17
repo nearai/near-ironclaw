@@ -19,6 +19,14 @@ const sites = [
     accent: 'group-hover:border-[#ccff00]/30',
   },
   {
+    slug: 'ironclaw-sticky',
+    name: 'IronClaw — Sticky',
+    description: 'Neutral cream palette with stacked sticky-scroll sections, vertical marquee widgets, and terracotta accents.',
+    tag: 'Security',
+    tagColor: 'text-[#b7410e] bg-[#b7410e]/10 border-[#b7410e]/20',
+    accent: 'group-hover:border-[#b7410e]/30',
+  },
+  {
     slug: 'ironclaw-forest',
     name: 'IronClaw — Forest',
     description: 'Clean SaaS design with deep forest green palette, terminal hero mockup, and card-based sections.',
