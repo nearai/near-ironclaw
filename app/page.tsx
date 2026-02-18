@@ -34,6 +34,14 @@ const sites = [
     tagColor: 'text-[#c9ffad] bg-[#052e26]/60 border-[#c9ffad]/20',
     accent: 'group-hover:border-[#c9ffad]/30',
   },
+  {
+    slug: 'ironclaw-near',
+    name: 'IronClaw — NEAR',
+    description: 'Hybrid bento + editorial design with NEAR AI blue branding, vertical widget marquee, and visible borders.',
+    tag: 'Security',
+    tagColor: 'text-[#4CA7E6] bg-[#2257B5]/10 border-[#2257B5]/30',
+    accent: 'group-hover:border-[#4CA7E6]/40',
+  },
 ];
 
 export default function HomePage() {
