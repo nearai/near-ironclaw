@@ -305,7 +305,7 @@ export default function IronClawNearApp() {
 
           {/* Nav links */}
           <div className="hidden md:flex items-center gap-8">
-            {['Cloud', 'Features', 'Technology', 'Docs'].map(l => (
+            {['Why Switch', 'Features', 'How It Works', 'Compare', 'GitHub'].map(l => (
               <a
                 key={l}
                 href="#"
@@ -327,123 +327,94 @@ export default function IronClawNearApp() {
             <span className="w-5 h-5 bg-white rounded-full flex items-center justify-center text-[#0A0A0F] text-xs font-bold leading-none">
               +
             </span>
-            TRY NEAR AI
+            Deploy Now
           </button>
         </div>
       </nav>
 
-      {/* ── 3. Hero Bento — DARK ─────────────────────────────────────────── */}
-      <section
-        className="px-6 pt-8 pb-8"
-        style={{
-          background: `
-            radial-gradient(ellipse 110% 55% at 50% 115%, #2060E8 0%, #0830A0 18%, #010820 42%, transparent 62%),
-            #000000
-          `,
-        }}
-      >
-        <div className="max-w-7xl mx-auto grid grid-cols-12 gap-6">
-
-          {/* Left hero card — col-span-8 */}
+      {/* ── 3. Hero — NEAR AI Cloud style ───────────────────────────────── */}
+      <section className="px-6 pt-6" style={{ backgroundColor: '#EBEBEB' }}>
+        {/* Single full-width rounded card, dark→cyan gradient (near.ai Cloud style) */}
+        <div
+          className="max-w-7xl mx-auto relative overflow-hidden flex flex-col justify-end"
+          style={{
+            minHeight: '58vh',
+            borderRadius: '1.75rem',
+            background: `linear-gradient(
+              180deg,
+              #04090F 0%,
+              #060E1C 12%,
+              #071828 24%,
+              #092340 36%,
+              #0B3558 48%,
+              #0D4A6E 58%,
+              #0F6282 68%,
+              #127A96 77%,
+              #1694A8 85%,
+              #22AEBA 92%,
+              #38C4CC 97%,
+              #4ED0D8 100%
+            )`,
+            padding: 'clamp(1.75rem, 4vw, 3rem)',
+          }}
+        >
+          {/* Badge — Now on NEAR AI Cloud */}
           <div
-            className="col-span-12 md:col-span-8 flex flex-col justify-between p-8 md:p-12 relative overflow-hidden"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 w-fit"
             style={{
-              minHeight: '80vh',
-              backgroundColor: '#070D1C',
-              border: '1px solid rgba(255,255,255,0.05)',
-              borderRadius: '2rem',
+              backgroundColor: 'rgba(255,255,255,0.12)',
+              border: '1px solid rgba(255,255,255,0.2)',
             }}
           >
-            {/* Subtle grid overlay */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                opacity: 0.025,
-                backgroundImage:
-                  'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-                backgroundSize: '60px 60px',
-              }}
-            />
-
-            {/* Top content */}
-            <div className="relative z-10">
-              {/* Shield label */}
-              <div className="flex items-center gap-2 mb-10">
-                <Shield className="w-5 h-5 text-white" />
-                <span className="text-white text-sm lowercase tracking-wide">security</span>
-              </div>
-
-              {/* H1 */}
-              <h1
-                className="font-semibold text-white mb-6"
-                style={{
-                  fontSize: 'clamp(2.8rem, 5.5vw, 5rem)',
-                  lineHeight: 1.0,
-                  letterSpacing: '-0.035em',
-                }}
-              >
-                Secure Agents.<br />No Leaked Secrets.
-              </h1>
-
-              <p
-                className="mb-10 max-w-lg text-base leading-relaxed"
-                style={{ color: 'rgba(255,255,255,0.6)' }}
-              >
-                IronClaw runs in encrypted enclaves on NEAR AI Cloud. Your credentials are never
-                exposed to the LLM — by architecture, not policy.
-              </p>
-
-              {/* CTAs */}
-              <div className="flex flex-wrap gap-3">
-                <DarkPill label="DEPLOY SECURE AGENT" />
-                <DarkPill label="READ DOCS" />
-              </div>
-            </div>
-
-            {/* Bottom badge */}
-            <div className="relative z-10 mt-8">
-              <div
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full"
-                style={{
-                  backgroundColor: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                }}
-              >
-                <span className="relative flex h-2 w-2">
-                  <span
-                    className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                    style={{ backgroundColor: '#4A80D0' }}
-                  />
-                  <span
-                    className="relative inline-flex rounded-full h-2 w-2"
-                    style={{ backgroundColor: '#4A80D0' }}
-                  />
-                </span>
-                <span
-                  className="text-[10px] font-semibold uppercase tracking-widest"
-                  style={{ color: 'rgba(255,255,255,0.6)' }}
-                >
-                  Now on NEAR AI Cloud
-                </span>
-              </div>
-            </div>
+            <span className="relative flex h-2 w-2">
+              <span
+                className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                style={{ backgroundColor: '#fff' }}
+              />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+            </span>
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-white">
+              Now on NEAR AI Cloud
+            </span>
           </div>
 
-          {/* Right marquee panel — col-span-4 */}
-          <div
-            className="col-span-12 md:col-span-4"
+          {/* Headline */}
+          <h1
+            className="font-semibold text-white mb-5"
             style={{
-              minHeight: '80vh',
-              backgroundColor: '#040A16',
-              borderRadius: '2rem',
-              padding: '1.5rem',
-              overflow: 'hidden',
-              position: 'relative',
+              fontSize: 'clamp(2rem, 4.5vw, 3.6rem)',
+              lineHeight: 1.05,
+              letterSpacing: '-0.03em',
+              maxWidth: '700px',
             }}
           >
-            <DarkVerticalMarquee />
-          </div>
+            IronClaw: Your Always-On<br />AI Agent, Privacy Guaranteed
+          </h1>
 
+          {/* Subhead */}
+          <p
+            className="mb-8 text-sm leading-relaxed"
+            style={{ color: 'rgba(255,255,255,0.72)', maxWidth: '520px' }}
+          >
+            A secure, open-source alternative to OpenClaw. Built in Rust. Running in encrypted
+            enclaves on NEAR AI Cloud. Your secrets never touch the LLM.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-wrap gap-3">
+            {/* Primary */}
+            <button
+              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#0A0A0F] transition-opacity hover:opacity-80"
+              style={{ backgroundColor: '#ffffff' }}
+            >
+              <span className="w-5 h-5 bg-[#0A0A0F] rounded-full flex items-center justify-center text-white text-xs font-bold leading-none">
+                +
+              </span>
+              Deploy Secure Agent
+            </button>
+            {/* Secondary */}
+            <DarkPill label="Read the Source" />
+          </div>
         </div>
       </section>
 
@@ -451,10 +422,10 @@ export default function IronClawNearApp() {
       <section className="py-16 px-6" style={{ backgroundColor: '#EBEBEB' }}>
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'GitHub Stars', value: '1,400+', icon: Github },
+            { label: 'GitHub Stars', value: '2,000+', icon: Github },
             { label: 'Secrets Exposed', value: '0', icon: Lock },
-            { label: 'Language', value: '100% Rust', icon: Code2 },
-            { label: 'Deploy Time', value: '1-click', icon: Zap },
+            { label: 'Rust', value: '100%', icon: Code2 },
+            { label: 'Cloud Deploy', value: '1-click', icon: Zap },
           ].map((stat, i) => (
             <div
               key={i}
@@ -495,16 +466,17 @@ export default function IronClawNearApp() {
                 className="near-fade-h2 mt-2"
                 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.5rem)', fontWeight: 500 }}
               >
-                <span style={{ color: '#ffffff' }}>OpenClaw is leaking</span>
+                <span style={{ color: '#ffffff' }}>OpenClaw is powerful.</span>
                 <br />
-                <span style={{ color: 'rgba(255,255,255,0.3)' }}>your secrets.</span>
+                <span style={{ color: 'rgba(255,255,255,0.3)' }}>It&apos;s also exposing your secrets.</span>
               </h2>
             </div>
             <p
               className="hidden md:block text-sm text-right max-w-xs"
               style={{ color: 'rgba(255,255,255,0.4)' }}
             >
-              If you&apos;re running OpenClaw with sensitive data, you are already at risk.
+              Credentials get exposed through prompt injection. Malicious skills steal passwords.
+              If you&apos;re running OpenClaw with anything sensitive, you already know the risk.
             </p>
           </div>
 
@@ -529,10 +501,10 @@ export default function IronClawNearApp() {
                 >
                   <AlertTriangle className="w-5 h-5" style={{ color: '#E85050' }} />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-3">Prompt Injection</h3>
+                <h3 className="text-2xl font-bold text-white mb-3">Prompt injection dumps your secrets.</h3>
                 <p style={{ color: 'rgba(255,255,255,0.5)' }} className="max-w-md text-sm">
-                  A single crafted prompt tricks the LLM into revealing every API key.
-                  Telling it &ldquo;don&apos;t share&rdquo; doesn&apos;t help.
+                  A single crafted prompt can trick the LLM into revealing every API key and
+                  password you&apos;ve given it. Telling it &ldquo;don&apos;t share&rdquo; doesn&apos;t help.
                 </p>
               </div>
               {/* Code overlay */}
@@ -573,9 +545,10 @@ export default function IronClawNearApp() {
                 >
                   <Globe className="w-5 h-5" style={{ color: '#4A80D0' }} />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">30,000+ Exposed</h3>
+                <h3 className="text-xl font-bold text-white mb-3">30,000+ instances exposed to the internet.</h3>
                 <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                  Instances publicly reachable. Attackers are already scanning.
+                  Tens of thousands of OpenClaw instances are publicly reachable. Attackers are
+                  already weaponizing them.
                 </p>
               </div>
               <div
@@ -601,10 +574,10 @@ export default function IronClawNearApp() {
               }}
             >
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-white mb-2">341 Malicious Skills</h3>
+                <h3 className="text-xl font-bold text-white mb-2">341 malicious skills found on ClawHub.</h3>
                 <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                  Researchers found hundreds of community skills on ClawHub designed to quietly
-                  exfiltrate credentials.
+                  Researchers found hundreds of community skills designed to quietly exfiltrate
+                  credentials. You won&apos;t spot them in a code review.
                 </p>
               </div>
               <div className="hidden md:flex -space-x-4">
@@ -658,39 +631,67 @@ export default function IronClawNearApp() {
                 </div>
               </div>
               <p className="font-semibold text-[#0A0A0F] text-sm mb-1">
-                Private. Secure. Verifiable.
+                Encrypted. Sandboxed. Verifiable.
               </p>
               <p className="text-sm" style={{ color: '#888' }}>
-                Built on the principle of verifiable, isolated execution.
+                The LLM physically cannot reach your credentials — by architecture, not policy.
               </p>
             </div>
             <LightPill label="OUR ARCHITECTURE" full />
           </div>
 
-          {/* Right: fade headline + 2-col body + dark card with glow */}
+          {/* Right: section label + fade headline + 2-col body + tags + dark card */}
           <div className="space-y-8">
+            {/* Section label */}
+            <span
+              className="text-xs font-semibold uppercase tracking-[0.12em]"
+              style={{ color: 'rgba(0,0,0,0.35)' }}
+            >
+              How IronClaw Fixes This
+            </span>
+
             {/* Fade headline */}
             <h2
               className="near-fade-h2"
               style={{ fontSize: 'clamp(1.7rem, 3vw, 2.6rem)', fontWeight: 500 }}
             >
-              <span style={{ color: '#0A0A0F' }}>IronClaw&apos;s Security Is Built on</span>
+              <span style={{ color: '#0A0A0F' }}>The LLM never touches</span>
               <br />
-              <span style={{ color: '#999' }}>the Principle of Verifiable,</span>
+              <span style={{ color: '#888' }}>your secrets.</span>
               <br />
-              <span style={{ color: '#C0C0C0' }}>Isolated Execution.</span>
+              <span style={{ color: '#C8C8C8' }}>Ever.</span>
             </h2>
 
             {/* 2-col body text */}
             <div className="grid grid-cols-2 gap-6">
               <p className="text-sm leading-relaxed" style={{ color: '#666' }}>
-                Your agents run through IronClaw&apos;s encrypted enclaves, powered by Intel TDX
-                and NVIDIA Confidential Computing hardware-secured infrastructure.
+                IronClaw doesn&apos;t rely on telling the AI &ldquo;please don&apos;t leak
+                this.&rdquo; Your credentials live in an encrypted vault that the LLM physically
+                cannot access. They&apos;re injected at the network boundary — only for endpoints
+                you&apos;ve pre-approved.
               </p>
               <p className="text-sm leading-relaxed" style={{ color: '#666' }}>
-                Every credential injection runs inside a Trusted Execution Environment with
-                real-time verification, keeping secrets encrypted and isolated at all times.
+                Every tool runs in its own WebAssembly sandbox with no filesystem access and no
+                outbound connections beyond your allowlist. The entire runtime is Rust — no garbage
+                collector, no buffer overflows, no use-after-free.
               </p>
+            </div>
+
+            {/* Solution tags */}
+            <div className="flex flex-wrap gap-2">
+              {['Rust', 'Wasm Sandbox', 'Encrypted Vault', 'TEE / CVM', 'Endpoint Allowlist'].map(tag => (
+                <span
+                  key={tag}
+                  className="px-3 py-1.5 rounded-full text-xs font-medium"
+                  style={{
+                    backgroundColor: 'rgba(0,0,0,0.06)',
+                    color: '#444',
+                    border: '1px solid rgba(0,0,0,0.08)',
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
 
             {/* Dark featured card with atmospheric glow */}
@@ -698,7 +699,7 @@ export default function IronClawNearApp() {
               className="rounded-2xl p-8 relative overflow-hidden"
               style={{
                 backgroundColor: '#070D1C',
-                minHeight: '240px',
+                minHeight: '220px',
                 border: '1px solid rgba(255,255,255,0.04)',
               }}
             >
@@ -712,7 +713,7 @@ export default function IronClawNearApp() {
               />
               <div
                 className="relative z-10 flex flex-col justify-between"
-                style={{ minHeight: '180px' }}
+                style={{ minHeight: '160px' }}
               >
                 <div>
                   <div className="flex items-center gap-2 mb-3">
@@ -750,43 +751,46 @@ export default function IronClawNearApp() {
               className="near-fade-h2 mt-2"
               style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 500 }}
             >
-              <span style={{ color: '#ffffff' }}>Make Secure AI Agents Fast,</span>
+              <span style={{ color: '#ffffff' }}>Security you don&apos;t</span>
               <br />
-              <span style={{ color: 'rgba(255,255,255,0.28)' }}>Cheap, and Easy to Deploy.</span>
+              <span style={{ color: 'rgba(255,255,255,0.28)' }}>have to think about.</span>
             </h2>
+            <p className="mt-4 text-sm leading-relaxed max-w-xl" style={{ color: 'rgba(255,255,255,0.45)' }}>
+              Every layer is built so that even if something goes wrong, your credentials don&apos;t leave the vault.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
               {
-                title: 'Encrypted Vault',
-                desc: 'Credentials encrypted at rest and injected only for approved endpoints. The LLM never sees raw values.',
+                title: 'Encrypted Vault.',
+                desc: 'Your credentials are invisible to the AI. API keys, tokens, and passwords are encrypted at rest and injected into requests at the host boundary — only for endpoints you\'ve approved.',
                 icon: Lock,
               },
               {
-                title: 'Wasm Sandbox',
-                desc: 'Every tool runs in its own WebAssembly container. A compromised plugin cannot access anything else.',
+                title: 'Sandboxed Tools.',
+                desc: 'A compromised skill can\'t touch anything else. Every tool runs in its own Wasm container with capability-based permissions, allowlisted endpoints, and strict resource limits.',
                 icon: Server,
               },
               {
-                title: 'Hardware Trust',
-                desc: 'Each agent run happens inside a Trusted Execution Environment that isolates and encrypts your data.',
+                title: 'Encrypted Enclaves.',
+                desc: 'Not even the cloud provider can see your data. Your instance runs inside a Trusted Execution Environment on NEAR AI Cloud — encrypted in memory, from boot to shutdown.',
                 icon: Cpu,
               },
               {
-                title: 'Real-Time Scan',
-                desc: 'Outbound traffic scanning blocks secret exfiltration in real time. No logs. No leaks.',
+                title: 'Leak Detection.',
+                desc: 'Credential exfiltration gets caught before it leaves. All outbound traffic is scanned in real-time. Anything that looks like a secret heading out the door is blocked automatically.',
                 icon: Eye,
               },
               {
-                title: 'Network Allowlist',
-                desc: 'Tools can only reach endpoints you pre-approved. No surprises, no unexpected connections.',
-                icon: Globe,
+                title: 'Built in Rust.',
+                desc: 'Entire classes of exploits don\'t exist here. No garbage collector, no buffer overflows, no use-after-free. Memory safety is enforced at compile time, not at runtime.',
+                icon: Code2,
               },
               {
-                title: 'Zero Exposure',
-                desc: 'Process sensitive data without extra layers. Built-in isolation means the LLM never sees your secrets.',
-                icon: Shield,
+                title: 'Network Allowlisting.',
+                desc: 'You control exactly where data goes. Tools can only reach endpoints you\'ve pre-approved. No silent phone-home, no data exfil to unknown servers.',
+                icon: Globe,
               },
             ].map((f, i) => (
               <div
@@ -816,19 +820,40 @@ export default function IronClawNearApp() {
         style={{ backgroundColor: '#0A0A0F', borderTop: '1px solid rgba(255,255,255,0.04)' }}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="mb-12 text-center">
+          <div className="mb-12">
+            <span
+              className="text-xs font-semibold uppercase tracking-[0.12em]"
+              style={{ color: 'rgba(255,255,255,0.4)' }}
+            >
+              How It Works
+            </span>
             <h2
-              className="text-white font-semibold"
+              className="text-white font-semibold mt-2"
               style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', letterSpacing: '-0.025em' }}
             >
-              Zero to Secure in 5 Minutes
+              From zero to secure agent<br />in under 5 minutes.
             </h2>
+            <p className="mt-4 text-sm leading-relaxed max-w-lg" style={{ color: 'rgba(255,255,255,0.45)' }}>
+              If you&apos;ve used OpenClaw, you already know the workflow. IronClaw just locks it down.
+            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { step: '01', title: 'Deploy', desc: 'One-click launch on NEAR AI Cloud. Boots inside a TEE instantly.' },
-              { step: '02', title: 'Store Credentials', desc: 'Add keys to the encrypted vault. AI never sees raw values — ever.' },
-              { step: '03', title: 'Work Safely', desc: 'Use tools without fear. Hardware-backed isolation at every step.' },
+              {
+                step: '01',
+                title: 'Deploy in one click.',
+                desc: 'Launch your own IronClaw instance on NEAR AI Cloud. It boots inside a Trusted Execution Environment — encrypted from the start, no setup required.',
+              },
+              {
+                step: '02',
+                title: 'Store your credentials.',
+                desc: 'Add API keys, tokens, and passwords to the encrypted vault. IronClaw injects them only where you\'ve allowed — the AI never sees the raw values.',
+              },
+              {
+                step: '03',
+                title: 'Work like you always do.',
+                desc: 'Browse, research, code, automate. Same capabilities as OpenClaw — except now a prompt injection can\'t steal your credentials.',
+              },
             ].map((item, i) => (
               <div
                 key={i}
@@ -859,45 +884,18 @@ export default function IronClawNearApp() {
         </div>
       </section>
 
-      {/* ── 9. Quote — DARK (#0A0A0F) ────────────────────────────────────── */}
-      <section
-        className="py-24 px-6 text-center"
-        style={{ backgroundColor: '#0A0A0F', borderTop: '1px solid rgba(255,255,255,0.04)' }}
-      >
-        <div className="max-w-3xl mx-auto">
-          {/* Thin blue accent line */}
-          <div className="w-12 h-px mx-auto mb-10" style={{ backgroundColor: '#4A80D0' }} />
-          <blockquote
-            className="text-white mb-8 leading-relaxed"
-            style={{
-              fontSize: 'clamp(1.3rem, 2.5vw, 2rem)',
-              fontWeight: 400,
-              letterSpacing: '-0.015em',
-            }}
-          >
-            &ldquo;People are losing their credentials using OpenClaw. We started working on a
-            security-focused version &mdash; IronClaw.&rdquo;
-          </blockquote>
-          <div>
-            <p className="font-semibold text-white text-sm">Illia Polosukhin</p>
-            <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Co-founder, NEAR
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* ── 10. Comparison Table — LIGHT (#EBEBEB) ──────────────────────── */}
       <section className="py-24 px-6" style={{ backgroundColor: '#EBEBEB' }}>
         <div className="max-w-5xl mx-auto">
-          <h2
-            className="text-center mb-16"
-            style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, letterSpacing: '-0.025em' }}
-          >
-            <span style={{ color: '#0A0A0F' }}>Everything you like about OpenClaw.</span>
-            <br />
-            <span style={{ color: '#AAAAAA' }}>Nothing you&apos;re worried about.</span>
-          </h2>
+          <div className="text-center mb-16">
+            <h2
+              style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, letterSpacing: '-0.025em' }}
+            >
+              <span style={{ color: '#0A0A0F' }}>Everything you like about OpenClaw.</span>
+              <br />
+              <span style={{ color: '#AAAAAA' }}>Nothing you&apos;re worried about.</span>
+            </h2>
+          </div>
 
           <div
             className="bg-white rounded-2xl overflow-hidden"
@@ -928,9 +926,9 @@ export default function IronClawNearApp() {
               { feature: 'Memory Safety', bad: 'Runtime GC', good: 'Compile-time' },
               { feature: 'Secret Handling', bad: 'LLM can see secrets', good: 'Encrypted vault' },
               { feature: 'Tool Isolation', bad: 'Shared process', good: 'Per-tool Wasm sandbox' },
-              { feature: 'Prompt Injection', bad: "Relies on 'please don't'", good: 'Architectural separation' },
-              { feature: 'Network Control', bad: 'Unrestricted', good: 'Endpoint allowlist' },
+              { feature: 'Prompt Injection', bad: '"Please don\'t leak"', good: 'Architectural separation' },
               { feature: 'Cloud Privacy', bad: 'Standard VPS', good: 'Encrypted TEE' },
+              { feature: 'Network Control', bad: 'Unrestricted', good: 'Endpoint allowlist' },
               { feature: 'Leak Detection', bad: 'None', good: 'Real-time scanning' },
             ].map((row, i) => (
               <div
@@ -959,12 +957,10 @@ export default function IronClawNearApp() {
       <section className="py-24 px-6 text-center" style={{ backgroundColor: '#0A0A0F' }}>
         <div className="max-w-3xl mx-auto">
           <h2
-            className="text-white mb-8 leading-tight"
+            className="text-white mb-6 leading-tight"
             style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', fontWeight: 500, letterSpacing: '-0.025em' }}
           >
-            Talk to a Developer or Solutions Engineer and Learn
-            <br />
-            <span style={{ color: '#4A80D0' }}>How IronClaw Can Protect You</span>
+            Deploy an AI agent you can actually<br />trust with your credentials.
           </h2>
           <p
             className="mb-10 text-base max-w-xl mx-auto leading-relaxed"
@@ -972,19 +968,15 @@ export default function IronClawNearApp() {
           >
             Open source. One-click deploy on NEAR AI Cloud. Your secrets never leave the encrypted vault.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <DarkPill label="CONTACT US" />
+          <div className="flex justify-center">
             <button
-              className="inline-flex items-center justify-center gap-3 text-white text-[11px] font-semibold uppercase tracking-[0.1em] px-8 py-4 rounded-full transition-opacity hover:opacity-80"
-              style={{ backgroundColor: '#4A80D0' }}
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#0A0A0F] transition-opacity hover:opacity-80"
+              style={{ backgroundColor: '#ffffff' }}
             >
-              <span
-                className="w-5 h-5 rounded-full flex items-center justify-center text-xs"
-                style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
-              >
+              <span className="w-5 h-5 bg-[#0A0A0F] rounded-full flex items-center justify-center text-white text-xs font-bold leading-none">
                 +
               </span>
-              DEPLOY NOW
+              Deploy Secure Agent
             </button>
           </div>
         </div>
@@ -992,83 +984,33 @@ export default function IronClawNearApp() {
 
       {/* ── 12. Footer — LIGHT (#F0F0EF) ─────────────────────────────────── */}
       <footer
-        className="py-16 px-6"
+        className="py-10 px-6"
         style={{ backgroundColor: '#F0F0EF', borderTop: '1px solid rgba(0,0,0,0.08)' }}
       >
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
-            {[
-              { title: 'Products', links: ['Private Chat', 'Cloud', 'IronClaw'] },
-              {
-                title: 'Technology',
-                links: ['White Papers', 'Cloud Documentation', 'API Reference', 'Get API Keys'],
-              },
-              { title: 'Company', links: ['Careers', 'Contact Us', 'NEAR AI Blog'] },
-              {
-                title: 'Terms and Policies',
-                links: [
-                  'Privacy Policy',
-                  'NEAR AI Cloud ToS',
-                  'NEAR AI Private Chat ToS',
-                  'Acceptable Use Policy',
-                  'Cookie Policy',
-                ],
-              },
-            ].map((col, i) => (
-              <div key={i}>
-                <h4
-                  className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-4"
-                  style={{ color: '#0A0A0F' }}
-                >
-                  {col.title}
-                </h4>
-                <ul className="space-y-2.5">
-                  {col.links.map(link => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-xs transition-colors"
-                        style={{ color: '#888' }}
-                        onMouseEnter={e => (e.currentTarget.style.color = '#0A0A0F')}
-                        onMouseLeave={e => (e.currentTarget.style.color = '#888')}
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <div
-            className="pt-8 flex justify-between items-center"
-            style={{ borderTop: '1px solid rgba(0,0,0,0.08)' }}
-          >
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
+          {/* Brand */}
+          <div className="flex items-baseline gap-1">
             <div className="flex items-baseline gap-[1px]">
-              <span
-                style={{
-                  fontSize: '0.9rem',
-                  fontWeight: 400,
-                  letterSpacing: '-0.04em',
-                  color: '#0A0A0F',
-                }}
-              >
-                iron
-              </span>
-              <span
-                style={{
-                  fontSize: '0.9rem',
-                  fontWeight: 700,
-                  letterSpacing: '-0.04em',
-                  color: '#0A0A0F',
-                }}
-              >
-                claw
-              </span>
+              <span style={{ fontSize: '1rem', fontWeight: 400, letterSpacing: '-0.04em', color: '#0A0A0F' }}>iron</span>
+              <span style={{ fontSize: '1rem', fontWeight: 700, letterSpacing: '-0.04em', color: '#0A0A0F' }}>claw</span>
             </div>
-            <span className="text-xs" style={{ color: '#ccc' }}>
-              ×
-            </span>
+            <span className="text-sm" style={{ color: '#999' }}>&nbsp;— by NEAR AI</span>
+          </div>
+
+          {/* Links */}
+          <div className="flex items-center gap-8">
+            {['GitHub', 'NEAR AI', 'OpenClaw'].map(link => (
+              <a
+                key={link}
+                href="#"
+                className="text-sm transition-colors"
+                style={{ color: '#888' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#0A0A0F')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#888')}
+              >
+                {link}
+              </a>
+            ))}
           </div>
         </div>
       </footer>
