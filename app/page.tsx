@@ -50,6 +50,14 @@ const sites = [
     tagColor: 'text-[#FF4F4F] bg-[#FF4F4F]/10 border-[#FF4F4F]/20',
     accent: 'group-hover:border-[#FF4F4F]/30',
   },
+  {
+    slug: 'ironclaw-hybrid',
+    name: 'IronClaw — Hybrid',
+    description: 'Combines NEAR bento structure (12-col hero, masonry problem, 2-col solution) with V2 dark space visuals — glass cards, red accent, dot grid, and terminal mockup.',
+    tag: 'Security',
+    tagColor: 'text-[#FF4F4F] bg-[#FF4F4F]/10 border-[#FF4F4F]/20',
+    accent: 'group-hover:border-[#FF4F4F]/30',
+  },
 ];
 
 export default function HomePage() {
