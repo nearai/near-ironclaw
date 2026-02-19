@@ -421,7 +421,7 @@ type HybridStickyStepProps = {
 const HybridStickyStep = ({ number, title, children, index, bg = '#0D0D14', minH = 'auto', id }: HybridStickyStepProps) => (
   <div
     id={id}
-    className="sticky w-full overflow-hidden"
+    className="relative tall-desktop:sticky w-full overflow-hidden mb-4 tall-desktop:mb-[4px]"
     style={{
       top: `${(index - 1) * 60}px`,
       minHeight: minH,
@@ -430,7 +430,6 @@ const HybridStickyStep = ({ number, title, children, index, bg = '#0D0D14', minH
       borderRadius: '3rem 3rem 0 0',
       borderBottomLeftRadius: '2.5rem',
       borderBottomRightRadius: '2.5rem',
-      marginBottom: '4px',
       boxShadow: '0 -8px 30px rgba(0,0,0,0.5)',
     }}
   >
