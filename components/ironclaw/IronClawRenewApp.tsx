@@ -552,7 +552,7 @@ export default function IronClawRenewApp() {
         style={{ backgroundColor: '#03030A', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
       >
         <Link
-          href="/"
+          href="/demos"
           className="font-mono-ic text-[11px] uppercase tracking-widest flex items-center gap-2 transition-colors"
           style={{ color: '#555' }}
           onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
