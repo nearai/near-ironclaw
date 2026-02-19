@@ -523,7 +523,7 @@ const GradientCipherButton = ({ label, icon: Icon, onClick, className = '' }: Gr
       onClick={onClick}
       className={`font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 ${className}`}
       style={{
-        background: 'linear-gradient(to bottom right, #7dd4f8 0%, #4CA7E6 30%, #0a1f4a 70%)',
+        background: 'linear-gradient(to bottom right, #3fb4f5 0%, #1e7fd4 30%, #0a1f4a 70%)',
         backgroundSize: '220% 220%',
         backgroundPosition: '78% 78%',
         color: '#fff',
@@ -1099,10 +1099,10 @@ export default function IronClawBlueApp() {
         <div className="flex gap-4 flex-wrap justify-center relative z-10">
           <GradientCipherButton label="Deploy Secure Agent" icon={Shield} />
           <button
-            className="px-8 py-3 font-bold flex items-center gap-2 transition-colors"
-            style={{ border: '2px solid rgba(255,255,255,0.4)', color: '#fff', backgroundColor: 'transparent', borderRadius: '16px' }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+            className="px-8 py-3 font-bold flex items-center gap-2 transition-all text-white"
+            style={{ border: '2px solid rgba(76,167,230,0.6)', backgroundColor: 'transparent', borderRadius: '16px' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#000'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#fff'; }}
           >
             <Github size={18} /> Star on GitHub
           </button>
