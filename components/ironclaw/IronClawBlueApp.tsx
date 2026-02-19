@@ -31,6 +31,7 @@ import type { LucideProps } from 'lucide-react';
 const AsciiScatterCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePosRef = useRef({ x: -1000, y: -1000 });
+  const repelRef = useRef(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -116,8 +117,9 @@ const AsciiScatterCanvas = () => {
 
         if (dist < CURSOR_RADIUS && dist > 0) {
           const force = ((CURSOR_RADIUS - dist) / CURSOR_RADIUS) * ATTRACTION;
-          p.vx += (dx / dist) * force;
-          p.vy += (dy / dist) * force;
+          const dir = repelRef.current ? -1 : 1;
+          p.vx += (dx / dist) * force * dir;
+          p.vy += (dy / dist) * force * dir;
           const t = (CURSOR_RADIUS - dist) / CURSOR_RADIUS;
           targetOpacity = p.baseOpacity + t * (0.85 - p.baseOpacity);
           nearCursor = true;
@@ -157,6 +159,14 @@ const AsciiScatterCanvas = () => {
       mousePosRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     };
 
+    const onRepelEnter = () => { repelRef.current = true; };
+    const onRepelLeave = () => { repelRef.current = false; };
+    const repelZones = document.querySelectorAll('[data-repel-zone]');
+    repelZones.forEach(el => {
+      el.addEventListener('mouseenter', onRepelEnter);
+      el.addEventListener('mouseleave', onRepelLeave);
+    });
+
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
@@ -166,6 +176,10 @@ const AsciiScatterCanvas = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
+      repelZones.forEach(el => {
+        el.removeEventListener('mouseenter', onRepelEnter);
+        el.removeEventListener('mouseleave', onRepelLeave);
+      });
     };
   }, []);
 
@@ -409,10 +423,10 @@ const HybridStickyStep = ({ number, title, children, index, bg = '#0D0D14', minH
     id={id}
     className="sticky w-full overflow-hidden"
     style={{
-      top: `${index * 60}px`,
+      top: `${(index - 1) * 60}px`,
       minHeight: minH,
       zIndex: index + 10,
-      backgroundColor: bg,
+      background: `radial-gradient(ellipse 55% 45% at 100% 100%, rgba(76,167,230,0.07) 0%, transparent 70%), ${bg}`,
       borderRadius: '3rem 3rem 0 0',
       borderBottomLeftRadius: '2.5rem',
       borderBottomRightRadius: '2.5rem',
@@ -514,14 +528,16 @@ type GradientCipherButtonProps = {
   icon?: React.ComponentType<LucideProps>;
   onClick?: () => void;
   className?: string;
+  repelZone?: boolean;
 };
 
-const GradientCipherButton = ({ label, icon: Icon, onClick, className = '' }: GradientCipherButtonProps) => {
+const GradientCipherButton = ({ label, icon: Icon, onClick, className = '', repelZone }: GradientCipherButtonProps) => {
   const { displayed, trigger } = useCipherHover(label);
   return (
     <button
       onClick={onClick}
       className={`font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 ${className}`}
+      {...(repelZone ? { 'data-repel-zone': '' } : {})}
       style={{
         background: 'linear-gradient(to bottom right, #3fb4f5 0%, #1e7fd4 30%, #0a1f4a 70%)',
         backgroundSize: '220% 220%',
@@ -628,15 +644,27 @@ export default function IronClawBlueApp() {
         </span>
       </div>
 
-      {/* ── Nav — fixed, glassy on scroll ──────────────────────────────────── */}
+      {/* ── Nav — floating pill, glassy on scroll ───────────────────────────── */}
       <nav
-        className="fixed top-0 left-0 w-full z-50 py-5 px-6 md:px-12 flex justify-between items-center"
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center"
         style={{
-          backgroundColor: scrolled ? 'rgba(5,5,10,0.85)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : 'none',
-          transform: navVisible ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'transform 0.35s ease, background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease',
+          transform: navVisible ? 'translateY(0)' : 'translateY(-160%)',
+          transition: 'transform 0.35s ease',
+        }}
+      >
+      <div
+        className="flex items-center justify-between transition-all duration-300"
+        style={{
+          width: '100%',
+          maxWidth: scrolled ? '1472px' : '1600px',
+          padding: scrolled ? '8px' : '20px 0',
+          maxWidth: scrolled ? '1472px' : '1920px',
+          backgroundColor: scrolled ? 'rgba(5,5,10,0.88)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+          border: '1px solid',
+          borderColor: scrolled ? 'rgba(255,255,255,0.08)' : 'transparent',
+          borderRadius: scrolled ? '0 0 24px 24px' : '0',
+          boxShadow: scrolled ? '0 8px 40px rgba(0,0,0,0.45)' : 'none',
         }}
       >
         <div className="flex items-center gap-2">
@@ -671,10 +699,11 @@ export default function IronClawBlueApp() {
         <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X /> : <Menu />}
         </button>
+      </div>
       </nav>
 
       {isMenuOpen && (
-        <div className="md:hidden fixed top-[68px] left-0 w-full z-50 px-6 pb-4 border-b border-white/10" style={{ backgroundColor: 'rgba(5,5,10,0.95)', backdropFilter: 'blur(20px)' }}>
+        <div className="md:hidden fixed top-[88px] left-0 w-full z-50 px-6 pb-4 border-b border-white/10" style={{ backgroundColor: 'rgba(5,5,10,0.95)', backdropFilter: 'blur(20px)' }}>
           {[
             { label: 'Why Switch', href: '#why-switch' },
             { label: 'Features', href: '#features' },
@@ -803,8 +832,9 @@ export default function IronClawBlueApp() {
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <GradientCipherButton label="Deploy Secure Agent" icon={Shield} />
+                <GradientCipherButton label="Deploy Secure Agent" icon={Shield} repelZone />
                 <button
+                  data-repel-zone
                   className="font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 text-white transition-all"
                   style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent' }}
                   onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#000'; }}
