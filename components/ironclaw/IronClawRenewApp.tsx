@@ -27,11 +27,10 @@ import {
 import type { LucideProps } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ASCII Scatter Canvas — cybersecurity chars with brownian drift + cursor orbit
-const AsciiScatterCanvas = () => {
+// Magnetic Canvas — blue dots on dark bg
+const MagneticHeroCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePosRef = useRef({ x: -1000, y: -1000 });
-  const repelRef = useRef(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -40,117 +39,53 @@ const AsciiScatterCanvas = () => {
     if (!ctx) return;
     let animationFrameId: number;
 
-    const CHARS = '0123456789+=*/<>!&|^~%;:{}[]()#@$_'.split('');
-    const PARTICLE_COUNT = 150;
-    const CURSOR_RADIUS = 220;
-    const DRIFT_FORCE = 0.08;
-    const DAMPING = 0.96;
-    const ATTRACTION = 0.25;
+    const dotColor = '#4CA7E6';
+    const spacing = 30;
+    const radius = 1.5;
+    const interactionRadius = 250;
+    const magneticStrength = 0.4;
 
-    type Particle = {
-      x: number; y: number;
-      vx: number; vy: number;
-      char: string;
-      opacity: number;
-      baseOpacity: number;
-      size: number;
-      lifetime: number;
-      maxLifetime: number;
-    };
-
-    let particles: Particle[] = [];
-
-    const randomChar = () => CHARS[Math.floor(Math.random() * CHARS.length)];
-    const randomLifetime = () => Math.floor(480 + Math.random() * 480); // 8–16s a 60fps
-
-    const spawnParticle = (): Particle => {
-      const baseOpacity = 0.33 + Math.random() * 0.12;
-      const maxLifetime = randomLifetime();
-      return {
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        char: randomChar(),
-        opacity: 0,
-        baseOpacity,
-        size: 13 + Math.random() * 9,
-        lifetime: maxLifetime,
-        maxLifetime,
-      };
-    };
-
-    const initParticles = () => {
-      particles = [];
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const p = spawnParticle();
-        // Stagger initial lifetimes so they don't all expire at once
-        p.lifetime = Math.floor(Math.random() * p.maxLifetime);
-        p.opacity = p.baseOpacity;
-        particles.push(p);
-      }
-    };
+    type Dot = { originX: number; originY: number; x: number; y: number };
+    let dots: Dot[] = [];
 
     const resizeCanvas = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
-      initParticles();
+      initDots();
+    };
+
+    const initDots = () => {
+      dots = [];
+      const cols = Math.ceil(canvas.width / spacing);
+      const rows = Math.ceil(canvas.height / spacing);
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          dots.push({ originX: i * spacing, originY: j * spacing, x: i * spacing, y: j * spacing });
+        }
+      }
     };
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const { x: mx, y: my } = mousePosRef.current;
-
-      particles.forEach((p) => {
-        // Brownian drift
-        p.vx += (Math.random() - 0.5) * DRIFT_FORCE;
-        p.vy += (Math.random() - 0.5) * DRIFT_FORCE;
-        p.vx *= DAMPING;
-        p.vy *= DAMPING;
-
-        // Cursor attraction
-        const dx = mx - p.x;
-        const dy = my - p.y;
+      dots.forEach((dot) => {
+        const dx = mx - dot.originX;
+        const dy = my - dot.originY;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        let targetOpacity = p.baseOpacity;
-        let nearCursor = false;
-
-        if (dist < CURSOR_RADIUS && dist > 0) {
-          const force = ((CURSOR_RADIUS - dist) / CURSOR_RADIUS) * ATTRACTION;
-          const dir = repelRef.current ? -1 : 1;
-          p.vx += (dx / dist) * force * dir;
-          p.vy += (dy / dist) * force * dir;
-          const t = (CURSOR_RADIUS - dist) / CURSOR_RADIUS;
-          targetOpacity = p.baseOpacity + t * (0.85 - p.baseOpacity);
-          nearCursor = true;
+        let tx = dot.originX, ty = dot.originY;
+        if (dist < interactionRadius) {
+          const force = (interactionRadius - dist) / interactionRadius;
+          const pull = force * magneticStrength;
+          tx = dot.originX + dx * pull;
+          ty = dot.originY + dy * pull;
         }
-
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // Wrap edges
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        // Lifetime — fade out near end, respawn with new char + position
-        p.lifetime--;
-        const fadeFrames = 40;
-        if (p.lifetime <= 0) {
-          const next = spawnParticle();
-          Object.assign(p, next);
-        } else if (p.lifetime < fadeFrames) {
-          targetOpacity = p.baseOpacity * (p.lifetime / fadeFrames);
-        }
-
-        p.opacity += (targetOpacity - p.opacity) * 0.1;
-
-        ctx.font = `${p.size}px var(--font-fk-grotesk-mono), monospace`;
-        ctx.fillStyle = `rgba(76,167,230,${p.opacity})`;
-        ctx.fillText(p.char, p.x, p.y);
+        dot.x += (tx - dot.x) * 0.1;
+        dot.y += (ty - dot.y) * 0.1;
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = dotColor;
+        ctx.fill();
       });
-
       animationFrameId = requestAnimationFrame(draw);
     };
 
@@ -158,14 +93,6 @@ const AsciiScatterCanvas = () => {
       const rect = canvas.getBoundingClientRect();
       mousePosRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     };
-
-    const onRepelEnter = () => { repelRef.current = true; };
-    const onRepelLeave = () => { repelRef.current = false; };
-    const repelZones = document.querySelectorAll('[data-repel-zone]');
-    repelZones.forEach(el => {
-      el.addEventListener('mouseenter', onRepelEnter);
-      el.addEventListener('mouseleave', onRepelLeave);
-    });
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('resize', resizeCanvas);
@@ -176,10 +103,6 @@ const AsciiScatterCanvas = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
-      repelZones.forEach(el => {
-        el.removeEventListener('mouseenter', onRepelEnter);
-        el.removeEventListener('mouseleave', onRepelLeave);
-      });
     };
   }, []);
 
@@ -187,6 +110,7 @@ const AsciiScatterCanvas = () => {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full z-0 pointer-events-none"
+      style={{ opacity: 0.3 }}
     />
   );
 };
@@ -538,20 +462,18 @@ const GradientCipherButton = ({ label, icon: Icon, onClick, className = '', repe
       className={`font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 ${className}`}
       {...(repelZone ? { 'data-repel-zone': '' } : {})}
       style={{
-        background: 'linear-gradient(to bottom right, #3fb4f5 0%, #1e7fd4 30%, #0a1f4a 70%)',
-        backgroundSize: '220% 220%',
-        backgroundPosition: '78% 78%',
+        background: '#4CA7E6',
         color: '#fff',
         borderRadius: '16px',
-        transition: 'background-position 0.55s ease, box-shadow 0.35s ease',
+        transition: 'background 0.25s ease, box-shadow 0.25s ease',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.backgroundPosition = '20% 20%';
+        e.currentTarget.style.background = '#3a96d4';
         e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)';
         trigger();
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.backgroundPosition = '78% 78%';
+        e.currentTarget.style.background = '#4CA7E6';
         e.currentTarget.style.boxShadow = 'none';
       }}
     >
@@ -563,7 +485,7 @@ const GradientCipherButton = ({ label, icon: Icon, onClick, className = '', repe
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-export default function IronClawBlueApp() {
+export default function IronClawRenewApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
@@ -630,7 +552,7 @@ export default function IronClawBlueApp() {
         style={{ backgroundColor: '#03030A', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
       >
         <Link
-          href="/"
+          href="/demos"
           className="font-mono-ic text-[11px] uppercase tracking-widest flex items-center gap-2 transition-colors"
           style={{ color: '#555' }}
           onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
@@ -639,7 +561,7 @@ export default function IronClawBlueApp() {
           <span>←</span> All demos
         </Link>
         <span className="font-mono-ic text-[11px] uppercase tracking-widest" style={{ color: '#333' }}>
-          ironclaw / blue
+          ironclaw / renew
         </span>
       </div>
 
@@ -725,12 +647,12 @@ export default function IronClawBlueApp() {
         </div>
       )}
 
-      {/* ── 2+3. Hero — Full-screen Magnetic-style, dark + blue dots ─────────── */}
+      {/* ── 2+3. Hero — Full-screen Magnetic dots ───────────────────────────── */}
       <section
         className="relative min-h-screen flex flex-col overflow-hidden"
         style={{ background: 'radial-gradient(ellipse 70% 45% at 50% 100%, rgba(76,167,230,0.10) 0%, transparent 70%), #05060a', borderRadius: '0 0 48px 48px' }}
       >
-        <AsciiScatterCanvas />
+        <MagneticHeroCanvas />
 
         {/* Logo image — absolute bottom right */}
         <div className="absolute bottom-0 right-0 z-0 pointer-events-none hidden lg:block">
@@ -778,16 +700,6 @@ export default function IronClawBlueApp() {
                 IronClaw: Your<br />
                 Always-On AI Agent,<br />
                 <span role="text" aria-label="Privacy Guaranteed" style={{ position: 'relative', display: 'inline-block' }}>
-                  <svg width="0" height="0" style={{ position: 'absolute', overflow: 'hidden' }} aria-hidden="true">
-                    <defs>
-                      <filter id="privacy-grain" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
-                        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" result="noise"/>
-                        <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
-                        <feBlend in="SourceGraphic" in2="grayNoise" mode="overlay" result="blended"/>
-                        <feComposite in="blended" in2="SourceGraphic" operator="in"/>
-                      </filter>
-                    </defs>
-                  </svg>
                   {/* Real text — transparent but selectable, readable by LLMs/scrapers */}
                   <span
                     style={{
@@ -812,7 +724,6 @@ export default function IronClawBlueApp() {
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
                       paddingRight: '4px',
-                      filter: 'url(#privacy-grain)',
                       userSelect: 'none',
                     }}
                     ariaHidden={true}
@@ -830,9 +741,8 @@ export default function IronClawBlueApp() {
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <GradientCipherButton label="Deploy Secure Agent" icon={Shield} repelZone />
+                <GradientCipherButton label="Deploy Secure Agent" icon={Shield} />
                 <button
-                  data-repel-zone
                   className="font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 text-white transition-all"
                   style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent' }}
                   onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#000'; }}
@@ -877,8 +787,94 @@ export default function IronClawBlueApp() {
       {/* ── STICKY SECTIONS ────────────────────────────────────────────────── */}
       <div className="relative py-1">
 
-        {/* STEP 1: THE PROBLEM */}
-        <HybridStickyStep index={1} number="1" title="The Problem" bg="#05060a" id="why-switch">
+        {/* STEP 1: HOW IT WORKS */}
+        <HybridStickyStep index={1} number="1" title="How It Works" bg="#080a10" id="how-it-works">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div>
+              <span className="font-mono-ic text-xs uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How It Works</span>
+              <h2 className="text-5xl md:text-6xl font-medium mb-6 text-white" style={{ letterSpacing: '-0.03em', lineHeight: 1.05 }}>
+                From zero to secure agent in under 5 minutes.
+              </h2>
+              <p className="text-lg mb-12 leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                If you&apos;ve used OpenClaw, you already know the workflow. IronClaw just locks it down.
+              </p>
+              <div className="space-y-8">
+                {[
+                  { title: 'Deploy in one click.', desc: 'Launch your own IronClaw instance on NEAR AI Cloud. It boots inside a Trusted Execution Environment — encrypted from the start, no setup required.' },
+                  { title: 'Store your credentials.', desc: 'Add API keys, tokens, and passwords to the encrypted vault. IronClaw injects them only where you\'ve allowed — the AI never sees the raw values.' },
+                  { title: 'Work like you always do.', desc: 'Browse, research, code, automate. Same capabilities as OpenClaw — except now a prompt injection can\'t steal your credentials.' },
+                ].map((step, idx) => (
+                  <div key={idx} className="flex gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-black" style={{ backgroundColor: '#4CA7E6' }}>
+                      {idx + 1}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-lg text-white">{step.title}</h4>
+                      <p className="mt-1 leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-3xl p-8 relative min-h-[500px] flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div className="text-green-400 font-mono p-6 rounded-xl w-full max-w-md" style={{ backgroundColor: '#0A0A0F', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div className="flex items-center gap-2 mb-4 pb-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div className="w-3 h-3 rounded-full bg-red-500" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <div className="w-3 h-3 rounded-full bg-green-500" />
+                  <span className="text-xs ml-2" style={{ color: 'rgba(255,255,255,0.3)' }}>ironclaw-cli</span>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <p>$ ironclaw deploy --target near-cloud</p>
+                  <p style={{ color: 'rgba(255,255,255,0.4)' }}> Authenticating...</p>
+                  <p style={{ color: 'rgba(255,255,255,0.4)' }}> Provisioning TEE enclave...</p>
+                  <p style={{ color: 'rgba(255,255,255,0.4)' }}> Uploading Wasm payload...</p>
+                  <p style={{ color: 'rgba(255,255,255,0.4)' }}> Verifying memory safety...</p>
+                  <p className="font-bold mt-4 text-white">✓ Deployment Successful</p>
+                  <p style={{ color: '#4CA7E6' }}>→ https://agent-x92.near.ai</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </HybridStickyStep>
+
+        {/* STEP 2: FEATURES */}
+        <HybridStickyStep index={2} number="2" title="What You Get" bg="#07080e" id="features">
+          <div>
+            <span className="font-mono-ic text-xs uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>What You Get</span>
+            <h2 className="text-5xl md:text-6xl font-medium mb-4 text-white" style={{ letterSpacing: '-0.03em', lineHeight: 1.05 }}>
+              Security you don&apos;t have to think about.
+            </h2>
+            <p className="text-lg mb-12 max-w-2xl" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              Every layer is built so that even if something goes wrong, your credentials don&apos;t leave the vault.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { title: 'Encrypted Vault', desc: 'Your credentials are invisible to the AI. API keys, tokens, and passwords are encrypted at rest and injected into requests at the host boundary — only for endpoints you\'ve approved.', icon: Lock },
+                { title: 'Sandboxed Tools', desc: 'A compromised skill can\'t touch anything else. Every tool runs in its own Wasm container with capability-based permissions, allowlisted endpoints, and strict resource limits.', icon: Database },
+                { title: 'Encrypted Enclaves', desc: 'Not even the cloud provider can see your data. Your instance runs inside a Trusted Execution Environment on NEAR AI Cloud — encrypted in memory, from boot to shutdown.', icon: Shield },
+                { title: 'Leak Detection', desc: 'Credential exfiltration gets caught before it leaves. All outbound traffic is scanned in real-time. Anything that looks like a secret heading out the door is blocked automatically.', icon: Eye },
+                { title: 'Built in Rust', desc: 'Entire classes of exploits don\'t exist here. No garbage collector, no buffer overflows, no use-after-free. Memory safety is enforced at compile time, not at runtime.', icon: Code2 },
+                { title: 'Network Allowlisting', desc: 'You control exactly where data goes. Tools can only reach endpoints you\'ve pre-approved. No silent phone-home, no data exfil to unknown servers.', icon: Server },
+              ].map((f, i) => (
+                <div key={i} className="p-6 rounded-2xl flex flex-col gap-3 transition-all" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)')}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)')}
+                >
+                  <div className="p-2.5 rounded-lg w-fit" style={{ backgroundColor: 'rgba(76,167,230,0.12)' }}>
+                    <f.icon size={18} style={{ color: '#4CA7E6' }} />
+                  </div>
+                  <h4 className="font-bold text-base text-white">{f.title}</h4>
+                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)' }}>{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </HybridStickyStep>
+
+        {/* STEP 3: THE PROBLEM */}
+        <HybridStickyStep index={3} number="3" title="OpenClaw Problem" bg="#05060a" id="why-switch">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             <div>
               <h2 className="text-5xl md:text-6xl font-medium mb-8 text-white" style={{ letterSpacing: '-0.03em', lineHeight: 1.05 }}>
@@ -934,8 +930,8 @@ export default function IronClawBlueApp() {
           </div>
         </HybridStickyStep>
 
-        {/* STEP 2: THE SOLUTION */}
-        <HybridStickyStep index={2} number="2" title="The Solution" bg="#06070c">
+        {/* STEP 4: THE SOLUTION */}
+        <HybridStickyStep index={4} number="4" title="The Solution" bg="#06070c">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             <div>
               <span className="font-mono-ic text-xs uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How IronClaw Fixes This</span>
@@ -988,92 +984,6 @@ export default function IronClawBlueApp() {
           </div>
         </HybridStickyStep>
 
-        {/* STEP 3: FEATURES */}
-        <HybridStickyStep index={3} number="3" title="What You Get" bg="#07080e" id="features">
-          <div>
-            <span className="font-mono-ic text-xs uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>What You Get</span>
-            <h2 className="text-5xl md:text-6xl font-medium mb-4 text-white" style={{ letterSpacing: '-0.03em', lineHeight: 1.05 }}>
-              Security you don&apos;t have to think about.
-            </h2>
-            <p className="text-lg mb-12 max-w-2xl" style={{ color: 'rgba(255,255,255,0.55)' }}>
-              Every layer is built so that even if something goes wrong, your credentials don&apos;t leave the vault.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[
-                { title: 'Encrypted Vault', desc: 'Your credentials are invisible to the AI. API keys, tokens, and passwords are encrypted at rest and injected into requests at the host boundary — only for endpoints you\'ve approved.', icon: Lock },
-                { title: 'Sandboxed Tools', desc: 'A compromised skill can\'t touch anything else. Every tool runs in its own Wasm container with capability-based permissions, allowlisted endpoints, and strict resource limits.', icon: Database },
-                { title: 'Encrypted Enclaves', desc: 'Not even the cloud provider can see your data. Your instance runs inside a Trusted Execution Environment on NEAR AI Cloud — encrypted in memory, from boot to shutdown.', icon: Shield },
-                { title: 'Leak Detection', desc: 'Credential exfiltration gets caught before it leaves. All outbound traffic is scanned in real-time. Anything that looks like a secret heading out the door is blocked automatically.', icon: Eye },
-                { title: 'Built in Rust', desc: 'Entire classes of exploits don\'t exist here. No garbage collector, no buffer overflows, no use-after-free. Memory safety is enforced at compile time, not at runtime.', icon: Code2 },
-                { title: 'Network Allowlisting', desc: 'You control exactly where data goes. Tools can only reach endpoints you\'ve pre-approved. No silent phone-home, no data exfil to unknown servers.', icon: Server },
-              ].map((f, i) => (
-                <div key={i} className="p-6 rounded-2xl flex flex-col gap-3 transition-all" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)')}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)')}
-                >
-                  <div className="p-2.5 rounded-lg w-fit" style={{ backgroundColor: 'rgba(76,167,230,0.12)' }}>
-                    <f.icon size={18} style={{ color: '#4CA7E6' }} />
-                  </div>
-                  <h4 className="font-bold text-base text-white">{f.title}</h4>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)' }}>{f.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </HybridStickyStep>
-
-        {/* STEP 4: HOW IT WORKS */}
-        <HybridStickyStep index={4} number="4" title="How It Works" bg="#080a10" id="how-it-works">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-            <div>
-              <span className="font-mono-ic text-xs uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How It Works</span>
-              <h2 className="text-5xl md:text-6xl font-medium mb-6 text-white" style={{ letterSpacing: '-0.03em', lineHeight: 1.05 }}>
-                From zero to secure agent in under 5 minutes.
-              </h2>
-              <p className="text-lg mb-12 leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                If you&apos;ve used OpenClaw, you already know the workflow. IronClaw just locks it down.
-              </p>
-              <div className="space-y-8">
-                {[
-                  { title: 'Deploy in one click.', desc: 'Launch your own IronClaw instance on NEAR AI Cloud. It boots inside a Trusted Execution Environment — encrypted from the start, no setup required.' },
-                  { title: 'Store your credentials.', desc: 'Add API keys, tokens, and passwords to the encrypted vault. IronClaw injects them only where you\'ve allowed — the AI never sees the raw values.' },
-                  { title: 'Work like you always do.', desc: 'Browse, research, code, automate. Same capabilities as OpenClaw — except now a prompt injection can\'t steal your credentials.' },
-                ].map((step, idx) => (
-                  <div key={idx} className="flex gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-black" style={{ backgroundColor: '#4CA7E6' }}>
-                      {idx + 1}
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-lg text-white">{step.title}</h4>
-                      <p className="mt-1 leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-3xl p-8 relative min-h-[500px] flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-              <div className="text-green-400 font-mono p-6 rounded-xl w-full max-w-md" style={{ backgroundColor: '#0A0A0F', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div className="flex items-center gap-2 mb-4 pb-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
-                  <span className="text-xs ml-2" style={{ color: 'rgba(255,255,255,0.3)' }}>ironclaw-cli</span>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <p>$ ironclaw deploy --target near-cloud</p>
-                  <p style={{ color: 'rgba(255,255,255,0.4)' }}> Authenticating...</p>
-                  <p style={{ color: 'rgba(255,255,255,0.4)' }}> Provisioning TEE enclave...</p>
-                  <p style={{ color: 'rgba(255,255,255,0.4)' }}> Uploading Wasm payload...</p>
-                  <p style={{ color: 'rgba(255,255,255,0.4)' }}> Verifying memory safety...</p>
-                  <p className="font-bold mt-4 text-white">✓ Deployment Successful</p>
-                  <p style={{ color: '#4CA7E6' }}>→ https://agent-x92.near.ai</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </HybridStickyStep>
-
         {/* Spacer */}
         <div style={{ height: '20vh' }} />
 
@@ -1111,13 +1021,6 @@ export default function IronClawBlueApp() {
           borderRadius: '2.5rem',
         }}
       >
-        {/* Grain overlay */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ opacity: 0.42, mixBlendMode: 'overlay' }} aria-hidden="true">
-          <filter id="cta-grain">
-            <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#cta-grain)" />
-        </svg>
         <h2 className="text-3xl md:text-4xl font-medium text-white mb-6 relative z-10">
           Deploy an AI agent you can actually trust.
         </h2>
