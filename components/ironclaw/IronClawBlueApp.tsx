@@ -719,7 +719,7 @@ export default function IronClawBlueApp() {
         </div>
 
         {/* Hero content — left + right image, 2-col */}
-        <div className="flex items-center w-full min-h-screen relative z-10" style={{ maxWidth: '1720px', margin: '0 auto', padding: '0 100px' }}>
+        <div className="flex items-center w-full min-h-screen relative z-10 p-8 md:p-16 max-w-[1600px] mx-auto">
           <div className="grid grid-cols-1 w-full">
 
             {/* Left — text */}
