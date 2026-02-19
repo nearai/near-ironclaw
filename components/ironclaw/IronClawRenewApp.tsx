@@ -577,9 +577,8 @@ export default function IronClawRenewApp() {
         className="flex items-center justify-between transition-all duration-300"
         style={{
           width: '100%',
-          maxWidth: scrolled ? '1472px' : '1600px',
-          padding: scrolled ? '8px' : '20px 0',
           maxWidth: scrolled ? '1472px' : '1920px',
+          padding: scrolled ? '8px' : '20px 0',
           backgroundColor: scrolled ? 'rgba(5,5,10,0.88)' : 'transparent',
           backdropFilter: scrolled ? 'blur(12px)' : 'none',
           border: '1px solid',
