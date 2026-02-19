@@ -3,6 +3,15 @@ import { Shield, ArrowRight } from 'lucide-react';
 
 const sites = [
   {
+    slug: 'ironclaw-blue',
+    name: 'IronClaw — Blue',
+    description: 'Blue accent theme with ASCII scatter hero, cipher text effect, gradient cipher buttons, and sticky-scroll sections.',
+    tag: 'Latest',
+    tagColor: 'text-[#4CA7E6] bg-[#4CA7E6]/10 border-[#4CA7E6]/30',
+    accent: 'group-hover:border-[#4CA7E6]/40',
+    featured: true,
+  },
+  {
     slug: 'ironclaw',
     name: 'IronClaw',
     description: 'Secure Rust-based AI agent runner with encrypted credential vaults.',
@@ -58,6 +67,14 @@ const sites = [
     tagColor: 'text-[#FF4F4F] bg-[#FF4F4F]/10 border-[#FF4F4F]/20',
     accent: 'group-hover:border-[#FF4F4F]/30',
   },
+  {
+    slug: 'ironclaw-blue-grid',
+    name: 'IronClaw — Blue Grid',
+    description: 'Blue accent variant with magnetic dot canvas hero — dots react to cursor position.',
+    tag: 'Security',
+    tagColor: 'text-[#4CA7E6] bg-[#4CA7E6]/10 border-[#4CA7E6]/30',
+    accent: 'group-hover:border-[#4CA7E6]/40',
+  },
 ];
 
 export default function HomePage() {
@@ -81,18 +98,42 @@ export default function HomePage() {
           <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
             POC Sites
           </h1>
-          <p className="text-gray-400 max-w-md">
+          <p className="text-gray-400 whitespace-nowrap">
             A collection of proof-of-concept demos. Select a site to preview it.
           </p>
         </div>
 
+        {/* Featured card */}
+        {(() => {
+          const featured = sites.find(s => (s as typeof sites[0] & { featured?: boolean }).featured);
+          if (!featured) return null;
+          return (
+            <Link
+              href={`/${featured.slug}`}
+              className={`group border rounded-2xl p-8 md:p-10 flex flex-col md:flex-row md:items-end gap-6 mb-4 transition-all hover:-translate-y-0.5 bg-[#05080f] border-[#4CA7E6]/25 ring-1 ring-[#4CA7E6]/15 ${featured.accent}`}
+            >
+              <div className="flex-1">
+                <span className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border mb-5 inline-block ${featured.tagColor}`}>
+                  {featured.tag}
+                </span>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">{featured.name}</h2>
+                <p className="text-base text-gray-400 leading-relaxed max-w-xl">{featured.description}</p>
+              </div>
+              <div className="flex md:flex-col items-center md:items-end justify-between md:justify-end gap-4 shrink-0">
+                <ArrowRight className="w-5 h-5 text-gray-600 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+                <span className="text-xs font-mono text-gray-600">/{featured.slug}</span>
+              </div>
+            </Link>
+          );
+        })()}
+
         {/* Sites grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {sites.map((site) => (
+          {sites.filter(s => !(s as typeof sites[0] & { featured?: boolean }).featured).map((site) => (
             <Link
               key={site.slug}
               href={`/${site.slug}`}
-              className={`group bg-[#0A0A0A] border border-white/5 rounded-2xl p-6 flex flex-col gap-4 transition-all hover:-translate-y-0.5 ${site.accent}`}
+              className={`group border rounded-2xl p-6 flex flex-col gap-4 transition-all hover:-translate-y-0.5 bg-[#0A0A0A] border-white/5 ${site.accent}`}
             >
               <div className="flex items-start justify-between">
                 <span className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border ${site.tagColor}`}>
@@ -108,16 +149,6 @@ export default function HomePage() {
                 <span className="text-xs font-mono text-gray-600">/{site.slug}</span>
               </div>
             </Link>
-          ))}
-
-          {/* Placeholder cards for upcoming sites */}
-          {Array.from({ length: Math.max(0, 2 - sites.length) }).map((_, i) => (
-            <div
-              key={`placeholder-${i}`}
-              className="bg-[#050505] border border-white/5 border-dashed rounded-2xl p-6 flex flex-col items-center justify-center gap-2 min-h-[180px]"
-            >
-              <span className="text-xs text-gray-700 font-mono">coming soon</span>
-            </div>
           ))}
         </div>
       </main>
