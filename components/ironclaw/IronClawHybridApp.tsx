@@ -308,8 +308,8 @@ const HybridStickyStep = ({ number, title, children, index, bg = '#0D0D14', minH
       className="px-8 py-5 flex items-center"
       style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
     >
-      <span className="font-mono-ic text-xs uppercase tracking-[0.15em]" style={{ color: 'rgba(255,255,255,0.3)' }}>
-        SECTION {number} &nbsp;·&nbsp; <span style={{ color: '#fff' }}>{title}</span>
+      <span className="font-mono-ic text-xs uppercase tracking-[0.15em]" style={{ color: '#fff' }}>
+        {title}
       </span>
     </div>
     <div className="p-8 md:p-16 max-w-[1600px] mx-auto">{children}</div>
