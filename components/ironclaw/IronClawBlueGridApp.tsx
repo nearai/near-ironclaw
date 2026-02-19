@@ -27,8 +27,8 @@ import {
 import type { LucideProps } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ASCII Scatter Canvas — cybersecurity chars with brownian drift + cursor orbit
-const AsciiScatterCanvas = () => {
+// Magnetic Canvas — blue dots on dark bg
+const MagneticHeroCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePosRef = useRef({ x: -1000, y: -1000 });
 
@@ -39,116 +39,53 @@ const AsciiScatterCanvas = () => {
     if (!ctx) return;
     let animationFrameId: number;
 
-    const CHARS = '0123456789+=*/<>!&|^~%;:{}[]()#@$_'.split('');
-    const PARTICLE_COUNT = 150;
-    const CURSOR_RADIUS = 220;
-    const DRIFT_FORCE = 0.08;
-    const DAMPING = 0.96;
-    const ATTRACTION = 0.25;
+    const dotColor = '#4CA7E6';
+    const spacing = 30;
+    const radius = 1.5;
+    const interactionRadius = 250;
+    const magneticStrength = 0.4;
 
-    type Particle = {
-      x: number; y: number;
-      vx: number; vy: number;
-      char: string;
-      opacity: number;
-      baseOpacity: number;
-      size: number;
-      lifetime: number;
-      maxLifetime: number;
-    };
-
-    let particles: Particle[] = [];
-
-    const randomChar = () => CHARS[Math.floor(Math.random() * CHARS.length)];
-    const randomLifetime = () => Math.floor(480 + Math.random() * 480); // 8–16s a 60fps
-
-    const spawnParticle = (): Particle => {
-      const baseOpacity = 0.33 + Math.random() * 0.12;
-      const maxLifetime = randomLifetime();
-      return {
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        char: randomChar(),
-        opacity: 0,
-        baseOpacity,
-        size: 13 + Math.random() * 9,
-        lifetime: maxLifetime,
-        maxLifetime,
-      };
-    };
-
-    const initParticles = () => {
-      particles = [];
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const p = spawnParticle();
-        // Stagger initial lifetimes so they don't all expire at once
-        p.lifetime = Math.floor(Math.random() * p.maxLifetime);
-        p.opacity = p.baseOpacity;
-        particles.push(p);
-      }
-    };
+    type Dot = { originX: number; originY: number; x: number; y: number };
+    let dots: Dot[] = [];
 
     const resizeCanvas = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
-      initParticles();
+      initDots();
+    };
+
+    const initDots = () => {
+      dots = [];
+      const cols = Math.ceil(canvas.width / spacing);
+      const rows = Math.ceil(canvas.height / spacing);
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          dots.push({ originX: i * spacing, originY: j * spacing, x: i * spacing, y: j * spacing });
+        }
+      }
     };
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const { x: mx, y: my } = mousePosRef.current;
-
-      particles.forEach((p) => {
-        // Brownian drift
-        p.vx += (Math.random() - 0.5) * DRIFT_FORCE;
-        p.vy += (Math.random() - 0.5) * DRIFT_FORCE;
-        p.vx *= DAMPING;
-        p.vy *= DAMPING;
-
-        // Cursor attraction
-        const dx = mx - p.x;
-        const dy = my - p.y;
+      dots.forEach((dot) => {
+        const dx = mx - dot.originX;
+        const dy = my - dot.originY;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        let targetOpacity = p.baseOpacity;
-        let nearCursor = false;
-
-        if (dist < CURSOR_RADIUS && dist > 0) {
-          const force = ((CURSOR_RADIUS - dist) / CURSOR_RADIUS) * ATTRACTION;
-          p.vx += (dx / dist) * force;
-          p.vy += (dy / dist) * force;
-          const t = (CURSOR_RADIUS - dist) / CURSOR_RADIUS;
-          targetOpacity = p.baseOpacity + t * (0.85 - p.baseOpacity);
-          nearCursor = true;
+        let tx = dot.originX, ty = dot.originY;
+        if (dist < interactionRadius) {
+          const force = (interactionRadius - dist) / interactionRadius;
+          const pull = force * magneticStrength;
+          tx = dot.originX + dx * pull;
+          ty = dot.originY + dy * pull;
         }
-
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // Wrap edges
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        // Lifetime — fade out near end, respawn with new char + position
-        p.lifetime--;
-        const fadeFrames = 40;
-        if (p.lifetime <= 0) {
-          const next = spawnParticle();
-          Object.assign(p, next);
-        } else if (p.lifetime < fadeFrames) {
-          targetOpacity = p.baseOpacity * (p.lifetime / fadeFrames);
-        }
-
-        p.opacity += (targetOpacity - p.opacity) * 0.1;
-
-        ctx.font = `${p.size}px var(--font-fk-grotesk-mono), monospace`;
-        ctx.fillStyle = `rgba(76,167,230,${p.opacity})`;
-        ctx.fillText(p.char, p.x, p.y);
+        dot.x += (tx - dot.x) * 0.1;
+        dot.y += (ty - dot.y) * 0.1;
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = dotColor;
+        ctx.fill();
       });
-
       animationFrameId = requestAnimationFrame(draw);
     };
 
@@ -173,61 +110,9 @@ const AsciiScatterCanvas = () => {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full z-0 pointer-events-none"
+      style={{ opacity: 0.3 }}
     />
   );
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Cipher Text Effect
-const CIPHER_CHARS = '+=*/<>!&|^~%;:{}[]()#@$_';
-
-const CipherText = ({ text, style, ariaHidden }: { text: string; style?: React.CSSProperties; ariaHidden?: boolean }) => {
-  const [displayed, setDisplayed] = useState(text);
-
-  useEffect(() => {
-    const pool = CIPHER_CHARS.split('');
-    const rand = () => pool[Math.floor(Math.random() * pool.length)];
-    let index = 0;
-    let ticks = 0;
-    const TICKS_PER_CHAR = 5;
-    const PAUSE_TICKS = 55;
-    let pausing = false;
-    let pauseTick = 0;
-
-    const build = (activeIdx: number, scramChar: string) =>
-      text.split('').map((c, i) => (c === ' ' ? ' ' : i === activeIdx ? scramChar : c)).join('');
-
-    setDisplayed(text);
-
-    const id = setInterval(() => {
-      if (pausing) {
-        pauseTick++;
-        if (pauseTick >= PAUSE_TICKS) {
-          pausing = false;
-          pauseTick = 0;
-          index = 0;
-          ticks = 0;
-        }
-        return;
-      }
-
-      while (index < text.length && text[index] === ' ') index++;
-
-      if (index >= text.length) {
-        setDisplayed(text);
-        pausing = true;
-        return;
-      }
-
-      setDisplayed(build(index, rand()));
-      ticks++;
-      if (ticks >= TICKS_PER_CHAR) { ticks = 0; index++; }
-    }, 90);
-
-    return () => clearInterval(id);
-  }, [text]);
-
-  return <span style={style} aria-hidden={ariaHidden}>{displayed}</span>;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -474,81 +359,8 @@ const HybridComparisonRow = ({ feature, openClaw, ironClaw }: HybridComparisonRo
 );
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Cipher hover hook — one-shot, fast
-const useCipherHover = (text: string) => {
-  const [displayed, setDisplayed] = useState(text);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const trigger = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    const pool = CIPHER_CHARS.split('');
-    const rand = () => pool[Math.floor(Math.random() * pool.length)];
-    let index = 0;
-    let ticks = 0;
-    const TICKS_PER_CHAR = 3;
-    const build = (activeIdx: number, scramChar: string) =>
-      text.split('').map((c, i) => (c === ' ' ? ' ' : i === activeIdx ? scramChar : c)).join('');
-
-    intervalRef.current = setInterval(() => {
-      while (index < text.length && text[index] === ' ') index++;
-      if (index >= text.length) {
-        setDisplayed(text);
-        clearInterval(intervalRef.current!);
-        return;
-      }
-      setDisplayed(build(index, rand()));
-      ticks++;
-      if (ticks >= TICKS_PER_CHAR) { ticks = 0; index++; }
-    }, 35);
-  };
-
-  useEffect(() => () => { if (intervalRef.current) clearInterval(intervalRef.current); }, []);
-
-  return { displayed, trigger };
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Gradient Cipher Button
-type GradientCipherButtonProps = {
-  label: string;
-  icon?: React.ComponentType<LucideProps>;
-  onClick?: () => void;
-  className?: string;
-};
-
-const GradientCipherButton = ({ label, icon: Icon, onClick, className = '' }: GradientCipherButtonProps) => {
-  const { displayed, trigger } = useCipherHover(label);
-  return (
-    <button
-      onClick={onClick}
-      className={`font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 ${className}`}
-      style={{
-        background: 'linear-gradient(to bottom right, #7dd4f8 0%, #4CA7E6 30%, #0a1f4a 70%)',
-        backgroundSize: '220% 220%',
-        backgroundPosition: '78% 78%',
-        color: '#fff',
-        borderRadius: '16px',
-        transition: 'background-position 0.55s ease, box-shadow 0.35s ease',
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.backgroundPosition = '20% 20%';
-        e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)';
-        trigger();
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.backgroundPosition = '78% 78%';
-        e.currentTarget.style.boxShadow = 'none';
-      }}
-    >
-      {Icon && <Icon size={16} />}
-      <span className="font-mono-ic">{displayed}</span>
-    </button>
-  );
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-
-export default function IronClawBlueApp() {
+export default function IronClawBlueGridApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
@@ -558,7 +370,6 @@ export default function IronClawBlueApp() {
     const fn = () => {
       const y = window.scrollY;
       setScrolled(y > 80);
-      // Hide when scrolling down past 80px, show when scrolling up
       if (y < 80) {
         setNavVisible(true);
       } else if (y > lastScrollY.current) {
@@ -622,7 +433,7 @@ export default function IronClawBlueApp() {
           <span>←</span> All demos
         </Link>
         <span className="font-mono-ic text-[11px] uppercase tracking-widest" style={{ color: '#333' }}>
-          ironclaw / blue
+          ironclaw / blue-grid
         </span>
       </div>
 
@@ -664,7 +475,14 @@ export default function IronClawBlueApp() {
           </a>
         </div>
 
-        <GradientCipherButton label="Deploy Now" className="hidden md:flex text-sm px-6 py-3" />
+        <button
+          className="hidden md:block font-bold px-6 py-3 text-sm transition-all"
+          style={{ backgroundColor: '#4CA7E6', color: '#000', borderRadius: '16px' }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#fff'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; }}
+        >
+          Deploy Now
+        </button>
 
         <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X /> : <Menu />}
@@ -696,12 +514,12 @@ export default function IronClawBlueApp() {
         </div>
       )}
 
-      {/* ── 2+3. Hero — Full-screen Magnetic-style, dark + blue dots ─────────── */}
+      {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section
         className="relative min-h-screen flex flex-col overflow-hidden"
         style={{ backgroundColor: '#05050A', borderRadius: '0 0 48px 48px' }}
       >
-        <AsciiScatterCanvas />
+        <MagneticHeroCanvas />
 
         {/* Logo image — absolute bottom right */}
         <div className="absolute bottom-0 right-0 z-0 pointer-events-none hidden lg:block">
@@ -711,12 +529,11 @@ export default function IronClawBlueApp() {
             width={600}
             height={600}
             className="object-contain"
-            style={{ filter: 'hue-rotate(220deg)' }}
             priority
           />
         </div>
 
-        {/* Hero content — left + right image, 2-col */}
+        {/* Hero content */}
         <div className="flex items-center w-full min-h-screen relative z-10" style={{ maxWidth: '1720px', margin: '0 auto', padding: '0 100px' }}>
           <div className="grid grid-cols-1 w-full">
 
@@ -737,7 +554,7 @@ export default function IronClawBlueApp() {
                 <span className="font-mono-ic text-[11px] font-bold uppercase tracking-widest text-white">Now on NEAR AI Cloud</span>
               </div>
 
-              {/* MASSIVE headline — left aligned */}
+              {/* MASSIVE headline */}
               <h1
                 className="font-bold text-white uppercase mb-6"
                 style={{
@@ -748,47 +565,7 @@ export default function IronClawBlueApp() {
               >
                 IronClaw: Your<br />
                 Always-On AI Agent,<br />
-                <span role="text" aria-label="Privacy Guaranteed" style={{ position: 'relative', display: 'inline-block' }}>
-                  <svg width="0" height="0" style={{ position: 'absolute', overflow: 'hidden' }} aria-hidden="true">
-                    <defs>
-                      <filter id="privacy-grain" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
-                        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" result="noise"/>
-                        <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
-                        <feBlend in="SourceGraphic" in2="grayNoise" mode="overlay" result="blended"/>
-                        <feComposite in="blended" in2="SourceGraphic" operator="in"/>
-                      </filter>
-                    </defs>
-                  </svg>
-                  {/* Real text — transparent but selectable, readable by LLMs/scrapers */}
-                  <span
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      fontFamily: 'var(--font-fk-grotesk-mono), monospace',
-                      color: 'transparent',
-                      userSelect: 'text',
-                      pointerEvents: 'none',
-                      paddingRight: '4px',
-                    }}
-                  >
-                    Privacy Guaranteed
-                  </span>
-                  {/* Cipher visual — purely decorative */}
-                  <CipherText
-                    text="Privacy Guaranteed"
-                    style={{
-                      fontFamily: 'var(--font-fk-grotesk-mono), monospace',
-                      background: 'linear-gradient(to bottom, #4CA7E6 0%, #0a1f4a 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      paddingRight: '4px',
-                      filter: 'url(#privacy-grain)',
-                      userSelect: 'none',
-                    }}
-                    ariaHidden={true}
-                  />
-                </span>
+                <span style={{ color: '#4CA7E6' }}>Privacy Guaranteed</span>
               </h1>
 
               {/* Description */}
@@ -801,7 +578,14 @@ export default function IronClawBlueApp() {
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <GradientCipherButton label="Deploy Secure Agent" icon={Shield} />
+                <button
+                  className="font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 transition-all"
+                  style={{ backgroundColor: '#4CA7E6', color: '#000', borderRadius: '16px' }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#fff'; }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; }}
+                >
+                  <Shield size={16} /> Deploy Secure Agent
+                </button>
                 <button
                   className="font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 text-white transition-all"
                   style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent' }}
@@ -814,12 +598,11 @@ export default function IronClawBlueApp() {
 
             </div>
 
-
           </div>
         </div>
       </section>
 
-      {/* ── 4. Stats Bar ─────────────────────────────────────────────────────── */}
+      {/* ── Stats Bar ─────────────────────────────────────────────────────────── */}
       <section className="relative z-10 py-16" style={{ backgroundColor: '#000000' }}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4" style={{ maxWidth: '1720px', margin: '0 auto', padding: '0 100px' }}>
           {[
@@ -828,17 +611,10 @@ export default function IronClawBlueApp() {
             { label: 'Rust', value: '100%', icon: Code2 },
             { label: 'Cloud Deploy', value: '1-click', icon: Zap },
           ].map((stat, i) => (
-            <div
-              key={i}
-              className="p-6 flex flex-col items-center text-center"
-            >
+            <div key={i} className="p-6 flex flex-col items-center text-center">
               <stat.icon size={22} className="mb-3" style={{ color: '#4CA7E6' }} />
-              <div className="text-2xl font-bold mb-1" style={{ letterSpacing: '-0.02em' }}>
-                {stat.value}
-              </div>
-              <div className="text-xs uppercase tracking-widest" style={{ color: '#6B7280' }}>
-                {stat.label}
-              </div>
+              <div className="text-2xl font-bold mb-1" style={{ letterSpacing: '-0.02em' }}>{stat.value}</div>
+              <div className="text-xs uppercase tracking-widest" style={{ color: '#6B7280' }}>{stat.label}</div>
             </div>
           ))}
         </div>
@@ -847,7 +623,6 @@ export default function IronClawBlueApp() {
       {/* ── STICKY SECTIONS ────────────────────────────────────────────────── */}
       <div className="relative py-1">
 
-        {/* STEP 1: THE PROBLEM */}
         <HybridStickyStep index={1} number="1" title="The Problem" bg="#0D0D14" id="why-switch">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -904,7 +679,6 @@ export default function IronClawBlueApp() {
           </div>
         </HybridStickyStep>
 
-        {/* STEP 2: THE SOLUTION */}
         <HybridStickyStep index={2} number="2" title="The Solution" bg="#05050A">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -958,7 +732,6 @@ export default function IronClawBlueApp() {
           </div>
         </HybridStickyStep>
 
-        {/* STEP 3: FEATURES */}
         <HybridStickyStep index={3} number="3" title="What You Get" bg="#0D0D14" id="features">
           <div>
             <span className="font-mono-ic text-xs uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>What You Get</span>
@@ -992,7 +765,6 @@ export default function IronClawBlueApp() {
           </div>
         </HybridStickyStep>
 
-        {/* STEP 4: HOW IT WORKS */}
         <HybridStickyStep index={4} number="4" title="How It Works" bg="#05050A" id="how-it-works">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -1044,7 +816,6 @@ export default function IronClawBlueApp() {
           </div>
         </HybridStickyStep>
 
-        {/* Spacer */}
         <div style={{ height: '20vh' }} />
 
       </div>
@@ -1081,7 +852,6 @@ export default function IronClawBlueApp() {
           borderRadius: '2.5rem',
         }}
       >
-        {/* Grain overlay */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ opacity: 0.42, mixBlendMode: 'overlay' }} aria-hidden="true">
           <filter id="cta-grain">
             <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch" />
@@ -1095,7 +865,14 @@ export default function IronClawBlueApp() {
           Open source. One-click deploy on NEAR AI Cloud. Your secrets never leave the encrypted vault.
         </p>
         <div className="flex gap-4 flex-wrap justify-center relative z-10">
-          <GradientCipherButton label="Deploy Secure Agent" icon={Shield} />
+          <button
+            className="px-8 py-3 font-bold transition-colors"
+            style={{ backgroundColor: '#fff', color: '#2257B5', borderRadius: '16px' }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#4CA7E6')}
+            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#fff')}
+          >
+            Deploy Secure Agent
+          </button>
           <button
             className="px-8 py-3 font-bold flex items-center gap-2 transition-colors"
             style={{ border: '2px solid rgba(255,255,255,0.4)', color: '#fff', backgroundColor: 'transparent', borderRadius: '16px' }}
