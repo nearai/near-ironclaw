@@ -366,8 +366,8 @@ export default function IronClawWhiteApp() {
           className="flex items-center justify-between transition-all duration-300"
           style={{
             width: '100%',
-            maxWidth: scrolled ? '1472px' : '1920px',
-            padding: scrolled ? '8px' : '20px 0',
+            maxWidth: scrolled ? '1472px' : '1600px',
+            padding: scrolled ? '8px' : '20px 60px',
             backgroundColor: scrolled ? 'rgba(241,241,241,0.92)' : 'transparent',
             backdropFilter: scrolled ? 'blur(12px)' : 'none',
             border: '1px solid',
@@ -444,14 +444,14 @@ export default function IronClawWhiteApp() {
       >
         <MagneticHeroCanvas />
 
-        <div className="absolute bottom-0 right-0 z-0 pointer-events-none hidden lg:block">
+        <div className="absolute bottom-[-35px] right-32 z-0 pointer-events-none hidden lg:block">
           <Image
-            src="/images/LOGO-MIX_V02_A-GRADIENT3-NO GLOW.png"
+            src="/images/IronClaw_A.png"
             alt="IronClaw"
-            width={600}
-            height={600}
+            width={460}
+            height={460}
             className="object-contain"
-            style={{ filter: 'hue-rotate(220deg)' }}
+            style={{ width: 'clamp(200px, 29vw, 460px)', height: 'auto' }}
             priority
           />
         </div>
@@ -472,7 +472,7 @@ export default function IronClawWhiteApp() {
 
               <h1
                 className="font-bold uppercase mb-6"
-                style={{ color: '#111', fontSize: 'clamp(2.6rem, 7.5vw, 7rem)', lineHeight: 0.88, letterSpacing: '-0.06em' }}
+                style={{ color: '#111', fontSize: 'clamp(2rem, 5.5vw, 5rem)', lineHeight: 0.88, letterSpacing: '-0.06em' }}
               >
                 <span style={{
                   background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
