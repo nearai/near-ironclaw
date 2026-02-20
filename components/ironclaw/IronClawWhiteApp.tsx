@@ -308,7 +308,7 @@ const GradientCipherButton = ({ label, icon: Icon, onClick, className = '' }: Gr
   return (
     <button
       onClick={onClick}
-      className={`font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 relative overflow-hidden whitespace-nowrap ${className}`}
+      className={`font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 relative overflow-hidden whitespace-nowrap cursor-pointer ${className}`}
       style={{
         background: 'radial-gradient(ellipse 100% 100% at 50% 130%, #4CA7E6 0%, #2882c8 65%)',
         color: '#fff',
@@ -335,7 +335,7 @@ const GradientCipherButton = ({ label, icon: Icon, onClick, className = '' }: Gr
         position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center',
         animation: hovered ? 'rocket-prepare 0.7s ease-in-out infinite' : 'none',
       }}>
-        {Icon ? <Icon size={16} /> : <Rocket size={16} />}
+        {Icon ? <Icon size={19} /> : <Rocket size={19} />}
       </span>
       <span className="font-mono-ic font-normal" style={{ position: 'relative', zIndex: 1 }}>{label}</span>
     </button>
@@ -914,7 +914,7 @@ export default function IronClawWhiteApp() {
 
           <GradientCipherButton label="Deploy Now" icon={Rocket} className="hidden md:flex text-sm px-6 py-3" />
 
-          <button className="md:hidden" style={{ color: '#111' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button className="md:hidden cursor-pointer" style={{ color: '#111' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
@@ -1008,12 +1008,12 @@ export default function IronClawWhiteApp() {
               <div className="flex flex-col sm:flex-row gap-4 mb-6 md:mb-12">
                 <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} />
                 <button
-                  className="font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 transition-all"
+                  className="group font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 transition-all cursor-pointer"
                   style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent', color: '#111' }}
                   onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
                   onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#111'; e.currentTarget.style.boxShadow = 'none'; }}
                 >
-                  <Github size={16} /> Read the Source
+                  <span className="group-hover:[animation:github-nudge_3.5s_ease-in-out_infinite]"><Github size={19} /></span> Read the Source
                 </button>
               </div>
             </div>
@@ -1251,12 +1251,12 @@ export default function IronClawWhiteApp() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10 w-full sm:w-auto">
           <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} className="w-full sm:w-auto" />
           <button
-            className="px-8 py-3 font-bold flex items-center justify-center gap-2 transition-all w-full sm:w-auto"
+            className="group px-8 py-3 font-bold flex items-center justify-center gap-2 transition-all w-full sm:w-auto cursor-pointer"
             style={{ border: '2px solid rgba(76,167,230,0.6)', backgroundColor: 'transparent', borderRadius: '16px', color: '#fff' }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = 'none'; }}
           >
-            <Github size={18} /> Star on GitHub
+            <span className="group-hover:[animation:github-nudge_3.5s_ease-in-out_infinite]"><Github size={21} /></span> Star on GitHub
           </button>
         </div>
       </div>
