@@ -956,7 +956,7 @@ export default function IronClawWhiteApp() {
         {/* Desktop: absolutely positioned right */}
         <div className="absolute bottom-[-35px] right-32 z-0 pointer-events-none hidden lg:block">
           <Image
-            src="/images/IronClaw_A.png"
+            src="/images/iron_claw_guy1.png"
             alt="IronClaw"
             width={460}
             height={460}
@@ -1021,7 +1021,7 @@ export default function IronClawWhiteApp() {
             {/* Mobile-only: image in flow so hero expands to fit */}
             <div className="flex justify-center pt-4 pb-2 lg:hidden">
               <Image
-                src="/images/IronClaw_A.png"
+                src="/images/iron_claw_guy1.png"
                 alt="IronClaw"
                 width={460}
                 height={460}
