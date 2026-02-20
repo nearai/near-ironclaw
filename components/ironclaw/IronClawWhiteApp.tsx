@@ -472,8 +472,7 @@ export default function IronClawWhiteApp() {
 
               <h1
                 className="font-bold uppercase mb-6"
-                style={{ color: '#111' }}
-                style={{ fontSize: 'clamp(2.6rem, 7.5vw, 7rem)', lineHeight: 0.88, letterSpacing: '-0.06em' }}
+                style={{ color: '#111', fontSize: 'clamp(2.6rem, 7.5vw, 7rem)', lineHeight: 0.88, letterSpacing: '-0.06em' }}
               >
                 <span style={{
                   background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
