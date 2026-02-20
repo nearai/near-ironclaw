@@ -467,7 +467,7 @@ export default function IronClawWhiteApp() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: '#4CA7E6' }} />
                   <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: '#4CA7E6' }} />
                 </span>
-                <span className="font-mono-ic text-[11px] font-bold uppercase tracking-widest" style={{ color: '#111' }}>Now on NEAR AI Cloud</span>
+                <span className="font-mono-ic text-[12px] lg:text-[14px] font-light uppercase tracking-widest" style={{ color: '#111' }}>Now on NEAR AI Cloud</span>
               </div>
 
               <h1
