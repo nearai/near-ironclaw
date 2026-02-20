@@ -195,7 +195,7 @@ const HybridStickyStep = ({ number, title, children, index, bg = '#f6f6f6', minH
     id={id}
     className={`relative lg:sticky w-full overflow-hidden lg:min-h-[880px] ${TOP_CLASSES[index] ?? 'lg:top-0'}`}
     style={{
-      minHeight: minH,
+      ...(minH !== 'auto' ? { minHeight: minH } : {}),
       ...(height ? { height } : {}),
       zIndex: index + 10,
       background: overlayGradient
@@ -982,7 +982,7 @@ export default function IronClawWhiteApp() {
 
               <h1
                 className="font-bold uppercase mb-3 md:mb-6"
-                style={{ color: '#111', fontSize: 'clamp(2rem, 5.5vw, 5rem)', lineHeight: 0.88, letterSpacing: '-0.06em' }}
+                style={{ color: '#111', fontSize: 'clamp(2rem, 5.2vw, 4.7rem)', lineHeight: 0.88, letterSpacing: '-0.06em' }}
               >
                 <span style={{
                   background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
@@ -1064,11 +1064,11 @@ export default function IronClawWhiteApp() {
         <HybridStickyStep index={1} number="1" title="How It Works" bg="#f6f6f6" id="how-it-works" overlayGradient="radial-gradient(ellipse 110% 70% at 100% 0%, rgba(76,167,230,0.05) 0%, transparent 65%)">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-medium mb-6" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium mb-6 text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
                 From zero to secure agent in under 5 minutes.
               </h2>
               <p className="text-lg mb-6 lg:mb-12 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                If you&apos;ve used OpenClaw, you already know the workflow. IronClaw just locks it down.
+                IronClaw enables one-click OpenClaw setup so you can easily deploy agents that are locked down from launch.
               </p>
               <div className="space-y-8">
                 {[
@@ -1096,11 +1096,11 @@ export default function IronClawWhiteApp() {
         {/* STEP 2: FEATURES */}
         <HybridStickyStep index={2} number="2" title="What You Get" bg="#f6f6f6" id="features" overlayGradient="radial-gradient(ellipse 90% 70% at 100% 0%, rgba(76,167,230,0.04) 0%, transparent 65%)">
           <div>
-            <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-medium mb-4" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium mb-4 text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
               Security you don&apos;t have to think about.
             </h2>
             <p className="text-lg mb-6 lg:mb-12 max-w-2xl" style={{ color: 'rgba(0,0,0,0.55)' }}>
-              Every layer is built so that even if something goes wrong, your credentials don&apos;t leave the vault.
+              IronClaw is powered by NEAR AI&apos;s cryptographically secure infrastructure, which ensures your credentials never leave the vault.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
@@ -1141,16 +1141,16 @@ export default function IronClawWhiteApp() {
         <HybridStickyStep index={3} number="3" title="OpenClaw Problem" bg="#f6f6f6" id="why-switch" overlayGradient="radial-gradient(ellipse 80% 70% at 100% 0%, rgba(76,167,230,0.03) 0%, transparent 65%)">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-medium mb-8" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
-                OpenClaw is powerful. It&apos;s also exposing your secrets.
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium mb-8 text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+                Empower your agent full system access while protecting your secrets. Spin up in minutes.
               </h2>
               <p className="text-xl mb-8 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                Credentials get exposed through prompt injection. Malicious skills steal passwords. If you&apos;re running OpenClaw with anything sensitive, you already know the risk.
+                OpenClaw unlocked the agentic future but it&apos;s also exposing your secrets. Credentials get exposed through prompt injection. Malicious skills steal passwords. If you&apos;re running OpenClaw with anything sensitive, you already know the risk.
               </p>
               <ul className="space-y-6 mb-8">
                 {[
                   { title: 'Prompt injection can dump your secrets.', desc: 'A single crafted prompt can trick the LLM into revealing every API key and password you\'ve given it. Telling it "don\'t share" doesn\'t help.' },
-                  { title: '341 malicious skills found on ClawHub.', desc: 'Researchers found hundreds of community skills designed to quietly exfiltrate credentials. You won\'t spot them in a code review.' },
+                  { title: 'Hundreds of malicious skills found on ClawHub', desc: 'Researchers found hundreds of community skills designed to quietly exfiltrate credentials. You won\'t spot them in a code review.' },
                   { title: '30,000+ instances exposed to the internet.', desc: 'Tens of thousands of OpenClaw instances are publicly reachable. Attackers are already weaponizing them.' },
                 ].map((item, i) => (
                   <li key={i} className="pl-4" style={{ borderLeft: '2px solid rgba(220,60,60,0.5)' }}>
@@ -1170,8 +1170,8 @@ export default function IronClawWhiteApp() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
             <div>
               <span className="font-mono-ic text-[14px] font-light uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How IronClaw Fixes This</span>
-              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-medium mb-8" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
-                The LLM never touches your secrets. Ever.
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium mb-8 text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+                Your credentials live in an encrypted vault on NEAR AI Cloud that LLMs physically cannot access.
               </h2>
               <p className="text-lg mb-6 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
                 IronClaw doesn&apos;t rely on telling the AI &quot;please don&apos;t leak this.&quot; Your credentials live in an encrypted vault that the LLM physically cannot access. They&apos;re injected at the network boundary — only for endpoints you&apos;ve pre-approved.
@@ -1216,8 +1216,8 @@ export default function IronClawWhiteApp() {
       {/* ── Comparison Table ─────────────────────────────────────────────────── */}
       <div id="compare" className="relative z-20 flex flex-col p-8 md:p-16" style={{ backgroundColor: '#f6f6f6', borderRadius: '2.5rem', border: '1px solid rgba(0,0,0,0.07)' }}>
         <div className="text-center mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-4" style={{ letterSpacing: '-0.03em', color: '#111' }}>Everything you like about OpenClaw.</h2>
-          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl" style={{ color: 'rgba(0,0,0,0.4)' }}>Nothing you&apos;re worried about.</h3>
+          <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-4 text-balance" style={{ letterSpacing: '-0.03em', color: '#111' }}>Everything you like about OpenClaw.<br />Nothing you&apos;re worried about.</h2>
+          <p className="text-lg max-w-2xl mx-auto" style={{ color: 'rgba(0,0,0,0.55)' }}>Choose a NEAR AI deployment based on your performance requirements and preferred agent. You get NEAR security no matter what.</p>
         </div>
         <div className="w-full max-w-4xl mx-auto rounded-2xl p-3 md:p-8" style={{ backgroundColor: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)' }}>
           <div className="grid grid-cols-3 gap-x-3 mb-6 px-4">
