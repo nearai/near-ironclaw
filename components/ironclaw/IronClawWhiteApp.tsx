@@ -481,24 +481,14 @@ export default function IronClawWhiteApp() {
                   backgroundClip: 'text',
                 }}>IronClaw:</span> Your<br />
                 Always-On AI Agent,<br />
-                <span role="text" aria-label="Privacy Guaranteed" style={{ position: 'relative', display: 'inline-block' }}>
-                  <span style={{ position: 'absolute', inset: 0, fontFamily: 'var(--font-fk-grotesk-mono), monospace', color: 'transparent', userSelect: 'text', pointerEvents: 'none', paddingRight: '4px' }}>
-                    Privacy Guaranteed
-                  </span>
-                  <CipherText
-                    text="Privacy Guaranteed"
-                    style={{
-                      fontFamily: 'var(--font-fk-grotesk-mono), monospace',
-                      background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      paddingRight: '4px',
-                      userSelect: 'none',
-                    }}
-                    ariaHidden={true}
-                  />
-                </span>
+                <span style={{
+                  fontFamily: 'var(--font-fk-grotesk-mono), monospace',
+                  background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  paddingRight: '6px',
+                }}>Privacy Guaranteed</span>
               </h1>
 
               <p className="text-base md:text-lg max-w-xl leading-relaxed mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
@@ -550,7 +540,6 @@ export default function IronClawWhiteApp() {
         <HybridStickyStep index={1} number="1" title="How It Works" bg="#EDEDED" id="how-it-works">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             <div>
-              <span className="font-mono-ic text-xs uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How It Works</span>
               <h2 className="text-5xl md:text-6xl font-medium mb-6" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
                 From zero to secure agent in under 5 minutes.
               </h2>
@@ -601,7 +590,6 @@ export default function IronClawWhiteApp() {
         {/* STEP 2: FEATURES */}
         <HybridStickyStep index={2} number="2" title="What You Get" bg="#EDEDED" id="features">
           <div>
-            <span className="font-mono-ic text-xs uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>What You Get</span>
             <h2 className="text-5xl md:text-6xl font-medium mb-4" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
               Security you don&apos;t have to think about.
             </h2>
