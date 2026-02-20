@@ -982,7 +982,7 @@ export default function IronClawWhiteApp() {
 
               <h1
                 className="font-bold uppercase mb-3 md:mb-6"
-                style={{ color: '#111', fontSize: 'clamp(2rem, 5.2vw, 4.7rem)', lineHeight: 0.88, letterSpacing: '-0.06em' }}
+                style={{ color: '#111', fontSize: 'clamp(2rem, 5.2vw, 4.7rem)', lineHeight: 0.88, letterSpacing: '-0.06em', fontFamily: 'var(--font-fk-grotesk), sans-serif' }}
               >
                 <span style={{
                   background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
@@ -998,7 +998,7 @@ export default function IronClawWhiteApp() {
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
                   paddingRight: '6px',
-                }}>With Cryptographic Security</span>
+                }}>With Cryptographic<br className="hidden lg:block" /> Security</span>
               </h1>
 
               <p className="text-base md:text-lg max-w-xl leading-relaxed mb-5 md:mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>

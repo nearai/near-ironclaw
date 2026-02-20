@@ -4,12 +4,12 @@ import "./globals.css";
 
 const fkGrotesk = localFont({
   src: [
-    { path: "../public/fonts/fkgrotesk/FKGrotesk-Thin.otf",    weight: "100" },
-    { path: "../public/fonts/fkgrotesk/FKGrotesk-Light.otf",   weight: "300" },
-    { path: "../public/fonts/fkgrotesk/FKGrotesk-Regular.otf", weight: "400" },
-    { path: "../public/fonts/fkgrotesk/FKGrotesk-Medium.otf",  weight: "500" },
-    { path: "../public/fonts/fkgrotesk/FKGrotesk-Bold.otf",    weight: "700" },
-    { path: "../public/fonts/fkgrotesk/FKGrotesk-Black.otf",   weight: "900" },
+    { path: "../public/fonts/fkgrotesk/FKGrotesk-Thin.woff2",    weight: "100" },
+    { path: "../public/fonts/fkgrotesk/FKGrotesk-Light.woff2",   weight: "300" },
+    { path: "../public/fonts/fkgrotesk/FKGrotesk-Regular.woff2", weight: "400" },
+    { path: "../public/fonts/fkgrotesk/FKGrotesk-Medium.woff2",  weight: "500" },
+    { path: "../public/fonts/fkgrotesk/FKGrotesk-Bold.woff2",    weight: "700" },
+    { path: "../public/fonts/fkgrotesk/FKGrotesk-Black.woff2",   weight: "900" },
   ],
   variable: "--font-fk-grotesk",
   display: "swap",
@@ -17,12 +17,12 @@ const fkGrotesk = localFont({
 
 const fkGroteskMono = localFont({
   src: [
-    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Thin.otf",    weight: "100" },
-    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Light.otf",   weight: "300" },
-    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Regular.otf", weight: "400" },
-    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Medium.otf",  weight: "500" },
-    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Bold.otf",    weight: "700" },
-    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Black.otf",   weight: "900" },
+    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Thin.woff2",    weight: "100" },
+    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Light.woff2",   weight: "300" },
+    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Regular.woff2", weight: "400" },
+    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Medium.woff2",  weight: "500" },
+    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Bold.woff2",    weight: "700" },
+    { path: "../public/fonts/fkgroteskmono/FKGroteskMono-Black.woff2",   weight: "900" },
   ],
   variable: "--font-fk-grotesk-mono",
   display: "swap",
