@@ -3,13 +3,21 @@ import { Shield, ArrowRight } from 'lucide-react';
 
 const sites = [
   {
-    slug: 'ironclaw-blue',
-    name: 'IronClaw — Blue',
-    description: 'Blue accent theme with ASCII scatter hero, cipher text effect, gradient cipher buttons, and sticky-scroll sections.',
+    slug: 'ironclaw-renew',
+    name: 'IronClaw — Renew',
+    description: 'Dark theme with magnetic dot hero, blue accent, sticky-scroll feature cards, animated UI demos, and comparison table.',
     tag: 'Latest',
     tagColor: 'text-[#4CA7E6] bg-[#4CA7E6]/10 border-[#4CA7E6]/30',
     accent: 'group-hover:border-[#4CA7E6]/40',
     featured: true,
+  },
+  {
+    slug: 'ironclaw-blue',
+    name: 'IronClaw — Blue',
+    description: 'Blue accent theme with ASCII scatter hero, cipher text effect, gradient cipher buttons, and sticky-scroll sections.',
+    tag: 'Dark',
+    tagColor: 'text-[#4CA7E6] bg-[#4CA7E6]/10 border-[#4CA7E6]/30',
+    accent: 'group-hover:border-[#4CA7E6]/40',
   },
   {
     slug: 'ironclaw',

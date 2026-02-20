@@ -1,5 +1,5 @@
-import IronClawRenewApp from '@/components/ironclaw/IronClawRenewApp';
+import IronClawWhiteApp from '@/components/ironclaw/IronClawWhiteApp';
 
 export default function HomePage() {
-  return <IronClawRenewApp />;
+  return <IronClawWhiteApp />;
 }
