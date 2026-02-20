@@ -998,11 +998,11 @@ export default function IronClawWhiteApp() {
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
                   paddingRight: '6px',
-                }}>Privacy Guaranteed</span>
+                }}>With Cryptographic Security</span>
               </h1>
 
               <p className="text-base md:text-lg max-w-xl leading-relaxed mb-5 md:mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                IronClaw is a secure, open-source alternative to OpenClaw. Built in Rust. Running in encrypted enclaves on NEAR AI Cloud. Your secrets never touch the LLM.
+                IronClaw is the secure, open-source alternative to OpenClaw that runs in encrypted enclaves on NEAR AI Cloud. AI agents that actually do things, but your secrets never touch the LLM.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-6 md:mb-12">
