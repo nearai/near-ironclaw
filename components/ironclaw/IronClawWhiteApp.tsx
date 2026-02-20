@@ -183,12 +183,18 @@ type HybridStickyStepProps = {
   height?: string;
 };
 
+const TOP_CLASSES: Record<number, string> = {
+  1: 'lg:top-0',
+  2: 'lg:top-[60px]',
+  3: 'lg:top-[120px]',
+  4: 'lg:top-[180px]',
+};
+
 const HybridStickyStep = ({ number, title, children, index, bg = '#f6f6f6', minH = 'auto', id, overlayGradient, headerStyle, height }: HybridStickyStepProps) => (
   <div
     id={id}
-    className="relative lg:sticky w-full overflow-hidden mb-4 lg:mb-0 lg:min-h-[880px]"
+    className={`relative lg:sticky w-full overflow-hidden lg:min-h-[880px] ${TOP_CLASSES[index] ?? 'lg:top-0'}`}
     style={{
-      top: `${(index - 1) * 60}px`,
       minHeight: minH,
       ...(height ? { height } : {}),
       zIndex: index + 10,
@@ -239,7 +245,7 @@ type HybridComparisonRowProps = { feature: string; openClaw: string; ironClaw: s
 
 const HybridComparisonRow = ({ feature, openClaw, ironClaw }: HybridComparisonRowProps) => (
   <div
-    className="grid grid-cols-3 py-4 px-4 rounded-lg transition-colors cursor-default"
+    className="grid grid-cols-3 gap-x-3 py-4 px-4 rounded-lg transition-colors cursor-default"
     style={{ borderBottom: '1px solid rgba(0,0,0,0.07)' }}
     onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.03)')}
     onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
@@ -302,7 +308,7 @@ const GradientCipherButton = ({ label, icon: Icon, onClick, className = '' }: Gr
   return (
     <button
       onClick={onClick}
-      className={`font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 relative overflow-hidden ${className}`}
+      className={`font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 relative overflow-hidden whitespace-nowrap ${className}`}
       style={{
         background: 'radial-gradient(ellipse 100% 100% at 50% 130%, #4CA7E6 0%, #2882c8 65%)',
         color: '#fff',
@@ -947,6 +953,7 @@ export default function IronClawWhiteApp() {
       >
         <MagneticHeroCanvas />
 
+        {/* Desktop: absolutely positioned right */}
         <div className="absolute bottom-[-35px] right-32 z-0 pointer-events-none hidden lg:block">
           <Image
             src="/images/IronClaw_A.png"
@@ -959,11 +966,11 @@ export default function IronClawWhiteApp() {
           />
         </div>
 
-        <div className="flex items-center w-full min-h-screen relative z-10 p-8 md:p-16 max-w-[1600px] mx-auto">
+        <div className="flex items-center w-full min-h-screen relative z-10 px-8 pt-20 pb-8 md:p-16 max-w-[1600px] mx-auto">
           <div className="grid grid-cols-1 w-full">
             <div>
               <div
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-8"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4 md:mb-8"
                 style={{ backgroundColor: 'rgba(76,167,230,0.14)', border: '1px solid rgba(76,167,230,0.32)' }}
               >
                 <span className="relative flex h-2 w-2">
@@ -974,7 +981,7 @@ export default function IronClawWhiteApp() {
               </div>
 
               <h1
-                className="font-bold uppercase mb-6"
+                className="font-bold uppercase mb-3 md:mb-6"
                 style={{ color: '#111', fontSize: 'clamp(2rem, 5.5vw, 5rem)', lineHeight: 0.88, letterSpacing: '-0.06em' }}
               >
                 <span style={{
@@ -994,11 +1001,11 @@ export default function IronClawWhiteApp() {
                 }}>Privacy Guaranteed</span>
               </h1>
 
-              <p className="text-base md:text-lg max-w-xl leading-relaxed mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
+              <p className="text-base md:text-lg max-w-xl leading-relaxed mb-5 md:mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
                 IronClaw is a secure, open-source alternative to OpenClaw. Built in Rust. Running in encrypted enclaves on NEAR AI Cloud. Your secrets never touch the LLM.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+              <div className="flex flex-col sm:flex-row gap-4 mb-6 md:mb-12">
                 <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} />
                 <button
                   className="font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 transition-all"
@@ -1010,13 +1017,27 @@ export default function IronClawWhiteApp() {
                 </button>
               </div>
             </div>
+
+            {/* Mobile-only: image in flow so hero expands to fit */}
+            <div className="flex justify-center pt-4 pb-2 lg:hidden">
+              <Image
+                src="/images/IronClaw_A.png"
+                alt="IronClaw"
+                width={460}
+                height={460}
+                className="object-contain"
+                style={{ width: 'clamp(110px, 35vw, 190px)', height: 'auto' }}
+                priority
+              />
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* ── Stats Bar ────────────────────────────────────────────────────────── */}
       <section className="relative z-10 py-16" style={{ backgroundColor: '#1a1a1a' }}>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4" style={{ maxWidth: '1720px', margin: '0 auto', padding: '0 100px' }}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-6 sm:px-10 md:px-16 lg:px-[100px]" style={{ maxWidth: '1720px', margin: '0 auto' }}>
           {[
             { label: 'GitHub Stars', value: '2,000+', icon: Github },
             { label: 'Secrets Exposed', value: '0', icon: Lock },
@@ -1041,12 +1062,12 @@ export default function IronClawWhiteApp() {
 
         {/* STEP 1: HOW IT WORKS */}
         <HybridStickyStep index={1} number="1" title="How It Works" bg="#f6f6f6" id="how-it-works" overlayGradient="radial-gradient(ellipse 110% 70% at 100% 0%, rgba(76,167,230,0.05) 0%, transparent 65%)">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
             <div>
-              <h2 className="text-5xl md:text-6xl font-medium mb-6" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-medium mb-6" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
                 From zero to secure agent in under 5 minutes.
               </h2>
-              <p className="text-lg mb-12 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
+              <p className="text-lg mb-6 lg:mb-12 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
                 If you&apos;ve used OpenClaw, you already know the workflow. IronClaw just locks it down.
               </p>
               <div className="space-y-8">
@@ -1075,10 +1096,10 @@ export default function IronClawWhiteApp() {
         {/* STEP 2: FEATURES */}
         <HybridStickyStep index={2} number="2" title="What You Get" bg="#f6f6f6" id="features" overlayGradient="radial-gradient(ellipse 90% 70% at 100% 0%, rgba(76,167,230,0.04) 0%, transparent 65%)">
           <div>
-            <h2 className="text-5xl md:text-6xl font-medium mb-4" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-medium mb-4" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
               Security you don&apos;t have to think about.
             </h2>
-            <p className="text-lg mb-12 max-w-2xl" style={{ color: 'rgba(0,0,0,0.55)' }}>
+            <p className="text-lg mb-6 lg:mb-12 max-w-2xl" style={{ color: 'rgba(0,0,0,0.55)' }}>
               Every layer is built so that even if something goes wrong, your credentials don&apos;t leave the vault.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1118,9 +1139,9 @@ export default function IronClawWhiteApp() {
 
         {/* STEP 3: THE PROBLEM */}
         <HybridStickyStep index={3} number="3" title="OpenClaw Problem" bg="#f6f6f6" id="why-switch" overlayGradient="radial-gradient(ellipse 80% 70% at 100% 0%, rgba(76,167,230,0.03) 0%, transparent 65%)">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
             <div>
-              <h2 className="text-5xl md:text-6xl font-medium mb-8" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-medium mb-8" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
                 OpenClaw is powerful. It&apos;s also exposing your secrets.
               </h2>
               <p className="text-xl mb-8 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
@@ -1145,11 +1166,11 @@ export default function IronClawWhiteApp() {
         </HybridStickyStep>
 
         {/* STEP 4: THE SOLUTION */}
-        <HybridStickyStep index={4} number="4" title="The Solution" bg="#f6f6f6" height="70vh" overlayGradient="radial-gradient(ellipse 70% 70% at 100% 0%, rgba(76,167,230,0.02) 0%, transparent 65%)">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+        <HybridStickyStep index={4} number="4" title="The Solution" bg="#f6f6f6" overlayGradient="radial-gradient(ellipse 70% 70% at 100% 0%, rgba(76,167,230,0.02) 0%, transparent 65%)">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
             <div>
               <span className="font-mono-ic text-[14px] font-light uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How IronClaw Fixes This</span>
-              <h2 className="text-5xl md:text-6xl font-medium mb-8" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-medium mb-8" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
                 The LLM never touches your secrets. Ever.
               </h2>
               <p className="text-lg mb-6 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
@@ -1158,21 +1179,25 @@ export default function IronClawWhiteApp() {
               <p className="text-lg mb-10 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
                 Every tool runs in its own WebAssembly sandbox with no filesystem access and no outbound connections beyond your allowlist. The entire runtime is Rust — no garbage collector, no buffer overflows, no use-after-free.
               </p>
-              <div className="flex flex-col gap-2">
-                <div className="flex gap-2">
-                  {['Rust', 'Wasm Sandbox', 'Encrypted Vault'].map((tag) => (
-                    <span key={tag} className="font-mono-ic px-3 py-1 rounded-full text-[14px] font-normal" style={{ backgroundColor: 'rgba(76,167,230,0.1)', color: '#4CA7E6', border: '1px solid rgba(76,167,230,0.25)' }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex gap-2">
-                  {['TEE / CVM', 'Endpoint Allowlist'].map((tag) => (
-                    <span key={tag} className="font-mono-ic px-3 py-1 rounded-full text-[14px] font-normal" style={{ backgroundColor: 'rgba(76,167,230,0.1)', color: '#4CA7E6', border: '1px solid rgba(76,167,230,0.25)' }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+              {/* Mobile: 2-2-1 */}
+              <div className="flex flex-col gap-2 lg:hidden">
+                {[['Rust', 'Wasm Sandbox'], ['Encrypted Vault', 'TEE / CVM'], ['Endpoint Allowlist']].map((row, r) => (
+                  <div key={r} className="flex gap-2">
+                    {row.map(tag => (
+                      <span key={tag} className="font-mono-ic px-2.5 py-0.5 rounded-full text-[11px] font-normal" style={{ backgroundColor: 'rgba(76,167,230,0.1)', color: '#4CA7E6', border: '1px solid rgba(76,167,230,0.25)' }}>{tag}</span>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              {/* Desktop: 3-2 */}
+              <div className="hidden lg:flex flex-col gap-2">
+                {[['Rust', 'Wasm Sandbox', 'Encrypted Vault'], ['TEE / CVM', 'Endpoint Allowlist']].map((row, r) => (
+                  <div key={r} className="flex gap-2">
+                    {row.map(tag => (
+                      <span key={tag} className="font-mono-ic px-3 py-1 rounded-full text-[14px] font-normal" style={{ backgroundColor: 'rgba(76,167,230,0.1)', color: '#4CA7E6', border: '1px solid rgba(76,167,230,0.25)' }}>{tag}</span>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -1181,7 +1206,7 @@ export default function IronClawWhiteApp() {
         </HybridStickyStep>
 
         {/* Spacer */}
-        <div style={{ height: '20vh' }} />
+        <div className="hidden lg:block" style={{ height: '20vh' }} />
 
       </div>
 
@@ -1191,11 +1216,11 @@ export default function IronClawWhiteApp() {
       {/* ── Comparison Table ─────────────────────────────────────────────────── */}
       <div id="compare" className="relative z-20 flex flex-col p-8 md:p-16" style={{ backgroundColor: '#f6f6f6', borderRadius: '2.5rem', border: '1px solid rgba(0,0,0,0.07)' }}>
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-medium mb-4" style={{ letterSpacing: '-0.03em', color: '#111' }}>Everything you like about OpenClaw.</h2>
-          <h3 className="text-2xl md:text-3xl" style={{ color: 'rgba(0,0,0,0.4)' }}>Nothing you&apos;re worried about.</h3>
+          <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-4" style={{ letterSpacing: '-0.03em', color: '#111' }}>Everything you like about OpenClaw.</h2>
+          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl" style={{ color: 'rgba(0,0,0,0.4)' }}>Nothing you&apos;re worried about.</h3>
         </div>
-        <div className="w-full max-w-4xl mx-auto rounded-2xl p-6 md:p-8" style={{ backgroundColor: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)' }}>
-          <div className="grid grid-cols-3 mb-6 px-4">
+        <div className="w-full max-w-4xl mx-auto rounded-2xl p-3 md:p-8" style={{ backgroundColor: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)' }}>
+          <div className="grid grid-cols-3 gap-x-3 mb-6 px-4">
             <div className="font-mono-ic font-normal uppercase tracking-widest text-[14px]" style={{ color: 'rgba(0,0,0,0.35)' }}>Feature</div>
             <div className="font-mono-ic font-normal uppercase tracking-widest text-[14px]" style={{ color: 'rgba(0,0,0,0.35)' }}>OpenClaw</div>
             <div className="font-mono-ic font-normal uppercase tracking-widest text-[14px]" style={{ color: '#4CA7E6' }}>IronClaw</div>
@@ -1211,22 +1236,22 @@ export default function IronClawWhiteApp() {
 
       {/* ── CTA Banner ───────────────────────────────────────────────────────── */}
       <div
-        className="p-12 text-center z-20 relative overflow-hidden flex flex-col items-center justify-center"
+        className="px-6 py-10 md:p-12 text-center z-20 relative overflow-hidden flex flex-col items-center justify-center"
         style={{
           background: 'radial-gradient(ellipse 45% 75% at 50% 0%, rgba(76,167,230,0.18) 0%, transparent 70%), #1a1a1a',
           borderRadius: '2.5rem',
         }}
       >
-        <h2 className="text-3xl md:text-4xl font-medium mb-6 relative z-10" style={{ color: '#fff' }}>
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium mb-6 relative z-10 text-balance" style={{ color: '#fff' }}>
           Deploy an AI agent you can actually trust.
         </h2>
         <p className="max-w-xl mb-8 text-lg relative z-10" style={{ color: 'rgba(255,255,255,0.6)' }}>
           Open source. One-click deploy on NEAR AI Cloud. Your secrets never leave the encrypted vault.
         </p>
-        <div className="flex gap-4 flex-wrap justify-center relative z-10">
-          <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} />
+        <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10 w-full sm:w-auto">
+          <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} className="w-full sm:w-auto" />
           <button
-            className="px-8 py-3 font-bold flex items-center gap-2 transition-all"
+            className="px-8 py-3 font-bold flex items-center justify-center gap-2 transition-all w-full sm:w-auto"
             style={{ border: '2px solid rgba(76,167,230,0.6)', backgroundColor: 'transparent', borderRadius: '16px', color: '#fff' }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = 'none'; }}
