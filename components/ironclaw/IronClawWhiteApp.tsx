@@ -907,12 +907,12 @@ export default function IronClawWhiteApp() {
                 onClick={e => { e.preventDefault(); document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' }); }}
               >{label}</a>
             ))}
-            <a href="https://github.com" className="nav-link-white flex items-center gap-1 text-[13px] font-semibold uppercase tracking-wider">
+            <a href="https://github.com/nearai/ironclaw" target="_blank" rel="noopener noreferrer" className="nav-link-white flex items-center gap-1 text-[13px] font-semibold uppercase tracking-wider">
               <Github size={14} /> GitHub
             </a>
           </div>
 
-          <GradientCipherButton label="Deploy Now" icon={Rocket} className="hidden md:flex text-sm px-6 py-3" />
+          <GradientCipherButton label="Deploy Now" icon={Rocket} className="hidden md:flex text-sm px-6 py-3" onClick={() => window.open('https://agent.near.ai', '_blank')} />
 
           <button className="md:hidden cursor-pointer" style={{ color: '#111' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X /> : <Menu />}
@@ -989,16 +989,14 @@ export default function IronClawWhiteApp() {
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
-                }}>IronClaw:</span> Your<br />
-                Always-On AI Agent,<br />
+                }}>IronClaw:</span><br />
+                Unleash your AI agent,<br />
                 <span style={{
-                  fontFamily: 'var(--font-fk-grotesk), sans-serif',
                   background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
-                  paddingRight: '6px',
-                }}>With Cryptographic<br className="hidden lg:block" /> Security</span>
+                }}>with peace of mind</span>
               </h1>
 
               <p className="text-base md:text-lg max-w-xl leading-relaxed mb-5 md:mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
@@ -1006,15 +1004,18 @@ export default function IronClawWhiteApp() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-6 md:mb-12">
-                <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} />
-                <button
+                <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} onClick={() => window.open('https://agent.near.ai', '_blank')} />
+                <a
+                  href="https://github.com/nearai/ironclaw"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 transition-all cursor-pointer"
-                  style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent', color: '#111' }}
+                  style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent', color: '#111', textDecoration: 'none' }}
                   onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
                   onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#111'; e.currentTarget.style.boxShadow = 'none'; }}
                 >
                   <span className="group-hover:[animation:github-nudge_3.5s_ease-in-out_infinite]"><Github size={19} /></span> Read the Source
-                </button>
+                </a>
               </div>
             </div>
 
@@ -1039,16 +1040,18 @@ export default function IronClawWhiteApp() {
       <section className="relative z-10 py-16" style={{ backgroundColor: '#1a1a1a' }}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-6 sm:px-10 md:px-16 lg:px-[100px]" style={{ maxWidth: '1720px', margin: '0 auto' }}>
           {[
-            { label: 'GitHub Stars', value: '2,000+', icon: Github },
-            { label: 'Secrets Exposed', value: '0', icon: Lock },
-            { label: 'Rust', value: '100%', icon: Code2 },
-            { label: 'Cloud Deploy', value: '1-click', icon: Zap },
+            { label: 'OPEN SOURCE', value: null, icon: Github },
+            { label: 'Defense-in-depth security', value: null, icon: Lock },
+            { label: 'BUILT ON RUST', value: null, icon: Code2 },
+            { label: '1-CLICK CLOUD DEPLOYMENT', value: null, icon: Zap },
           ].map((stat, i) => (
             <div key={i} className="p-6 flex flex-col items-center text-center">
               <stat.icon size={22} className="mb-3" style={{ color: '#4CA7E6' }} />
-              <div className="text-2xl font-bold mb-1" style={{ letterSpacing: '-0.02em', color: '#fff' }}>
-                {stat.value}
-              </div>
+              {stat.value && (
+                <div className="text-2xl font-bold mb-1" style={{ letterSpacing: '-0.02em', color: '#fff' }}>
+                  {stat.value}
+                </div>
+              )}
               <div className="font-mono-ic text-[14px] font-light uppercase tracking-widest" style={{ color: '#888' }}>
                 {stat.label}
               </div>
@@ -1066,10 +1069,10 @@ export default function IronClawWhiteApp() {
             {/* Header: Title left, Description right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-start">
               <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
-                From zero to secure agent in under 5 minutes.
+                From zero to secure agent in minutes.
               </h2>
               <p className="text-lg leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                IronClaw enables one-click OpenClaw setup so you can easily deploy agents that are locked down from launch.
+                IronClaw offers simple setup and built-in security for OpenClaw's personal AI assistant—powered by NEAR AI Cloud.
               </p>
             </div>
 
@@ -1153,10 +1156,10 @@ export default function IronClawWhiteApp() {
             {/* Header: Title left, Description right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-start">
               <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
-                Empower your agent full system access while protecting your secrets. Spin up in minutes.
+                Empower your agent with full system access and persistent memory while still protecting your secrets.
               </h2>
               <p className="text-xl leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                OpenClaw unlocked the agentic future but it&apos;s also exposing your secrets. Credentials get exposed through prompt injection. Malicious skills steal passwords. If you&apos;re running OpenClaw with anything sensitive, you already know the risk.
+                OpenClaw unlocks the agentic future but it also risks exposing your secrets. Credentials can be exposed through prompt injections. Malicious skills exist to steal passwords. If you&apos;re running OpenClaw by itself with anything sensitive, there are significant risks.
               </p>
             </div>
 
@@ -1190,7 +1193,7 @@ export default function IronClawWhiteApp() {
               <div>
                 <span className="font-mono-ic text-[14px] font-light uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How IronClaw Fixes This</span>
                 <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
-                  Your credentials live in an encrypted vault on NEAR AI Cloud that LLMs physically cannot access.
+                  Your credentials live in an encrypted vault on NEAR AI Cloud.
                 </h2>
               </div>
               <div />
@@ -1200,7 +1203,7 @@ export default function IronClawWhiteApp() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
               <div>
                 <p className="text-lg leading-relaxed mb-6" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                  IronClaw doesn&apos;t rely on telling the AI &quot;please don&apos;t leak this.&quot; Your credentials live in an encrypted vault that the LLM physically cannot access. They&apos;re injected at the network boundary — only for endpoints you&apos;ve pre-approved.
+                  IronClaw&apos;s security model doesn&apos;t rely on telling the AI &quot;please don&apos;t leak this.&quot; Your credentials live in a Trusted Execution Environment that provides hardware-enforced security. Your credentials are injected at the network boundary—only for endpoints you&apos;ve pre-approved.
                 </p>
                 <p className="text-lg leading-relaxed mb-6 lg:mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
                   Every tool runs in its own WebAssembly sandbox with no filesystem access and no outbound connections beyond your allowlist. The entire runtime is Rust — no garbage collector, no buffer overflows, no use-after-free.
@@ -1252,11 +1255,11 @@ export default function IronClawWhiteApp() {
             <div className="font-mono-ic font-normal uppercase tracking-widest text-[14px]" style={{ color: 'rgba(0,0,0,0.35)' }}>OpenClaw</div>
             <div className="font-mono-ic font-normal uppercase tracking-widest text-[14px]" style={{ color: '#4CA7E6' }}>IronClaw</div>
           </div>
-          <HybridComparisonRow feature="Language" openClaw="JavaScript" ironClaw="Rust" />
+          <HybridComparisonRow feature="Language" openClaw="TypeScript" ironClaw="Rust" />
           <HybridComparisonRow feature="Memory Safety" openClaw="Runtime GC" ironClaw="Compile-time" />
           <HybridComparisonRow feature="Secret Handling" openClaw="LLM sees secrets" ironClaw="Encrypted vault" />
           <HybridComparisonRow feature="Tool Isolation" openClaw="Shared process" ironClaw="Per-tool Wasm" />
-          <HybridComparisonRow feature="Prompt Injection" openClaw='"Please dont leak"' ironClaw="Architectural" />
+          <HybridComparisonRow feature="Prompt Injection" openClaw={`"Please don't leak"`} ironClaw="Architectural" />
           <HybridComparisonRow feature="Network Control" openClaw="Unrestricted" ironClaw="Allowlist" />
         </div>
       </div>
@@ -1276,15 +1279,18 @@ export default function IronClawWhiteApp() {
           Open source. One-click deploy on NEAR AI Cloud. Your secrets never leave the encrypted vault.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10 w-full sm:w-auto">
-          <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} className="w-full sm:w-auto" />
-          <button
+          <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} className="w-full sm:w-auto" onClick={() => window.open('https://agent.near.ai', '_blank')} />
+          <a
+            href="https://github.com/nearai/ironclaw"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group px-8 py-3 font-bold flex items-center justify-center gap-2 transition-all w-full sm:w-auto cursor-pointer"
-            style={{ border: '2px solid rgba(76,167,230,0.6)', backgroundColor: 'transparent', borderRadius: '16px', color: '#fff' }}
+            style={{ border: '2px solid rgba(76,167,230,0.6)', backgroundColor: 'transparent', borderRadius: '16px', color: '#fff', textDecoration: 'none' }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = 'none'; }}
           >
             <span className="group-hover:[animation:github-nudge_3.5s_ease-in-out_infinite]"><Github size={21} /></span> Star on GitHub
-          </button>
+          </a>
         </div>
       </div>
 
@@ -1303,16 +1309,22 @@ export default function IronClawWhiteApp() {
             <span className="text-sm" style={{ color: '#888' }}>&nbsp;— by NEAR AI</span>
           </div>
           <div className="flex items-center gap-8">
-            {['GitHub', 'NEAR AI', 'OpenClaw'].map(link => (
+            {[
+              { label: 'GitHub', href: 'https://github.com/nearai/ironclaw' },
+              { label: 'NEAR AI', href: '#' },
+              { label: 'OpenClaw', href: '#' },
+            ].map(link => (
               <a
-                key={link}
-                href="#"
+                key={link.label}
+                href={link.href}
+                target={link.href !== '#' ? '_blank' : undefined}
+                rel={link.href !== '#' ? 'noopener noreferrer' : undefined}
                 className="text-base transition-colors"
                 style={{ color: '#4CA7E6' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#111')}
                 onMouseLeave={e => (e.currentTarget.style.color = '#4CA7E6')}
               >
-                {link}
+                {link.label}
               </a>
             ))}
           </div>
