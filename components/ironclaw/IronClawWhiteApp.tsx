@@ -1024,7 +1024,7 @@ export default function IronClawWhiteApp() {
 
         {/* Desktop: absolutely positioned right */}
         <div
-          className="absolute bottom-[-35px] z-0 pointer-events-none hidden lg:block"
+          className="absolute bottom-[-35px] z-0 pointer-events-none hidden md:block"
           style={{
             right: imageRight === 'right-8' ? '140px' : '55px',
           }}
@@ -1055,8 +1055,8 @@ export default function IronClawWhiteApp() {
               </div>
 
               <h1
-                className="font-bold mb-3 md:mb-6"
-                style={{ color: '#111', fontSize: 'clamp(2rem, 5.2vw, 4.7rem)', lineHeight: 0.88, letterSpacing: '-0.02em', fontFamily: 'var(--font-fk-grotesk), sans-serif' }}
+                className="font-bold mb-3 md:mb-6 leading-none md:leading-tight text-4xl sm:text-5xl md:text-5xl lg:text-6xl"
+                style={{ color: '#111', letterSpacing: '-0.02em', fontFamily: 'var(--font-fk-grotesk), sans-serif' }}
               >
                 <span style={{
                   background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
@@ -1094,7 +1094,7 @@ export default function IronClawWhiteApp() {
             </div>
 
             {/* Mobile-only: image in flow so hero expands to fit */}
-            <div className="flex justify-center pt-4 pb-2 lg:hidden">
+            <div className="flex justify-center pt-4 pb-2 md:hidden">
               <Image
                 src="/images/iron_claw_guy1.png"
                 alt="IronClaw"
