@@ -990,13 +990,13 @@ export default function IronClawWhiteApp() {
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
                 }}>IronClaw:</span><br />
-                Unleash your AI agent,<br />
+                Unleash Your AI Agent,<br />
                 <span style={{
                   background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
-                }}>with peace of mind</span>
+                }}>With Peace of Mind</span>
               </h1>
 
               <p className="text-base md:text-lg max-w-xl leading-relaxed mb-5 md:mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
