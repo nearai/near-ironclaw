@@ -954,7 +954,7 @@ export default function IronClawWhiteApp() {
         <MagneticHeroCanvas />
 
         {/* Desktop: absolutely positioned right */}
-        <div className="absolute bottom-[-35px] right-32 z-0 pointer-events-none hidden lg:block">
+        <div className="absolute bottom-[-35px] right-32 xl:right-32 2xl:right-16 z-0 pointer-events-none hidden lg:block">
           <Image
             src="/images/iron_claw_guy1.png"
             alt="IronClaw"
@@ -981,8 +981,8 @@ export default function IronClawWhiteApp() {
               </div>
 
               <h1
-                className="font-bold uppercase mb-3 md:mb-6"
-                style={{ color: '#111', fontSize: 'clamp(2rem, 5.2vw, 4.7rem)', lineHeight: 0.88, letterSpacing: '-0.06em', fontFamily: 'var(--font-fk-grotesk), sans-serif' }}
+                className="font-bold mb-3 md:mb-6"
+                style={{ color: '#111', fontSize: 'clamp(2rem, 5.2vw, 4.7rem)', lineHeight: 0.88, letterSpacing: '-0.02em', fontFamily: 'var(--font-fk-grotesk), sans-serif' }}
               >
                 <span style={{
                   background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
@@ -992,7 +992,7 @@ export default function IronClawWhiteApp() {
                 }}>IronClaw:</span> Your<br />
                 Always-On AI Agent,<br />
                 <span style={{
-                  fontFamily: 'var(--font-fk-grotesk-mono), monospace',
+                  fontFamily: 'var(--font-fk-grotesk), sans-serif',
                   background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
