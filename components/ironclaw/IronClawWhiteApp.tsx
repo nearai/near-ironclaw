@@ -825,6 +825,59 @@ const EncryptedVaultUI = () => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Pricing Card Component
+type PricingCardProps = {
+  name: string;
+  price: string;
+  originalPrice?: string;
+  period: string;
+  description: string;
+  features: string[];
+  popular?: boolean;
+};
+
+function PricingCard({ name, price, originalPrice, period, description, features, popular }: PricingCardProps) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      style={{ position: 'relative', backgroundColor: '#1f1f1f', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '1.25rem', padding: '2rem' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ position: 'absolute', inset: 0, borderRadius: '1.25rem', overflow: 'hidden', pointerEvents: 'none' }}>
+        <div style={{
+          position: 'absolute', inset: 0, borderRadius: '1.25rem', pointerEvents: 'none',
+          background: 'radial-gradient(ellipse 60% 80% at 0% 50%, rgba(76,167,230,0.10) 0%, transparent 70%)',
+          opacity: hovered ? 1 : 0,
+          transition: 'opacity 0.35s ease',
+        }} />
+      </div>
+      {popular && (
+        <span style={{ position: 'absolute', top: '-12px', right: '1.5rem', backgroundColor: '#fff', color: '#111', fontSize: '0.7rem', fontWeight: 700, padding: '2px 10px', borderRadius: '999px', letterSpacing: '0.05em' }}>Popular</span>
+      )}
+      <p style={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.5rem' }}>{name}</p>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', marginBottom: '1rem' }}>
+        {originalPrice && (
+          <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: '1.5rem', fontWeight: 700, textDecoration: 'line-through' }}>{originalPrice}</span>
+        )}
+        <span style={{ color: '#fff', fontSize: '2.5rem', fontWeight: 800 }}>{price}</span>
+        <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.9rem' }}>{period}</span>
+      </div>
+      <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.875rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>{description}</p>
+      <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+        {features.map(f => (
+          <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>
+            <CheckCircle2 size={16} style={{ color: '#4CA7E6', flexShrink: 0 }} />
+            {f}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function IronClawWhiteApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -1285,12 +1338,66 @@ export default function IronClawWhiteApp() {
         </div>
       </div>
 
+      {/* ── Pricing ── */}
+      <section style={{
+        background: 'radial-gradient(ellipse 50% 60% at 50% 0%, rgba(76,167,230,0.12) 0%, transparent 70%), #1a1a1a',
+        borderRadius: '2.5rem',
+        padding: 'clamp(3rem, 6vw, 6rem) clamp(1.5rem, 5vw, 6rem)',
+        margin: '0 0',
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <h2 className="font-bold text-balance" style={{
+              color: '#fff',
+              fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+              lineHeight: 1.1,
+              letterSpacing: '-0.02em',
+              marginBottom: '1rem',
+            }}>
+              Deploy Secure Agents.<br />No Hardware Required.
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(1rem, 1.5vw, 1.15rem)', maxWidth: '640px', margin: '0 auto', lineHeight: 1.65 }}>
+              Spin up to 5 agents in a Trusted Execution Environment with up to 130M tokens per month — no cloud setup, no infrastructure. Just a simple frontend and you&apos;re live.
+            </p>
+          </div>
+
+          {/* Cards grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <PricingCard
+              name="Starter"
+              price="$0"
+              originalPrice="$5"
+              period="/month"
+              description="Activate 1 agent instance in our secure environment, and use NEAR AI Inference to power your agent"
+              features={['Secure deployment', 'Trusted Execution Environment', 'Pay per usage token']}
+            />
+            <PricingCard
+              name="Basic"
+              price="$20"
+              period="/month"
+              description="Everything you need to get started, plus credits to get up and running quickly with up to 2 agent instances"
+              features={['Everything in Starter', 'Included 13M tokens', 'Usage pooling']}
+              popular
+            />
+            <PricingCard
+              name="Pro+"
+              price="$200"
+              period="/month"
+              description="Activate up to 5 agent instances in our environment, plus advanced features and more tokens for high usage"
+              features={['Everything in Basic', 'Included 130M tokens', 'Priority support']}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA Banner ───────────────────────────────────────────────────────── */}
       <div
-        className="px-6 py-10 md:p-12 text-center z-20 relative overflow-hidden flex flex-col items-center justify-center"
+        className="px-6 md:px-12 text-center z-20 relative overflow-hidden flex flex-col items-center justify-center"
         style={{
-          background: 'radial-gradient(ellipse 45% 75% at 50% 0%, rgba(76,167,230,0.18) 0%, transparent 70%), #1a1a1a',
+          background: 'radial-gradient(ellipse 45% 75% at 50% 100%, rgba(76,167,230,0.18) 0%, transparent 70%), #1a1a1a',
           borderRadius: '2.5rem',
+          paddingBottom: 'clamp(3rem, 6vw, 6rem)',
         }}
       >
         <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium mb-6 relative z-10 text-balance" style={{ color: '#fff' }}>
