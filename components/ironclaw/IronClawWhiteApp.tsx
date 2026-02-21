@@ -1062,14 +1062,19 @@ export default function IronClawWhiteApp() {
 
         {/* STEP 1: HOW IT WORKS */}
         <HybridStickyStep index={1} number="1" title="How It Works" bg="#f6f6f6" id="how-it-works" overlayGradient="radial-gradient(ellipse 110% 70% at 100% 0%, rgba(76,167,230,0.05) 0%, transparent 65%)">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
-            <div>
-              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium mb-6 text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+          <div className="space-y-8 lg:space-y-12">
+            {/* Header: Title left, Description right */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-start">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
                 From zero to secure agent in under 5 minutes.
               </h2>
-              <p className="text-lg mb-6 lg:mb-12 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
+              <p className="text-lg leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
                 IronClaw enables one-click OpenClaw setup so you can easily deploy agents that are locked down from launch.
               </p>
+            </div>
+
+            {/* Content: Steps left, Animation right */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
               <div className="space-y-8">
                 {[
                   { icon: Rocket, title: 'Deploy in one click.', desc: 'Launch your own IronClaw instance on NEAR AI Cloud. It boots inside a Trusted Execution Environment — encrypted from the start, no setup required.' },
@@ -1087,21 +1092,26 @@ export default function IronClawWhiteApp() {
                   </div>
                 ))}
               </div>
-            </div>
 
-            <DeploymentUI />
+              <DeploymentUI />
+            </div>
           </div>
         </HybridStickyStep>
 
         {/* STEP 2: FEATURES */}
         <HybridStickyStep index={2} number="2" title="What You Get" bg="#f6f6f6" id="features" overlayGradient="radial-gradient(ellipse 90% 70% at 100% 0%, rgba(76,167,230,0.04) 0%, transparent 65%)">
-          <div>
-            <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium mb-4 text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
-              Security you don&apos;t have to think about.
-            </h2>
-            <p className="text-lg mb-6 lg:mb-12 max-w-2xl" style={{ color: 'rgba(0,0,0,0.55)' }}>
-              IronClaw is powered by NEAR AI&apos;s cryptographically secure infrastructure, which ensures your credentials never leave the vault.
-            </p>
+          <div className="space-y-8 lg:space-y-12">
+            {/* Header: Title left, Description right */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-start">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+                Security you don&apos;t have to think about.
+              </h2>
+              <p className="text-lg" style={{ color: 'rgba(0,0,0,0.55)' }}>
+                IronClaw is powered by NEAR AI&apos;s cryptographically secure infrastructure, which ensures your credentials never leave the vault.
+              </p>
+            </div>
+
+            {/* Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 { title: 'Encrypted Vault', desc: 'Your credentials are invisible to the AI. API keys, tokens, and passwords are encrypted at rest and injected into requests at the host boundary — only for endpoints you\'ve approved.', icon: Lock },
@@ -1126,10 +1136,10 @@ export default function IronClawWhiteApp() {
                     maskImage: 'linear-gradient(to bottom left, black 0%, transparent 65%)',
                     WebkitMaskImage: 'linear-gradient(to bottom left, black 0%, transparent 65%)',
                   }} />
-                  <div className="p-2.5 rounded-lg w-fit relative z-10" style={{ backgroundColor: 'rgba(76,167,230,0.12)' }}>
-                    <f.icon size={18} style={{ color: '#4CA7E6' }} />
+                  <div className="flex items-start gap-3 relative z-10">
+                    <f.icon size={20} style={{ color: '#4CA7E6', flexShrink: 0 }} />
+                    <h4 className="font-semibold text-[17px]" style={{ color: '#111' }}>{f.title}</h4>
                   </div>
-                  <h4 className="font-semibold text-[17px] relative z-10" style={{ color: '#111' }}>{f.title}</h4>
                   <p className="text-sm lg:text-base leading-relaxed relative z-10" style={{ color: 'rgba(0,0,0,0.55)' }}>{f.desc}</p>
                 </div>
               ))}
@@ -1139,15 +1149,21 @@ export default function IronClawWhiteApp() {
 
         {/* STEP 3: THE PROBLEM */}
         <HybridStickyStep index={3} number="3" title="OpenClaw Problem" bg="#f6f6f6" id="why-switch" overlayGradient="radial-gradient(ellipse 80% 70% at 100% 0%, rgba(76,167,230,0.03) 0%, transparent 65%)">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
-            <div>
-              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium mb-8 text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+          <div className="space-y-8 lg:space-y-12">
+            {/* Header: Title left, Description right */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-start">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
                 Empower your agent full system access while protecting your secrets. Spin up in minutes.
               </h2>
-              <p className="text-xl mb-8 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
+              <p className="text-xl leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
                 OpenClaw unlocked the agentic future but it&apos;s also exposing your secrets. Credentials get exposed through prompt injection. Malicious skills steal passwords. If you&apos;re running OpenClaw with anything sensitive, you already know the risk.
               </p>
-              <ul className="space-y-6 mb-8">
+            </div>
+
+            {/* Content: Left side with list, Right side with animation */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
+              <div>
+                <ul className="space-y-6 mb-8">
                 {[
                   { title: 'Prompt injection can dump your secrets.', desc: 'A single crafted prompt can trick the LLM into revealing every API key and password you\'ve given it. Telling it "don\'t share" doesn\'t help.' },
                   { title: 'Hundreds of malicious skills found on ClawHub', desc: 'Researchers found hundreds of community skills designed to quietly exfiltrate credentials. You won\'t spot them in a code review.' },
@@ -1163,24 +1179,34 @@ export default function IronClawWhiteApp() {
 
             <PromptInjectionUI />
           </div>
+          </div>
         </HybridStickyStep>
 
         {/* STEP 4: THE SOLUTION */}
         <HybridStickyStep index={4} number="4" title="The Solution" bg="#f6f6f6" overlayGradient="radial-gradient(ellipse 70% 70% at 100% 0%, rgba(76,167,230,0.02) 0%, transparent 65%)">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
-            <div>
-              <span className="font-mono-ic text-[14px] font-light uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How IronClaw Fixes This</span>
-              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium mb-8 text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
-                Your credentials live in an encrypted vault on NEAR AI Cloud that LLMs physically cannot access.
-              </h2>
-              <p className="text-lg mb-6 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                IronClaw doesn&apos;t rely on telling the AI &quot;please don&apos;t leak this.&quot; Your credentials live in an encrypted vault that the LLM physically cannot access. They&apos;re injected at the network boundary — only for endpoints you&apos;ve pre-approved.
-              </p>
-              <p className="text-lg mb-10 leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                Every tool runs in its own WebAssembly sandbox with no filesystem access and no outbound connections beyond your allowlist. The entire runtime is Rust — no garbage collector, no buffer overflows, no use-after-free.
-              </p>
-              {/* Mobile: 2-2-1 */}
-              <div className="flex flex-col gap-2 lg:hidden">
+          <div className="space-y-8 lg:space-y-12">
+            {/* Header: Title left, Description right */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-start">
+              <div>
+                <span className="font-mono-ic text-[14px] font-light uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How IronClaw Fixes This</span>
+                <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
+                  Your credentials live in an encrypted vault on NEAR AI Cloud that LLMs physically cannot access.
+                </h2>
+              </div>
+              <div />
+            </div>
+
+            {/* Content: Left side with tags and description, Right side with animation */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
+              <div>
+                <p className="text-lg leading-relaxed mb-6" style={{ color: 'rgba(0,0,0,0.55)' }}>
+                  IronClaw doesn&apos;t rely on telling the AI &quot;please don&apos;t leak this.&quot; Your credentials live in an encrypted vault that the LLM physically cannot access. They&apos;re injected at the network boundary — only for endpoints you&apos;ve pre-approved.
+                </p>
+                <p className="text-lg leading-relaxed mb-6 lg:mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
+                  Every tool runs in its own WebAssembly sandbox with no filesystem access and no outbound connections beyond your allowlist. The entire runtime is Rust — no garbage collector, no buffer overflows, no use-after-free.
+                </p>
+                {/* Mobile: 2-2-1 */}
+                <div className="flex flex-col gap-2 lg:hidden">
                 {[['Rust', 'Wasm Sandbox'], ['Encrypted Vault', 'TEE / CVM'], ['Endpoint Allowlist']].map((row, r) => (
                   <div key={r} className="flex gap-2">
                     {row.map(tag => (
@@ -1188,9 +1214,9 @@ export default function IronClawWhiteApp() {
                     ))}
                   </div>
                 ))}
-              </div>
-              {/* Desktop: 3-2 */}
-              <div className="hidden lg:flex flex-col gap-2">
+                </div>
+                {/* Desktop: 3-2 */}
+                <div className="hidden lg:flex flex-col gap-2">
                 {[['Rust', 'Wasm Sandbox', 'Encrypted Vault'], ['TEE / CVM', 'Endpoint Allowlist']].map((row, r) => (
                   <div key={r} className="flex gap-2">
                     {row.map(tag => (
@@ -1198,10 +1224,11 @@ export default function IronClawWhiteApp() {
                     ))}
                   </div>
                 ))}
+                </div>
               </div>
-            </div>
 
-            <EncryptedVaultUI />
+              <EncryptedVaultUI />
+            </div>
           </div>
         </HybridStickyStep>
 
