@@ -850,7 +850,7 @@ function PricingCard({ name, price, originalPrice, period, description, features
           position: 'absolute', inset: 0, borderRadius: '1.25rem', pointerEvents: 'none',
           background: 'radial-gradient(ellipse 60% 80% at 0% 50%, rgba(76,167,230,0.10) 0%, transparent 70%)',
           opacity: hovered ? 1 : 0,
-          transition: 'opacity 0.35s ease',
+          transition: 'opacity 0.2s ease-out',
         }} />
       </div>
       {popular && (
@@ -1246,8 +1246,9 @@ export default function IronClawWhiteApp() {
                   { title: 'Hundreds of malicious skills found on ClawHub', desc: 'Researchers found hundreds of community skills designed to quietly exfiltrate credentials. You won\'t spot them in a code review.' },
                   { title: '30,000+ instances exposed to the internet.', desc: 'Tens of thousands of OpenClaw instances are publicly reachable. Attackers are already weaponizing them.' },
                 ].map((item, i) => (
-                  <li key={i} className="pl-4" style={{ borderLeft: '2px solid rgba(220,60,60,0.5)' }}>
-                    <p className="font-semibold text-base mb-1" style={{ color: 'rgba(0,0,0,0.85)' }}>{item.title}</p>
+                  <li key={i} className="pl-6 relative" style={{ borderLeft: '3px solid rgba(220,60,60,0.6)' }}>
+                    <span style={{ position: 'absolute', left: '-15px', top: '-2px', width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'rgba(220,60,60,0.9)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold' }}>{i + 1}</span>
+                    <p className="font-semibold text-base mb-1" style={{ color: 'rgba(0,0,0,0.9)' }}>{item.title}</p>
                     <p className="text-sm lg:text-base leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>{item.desc}</p>
                   </li>
                 ))}
