@@ -830,9 +830,22 @@ export default function IronClawWhiteApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
+  const [imageRight, setImageRight] = useState('right-16');
   const lastScrollY = useRef(0);
 
   useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width > 1580) {
+        setImageRight('right-8');
+      } else {
+        setImageRight('right-32');
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
     const fn = () => {
       const y = window.scrollY;
       setScrolled(y > 80);
@@ -846,7 +859,10 @@ export default function IronClawWhiteApp() {
       lastScrollY.current = y;
     };
     window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
+    return () => {
+      window.removeEventListener('scroll', fn);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
@@ -954,7 +970,12 @@ export default function IronClawWhiteApp() {
         <MagneticHeroCanvas />
 
         {/* Desktop: absolutely positioned right */}
-        <div className="absolute bottom-[-35px] right-32 xl:right-32 2xl:right-16 z-0 pointer-events-none hidden lg:block">
+        <div
+          className="absolute bottom-[-35px] z-0 pointer-events-none hidden lg:block"
+          style={{
+            right: imageRight === 'right-8' ? '140px' : '55px',
+          }}
+        >
           <Image
             src="/images/iron_claw_guy1.png"
             alt="IronClaw"
