@@ -31,11 +31,11 @@ const fkGroteskMono = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ironclaw.com"),
-  title: "IronClaw - Secure AI Agents with Encrypted Enclaves",
-  description: "IronClaw: Unleash Your AI Agent, With Peace of Mind - On NEAR AI",
+  title: "IronClaw: Unleash Your AI Agent, With Peace of Mind",
+  description: "IronClaw: Unleash Your AI Agent, With Peace of Mind. The open-source secure runtime that runs AI agents in encrypted enclaves on NEAR AI Cloud.",
   openGraph: {
-    title: "IronClaw - Secure AI Agents with Encrypted Enclaves",
-    description: "IronClaw: Unleash Your AI Agent, With Peace of Mind - On NEAR AI",
+    title: "IronClaw: Unleash Your AI Agent, With Peace of Mind",
+    description: "IronClaw: Unleash Your AI Agent, With Peace of Mind. The open-source secure runtime that runs AI agents in encrypted enclaves on NEAR AI Cloud.",
     url: "https://ironclaw.com",
     siteName: "IronClaw",
     images: [
@@ -43,15 +43,15 @@ export const metadata: Metadata = {
         url: "/featured-v1.jpg",
         width: 1200,
         height: 630,
-        alt: "IronClaw - Secure AI Agents with Encrypted Enclaves",
+        alt: "IronClaw: Unleash Your AI Agent, With Peace of Mind",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "IronClaw - Secure AI Agents with Encrypted Enclaves",
-    description: "IronClaw: Unleash Your AI Agent, With Peace of Mind - On NEAR AI",
+    title: "IronClaw: Unleash Your AI Agent, With Peace of Mind",
+    description: "IronClaw: Unleash Your AI Agent, With Peace of Mind. The open-source secure runtime that runs AI agents in encrypted enclaves on NEAR AI Cloud.",
     images: ["/featured-v1.jpg"],
   },
 };
