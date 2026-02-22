@@ -190,33 +190,44 @@ const TOP_CLASSES: Record<number, string> = {
   4: 'lg:top-[180px]',
 };
 
+const scrollToSection = (sectionId: string) => {
+  const anchor = document.getElementById(`${sectionId}-anchor`);
+  if (!anchor) return;
+  const top = anchor.getBoundingClientRect().top + window.scrollY;
+  window.scrollTo({ top, behavior: 'smooth' });
+};
+
 const HybridStickyStep = ({ number, title, children, index, bg = '#f6f6f6', minH = 'auto', id, overlayGradient, headerStyle, height }: HybridStickyStepProps) => (
-  <div
-    id={id}
-    className={`relative lg:sticky w-full overflow-hidden lg:min-h-[880px] ${TOP_CLASSES[index] ?? 'lg:top-0'}`}
-    style={{
-      ...(minH !== 'auto' ? { minHeight: minH } : {}),
-      ...(height ? { height } : {}),
-      zIndex: index + 10,
-      background: overlayGradient
-        ? `${overlayGradient}, ${bg}`
-        : `radial-gradient(ellipse 55% 45% at 100% 100%, rgba(76,167,230,0.05) 0%, transparent 70%), ${bg}`,
-      borderRadius: '3rem 3rem 0 0',
-      borderBottomLeftRadius: '2.5rem',
-      borderBottomRightRadius: '2.5rem',
-      boxShadow: '0 -4px 24px rgba(0,0,0,0.06)',
-    }}
-  >
+  <>
+    {id && <div id={`${id}-anchor`} style={{ position: 'relative', height: 0, visibility: 'hidden' }} />}
     <div
-      className="px-8 py-5 flex items-center"
-      style={{ borderBottom: '1px solid rgba(0,0,0,0.07)', ...headerStyle }}
+      id={id}
+      className={`relative lg:sticky w-full overflow-hidden lg:min-h-[880px] ${TOP_CLASSES[index] ?? 'lg:top-0'}`}
+      style={{
+        ...(minH !== 'auto' ? { minHeight: minH } : {}),
+        ...(height ? { height } : {}),
+        zIndex: index + 10,
+        background: overlayGradient
+          ? `${overlayGradient}, ${bg}`
+          : `radial-gradient(ellipse 55% 45% at 100% 100%, rgba(76,167,230,0.05) 0%, transparent 70%), ${bg}`,
+        borderRadius: '3rem 3rem 0 0',
+        borderBottomLeftRadius: '2.5rem',
+        borderBottomRightRadius: '2.5rem',
+        boxShadow: '0 -4px 24px rgba(0,0,0,0.06)',
+      }}
     >
-      <span className="font-mono-ic text-[14px] font-light uppercase tracking-[0.15em]" style={{ color: '#555' }}>
-        {title}
-      </span>
+      <div
+        className="px-8 py-5 flex items-center cursor-pointer transition-all hover:bg-opacity-80"
+        style={{ borderBottom: '1px solid rgba(0,0,0,0.07)', ...headerStyle }}
+        onClick={() => { if (id) scrollToSection(id); }}
+      >
+        <span className="font-mono-ic text-[14px] font-light uppercase tracking-[0.15em]" style={{ color: '#555' }}>
+          {title}
+        </span>
+      </div>
+      <div className="p-8 md:p-16 max-w-[1600px] mx-auto">{children}</div>
     </div>
-    <div className="p-8 md:p-16 max-w-[1600px] mx-auto">{children}</div>
-  </div>
+  </>
 );
 
 // ─── Horizontal Marquee ───────────────────────────────────────────────────────
@@ -966,16 +977,19 @@ export default function IronClawWhiteApp() {
 
           <div className="hidden lg:flex items-center gap-8">
             {[
-              { label: 'Why Switch', href: '#why-switch' },
-              { label: 'Features', href: '#features' },
               { label: 'How It Works', href: '#how-it-works' },
+              { label: 'Features', href: '#features' },
+              { label: 'Why Switch', href: '#why-switch' },
               { label: 'Compare', href: '#compare' },
             ].map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
                 className="nav-link-white text-[13px] font-semibold uppercase tracking-wider"
-                onClick={e => { e.preventDefault(); document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' }); }}
+                onClick={e => {
+                  e.preventDefault();
+                  scrollToSection(href.substring(1));
+                }}
               >{label}</a>
             ))}
             <a href="https://github.com/nearai/ironclaw" target="_blank" rel="noopener noreferrer" className="nav-link-white flex items-center gap-1 text-[13px] font-semibold uppercase tracking-wider">
@@ -1016,9 +1030,9 @@ export default function IronClawWhiteApp() {
         >
           <div style={{ paddingTop: '80px', paddingBottom: '24px', paddingLeft: '24px', paddingRight: '24px' }}>
             {[
-              { label: 'Why Switch', href: '#why-switch' },
-              { label: 'Features', href: '#features' },
               { label: 'How It Works', href: '#how-it-works' },
+              { label: 'Features', href: '#features' },
+              { label: 'Why Switch', href: '#why-switch' },
               { label: 'Compare', href: '#compare' },
               { label: 'GitHub', href: 'https://github.com' },
             ].map(({ label, href }) => (
@@ -1031,7 +1045,7 @@ export default function IronClawWhiteApp() {
                   if (href.startsWith('#')) {
                     e.preventDefault();
                     setIsMenuOpen(false);
-                    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+                    scrollToSection(href.substring(1));
                   }
                 }}
               >{label}</a>
@@ -1345,6 +1359,7 @@ export default function IronClawWhiteApp() {
       <HybridHorizontalMarquee />
 
       {/* ── Comparison Table ─────────────────────────────────────────────────── */}
+      <div id="compare-anchor" style={{ position: 'relative', height: 0, visibility: 'hidden' }} />
       <div id="compare" className="relative z-20 flex flex-col p-8 md:p-16" style={{ backgroundColor: '#f6f6f6', borderRadius: '2.5rem', border: '1px solid rgba(0,0,0,0.07)' }}>
         <div className="text-center mb-12">
           <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-4 text-balance" style={{ letterSpacing: '-0.03em', color: '#111' }}>Everything you like about OpenClaw.<br />Nothing you&apos;re worried about.</h2>
