@@ -29,8 +29,8 @@ const fkGroteskMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "NEAR AI – Demo Sites",
-  description: "Multi-site demo hub for NEAR AI projects",
+  title: "IronClaw - Secure AI Agents with Encrypted Enclaves",
+  description: "IronClaw: Unleash Your AI Agent, With Peace of Mind - On NEAR AI",
 };
 
 export default function RootLayout({
