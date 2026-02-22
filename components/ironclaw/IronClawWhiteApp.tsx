@@ -1186,7 +1186,7 @@ export default function IronClawWhiteApp() {
                 From zero to secure agent in minutes.
               </h2>
               <p className="text-lg leading-relaxed" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                IronClaw offers simple setup and built-in security for OpenClaw's personal AI assistant—powered by NEAR AI Cloud.
+                IronClaw offers simple setup and built-in security for OpenClaw's personal AI assistant—powered by NEAR AI Cloud or run locally.
               </p>
             </div>
 
