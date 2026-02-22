@@ -17,7 +17,7 @@ import {
   Cloud,
   CheckCircle2,
   XCircle,
-  Menu,
+  AlignRight,
   X,
   Activity,
   Network,
@@ -883,12 +883,14 @@ export default function IronClawWhiteApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' && window.innerWidth >= 1024);
   const [imageRight, setImageRight] = useState('right-16');
   const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
+      setIsDesktop(width >= 1024);
       if (width > 1580) {
         setImageRight('right-8');
       } else {
@@ -934,9 +936,9 @@ export default function IronClawWhiteApp() {
 
       {/* ── Nav ─────────────────────────────────────────────────────────────── */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center"
+        className="fixed top-0 left-0 right-0 z-[60] flex justify-center"
         style={{
-          transform: navVisible ? 'translateY(0)' : 'translateY(-160%)',
+          transform: !isDesktop ? 'translateY(0)' : (navVisible ? 'translateY(0)' : 'translateY(-160%)'),
           transition: 'transform 0.35s ease',
         }}
       >
@@ -945,7 +947,7 @@ export default function IronClawWhiteApp() {
           style={{
             width: '100%',
             maxWidth: scrolled ? '1472px' : '1600px',
-            padding: scrolled ? '8px' : '20px 60px',
+            padding: scrolled ? '16px 24px' : '20px 24px',
             backgroundColor: scrolled ? 'rgba(241,241,241,0.92)' : 'transparent',
             backdropFilter: scrolled ? 'blur(12px)' : 'none',
             border: '1px solid',
@@ -962,7 +964,7 @@ export default function IronClawWhiteApp() {
             </div>
           </div>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-8">
             {[
               { label: 'Why Switch', href: '#why-switch' },
               { label: 'Features', href: '#features' },
@@ -981,39 +983,63 @@ export default function IronClawWhiteApp() {
             </a>
           </div>
 
-          <GradientCipherButton label="Deploy Now" icon={Rocket} className="hidden md:flex text-sm px-6 py-3" onClick={() => window.open('https://agent.near.ai', '_blank')} />
+          <GradientCipherButton label="Deploy Now" icon={Rocket} className="hidden lg:flex text-sm px-6 py-3" onClick={() => window.open('https://agent.near.ai', '_blank')} />
 
-          <button className="md:hidden cursor-pointer" style={{ color: '#111' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X /> : <Menu />}
+          <button className="lg:hidden cursor-pointer" style={{ color: '#111' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={24} /> : <AlignRight size={24} />}
           </button>
         </div>
       </nav>
 
-      {isMenuOpen && (
-        <div className="md:hidden fixed top-[88px] left-0 w-full z-50 px-6 pb-4 border-b" style={{ backgroundColor: 'rgba(241,241,241,0.97)', backdropFilter: 'blur(20px)', borderColor: 'rgba(0,0,0,0.08)' }}>
-          {[
-            { label: 'Why Switch', href: '#why-switch' },
-            { label: 'Features', href: '#features' },
-            { label: 'How It Works', href: '#how-it-works' },
-            { label: 'Compare', href: '#compare' },
-            { label: 'GitHub', href: 'https://github.com' },
-          ].map(({ label, href }) => (
-            <a
-              key={label}
-              href={href}
-              className="block py-2 text-sm"
-              style={{ color: '#444' }}
-              onClick={e => {
-                if (href.startsWith('#')) {
-                  e.preventDefault();
-                  setIsMenuOpen(false);
-                  document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-            >{label}</a>
-          ))}
+      <>
+        {isMenuOpen && (
+          <div
+            className="lg:hidden fixed inset-0 z-40"
+            style={{
+              backgroundColor: 'rgba(0,0,0,0.4)',
+              opacity: isMenuOpen ? 1 : 0,
+              transition: 'opacity 0.3s ease'
+            }}
+            onClick={() => setIsMenuOpen(false)}
+          />
+        )}
+        <div
+          className="lg:hidden fixed top-0 left-0 w-full z-50"
+          style={{
+            backgroundColor: 'white',
+            transform: isMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
+            transition: 'transform 0.35s ease',
+            borderBottomLeftRadius: '16px',
+            borderBottomRightRadius: '16px',
+            boxShadow: isMenuOpen ? '0 8px 24px rgba(0,0,0,0.1)' : 'none'
+          }}
+        >
+          <div style={{ paddingTop: '80px', paddingBottom: '24px', paddingLeft: '24px', paddingRight: '24px' }}>
+            {[
+              { label: 'Why Switch', href: '#why-switch' },
+              { label: 'Features', href: '#features' },
+              { label: 'How It Works', href: '#how-it-works' },
+              { label: 'Compare', href: '#compare' },
+              { label: 'GitHub', href: 'https://github.com' },
+            ].map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                className="block py-3 text-sm font-medium"
+                style={{ color: '#111' }}
+                onClick={e => {
+                  if (href.startsWith('#')) {
+                    e.preventDefault();
+                    setIsMenuOpen(false);
+                    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >{label}</a>
+            ))}
+          </div>
         </div>
-      )}
+      </>
+
 
       {/* ── Hero — light mode ────────────────────────────────────────────────── */}
       <section
@@ -1055,7 +1081,7 @@ export default function IronClawWhiteApp() {
               </div>
 
               <h1
-                className="font-bold mb-3 md:mb-6 leading-none md:leading-tight text-4xl sm:text-5xl md:text-5xl lg:text-6xl"
+                className="font-bold mb-3 md:mb-6 leading-none md:leading-1.1 text-4xl sm:text-5xl md:text-5xl lg:text-6xl"
                 style={{ color: '#111', letterSpacing: '-0.02em', fontFamily: 'var(--font-fk-grotesk), sans-serif' }}
               >
                 <span style={{
