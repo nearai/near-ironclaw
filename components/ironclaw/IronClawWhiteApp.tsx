@@ -17,7 +17,7 @@ import {
   Cloud,
   CheckCircle2,
   XCircle,
-  Menu,
+  AlignRight,
   X,
   Activity,
   Network,
@@ -883,12 +883,14 @@ export default function IronClawWhiteApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' && window.innerWidth >= 1024);
   const [imageRight, setImageRight] = useState('right-16');
   const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
+      setIsDesktop(width >= 1024);
       if (width > 1580) {
         setImageRight('right-8');
       } else {
@@ -934,9 +936,9 @@ export default function IronClawWhiteApp() {
 
       {/* ── Nav ─────────────────────────────────────────────────────────────── */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center"
+        className="fixed top-0 left-0 right-0 z-[60] flex justify-center"
         style={{
-          transform: navVisible ? 'translateY(0)' : 'translateY(-160%)',
+          transform: !isDesktop ? 'translateY(0)' : (navVisible ? 'translateY(0)' : 'translateY(-160%)'),
           transition: 'transform 0.35s ease',
         }}
       >
@@ -945,7 +947,7 @@ export default function IronClawWhiteApp() {
           style={{
             width: '100%',
             maxWidth: scrolled ? '1472px' : '1600px',
-            padding: scrolled ? '8px' : '20px 60px',
+            padding: scrolled ? '8px' : '20px 24px',
             backgroundColor: scrolled ? 'rgba(241,241,241,0.92)' : 'transparent',
             backdropFilter: scrolled ? 'blur(12px)' : 'none',
             border: '1px solid',
@@ -954,15 +956,15 @@ export default function IronClawWhiteApp() {
             boxShadow: scrolled ? '0 8px 40px rgba(0,0,0,0.08)' : 'none',
           }}
         >
-          <div className="flex items-center gap-2">
-            <Shield size={28} style={{ color: '#4CA7E6' }} />
-            <div className="flex items-baseline gap-[1px]">
-              <span style={{ fontSize: '1.1rem', fontWeight: 400, letterSpacing: '-0.04em', color: '#111' }}>iron</span>
-              <span style={{ fontSize: '1.1rem', fontWeight: 700, letterSpacing: '-0.04em', color: '#4CA7E6' }}>claw</span>
-            </div>
-          </div>
+          <Image
+            src="/images/ironclaw-logo.svg"
+            alt="IronClaw"
+            width={140}
+            height={36}
+            style={{ height: 'auto' }}
+          />
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-8">
             {[
               { label: 'Why Switch', href: '#why-switch' },
               { label: 'Features', href: '#features' },
@@ -981,39 +983,63 @@ export default function IronClawWhiteApp() {
             </a>
           </div>
 
-          <GradientCipherButton label="Deploy Now" icon={Rocket} className="hidden md:flex text-sm px-6 py-3" onClick={() => window.open('https://agent.near.ai', '_blank')} />
+          <GradientCipherButton label="Deploy Now" icon={Rocket} className="hidden lg:flex text-sm px-6 py-3" onClick={() => window.open('https://agent.near.ai', '_blank')} />
 
-          <button className="md:hidden cursor-pointer" style={{ color: '#111' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X /> : <Menu />}
+          <button className="lg:hidden cursor-pointer" style={{ color: '#111' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={24} /> : <AlignRight size={24} />}
           </button>
         </div>
       </nav>
 
-      {isMenuOpen && (
-        <div className="md:hidden fixed top-[88px] left-0 w-full z-50 px-6 pb-4 border-b" style={{ backgroundColor: 'rgba(241,241,241,0.97)', backdropFilter: 'blur(20px)', borderColor: 'rgba(0,0,0,0.08)' }}>
-          {[
-            { label: 'Why Switch', href: '#why-switch' },
-            { label: 'Features', href: '#features' },
-            { label: 'How It Works', href: '#how-it-works' },
-            { label: 'Compare', href: '#compare' },
-            { label: 'GitHub', href: 'https://github.com' },
-          ].map(({ label, href }) => (
-            <a
-              key={label}
-              href={href}
-              className="block py-2 text-sm"
-              style={{ color: '#444' }}
-              onClick={e => {
-                if (href.startsWith('#')) {
-                  e.preventDefault();
-                  setIsMenuOpen(false);
-                  document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-            >{label}</a>
-          ))}
+      <>
+        {isMenuOpen && (
+          <div
+            className="lg:hidden fixed inset-0 z-40"
+            style={{
+              backgroundColor: 'rgba(0,0,0,0.4)',
+              opacity: isMenuOpen ? 1 : 0,
+              transition: 'opacity 0.3s ease'
+            }}
+            onClick={() => setIsMenuOpen(false)}
+          />
+        )}
+        <div
+          className="lg:hidden fixed top-0 left-0 w-full z-50"
+          style={{
+            backgroundColor: 'white',
+            transform: isMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
+            transition: 'transform 0.35s ease',
+            borderBottomLeftRadius: '16px',
+            borderBottomRightRadius: '16px',
+            boxShadow: isMenuOpen ? '0 8px 24px rgba(0,0,0,0.1)' : 'none'
+          }}
+        >
+          <div style={{ paddingTop: '80px', paddingBottom: '24px', paddingLeft: '24px', paddingRight: '24px' }}>
+            {[
+              { label: 'Why Switch', href: '#why-switch' },
+              { label: 'Features', href: '#features' },
+              { label: 'How It Works', href: '#how-it-works' },
+              { label: 'Compare', href: '#compare' },
+              { label: 'GitHub', href: 'https://github.com' },
+            ].map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                className="block py-3 text-sm font-medium"
+                style={{ color: '#111' }}
+                onClick={e => {
+                  if (href.startsWith('#')) {
+                    e.preventDefault();
+                    setIsMenuOpen(false);
+                    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >{label}</a>
+            ))}
+          </div>
         </div>
-      )}
+      </>
+
 
       {/* ── Hero — light mode ────────────────────────────────────────────────── */}
       <section
@@ -1024,7 +1050,7 @@ export default function IronClawWhiteApp() {
 
         {/* Desktop: absolutely positioned right */}
         <div
-          className="absolute bottom-[-35px] z-0 pointer-events-none hidden lg:block"
+          className="absolute bottom-[-35px] z-0 pointer-events-none hidden md:block"
           style={{
             right: imageRight === 'right-8' ? '140px' : '55px',
           }}
@@ -1055,8 +1081,8 @@ export default function IronClawWhiteApp() {
               </div>
 
               <h1
-                className="font-bold mb-3 md:mb-6"
-                style={{ color: '#111', fontSize: 'clamp(2rem, 5.2vw, 4.7rem)', lineHeight: 0.88, letterSpacing: '-0.02em', fontFamily: 'var(--font-fk-grotesk), sans-serif' }}
+                className="font-bold mb-3 md:mb-6 leading-none md:leading-1.1 text-4xl sm:text-5xl md:text-5xl lg:text-6xl"
+                style={{ color: '#111', letterSpacing: '-0.02em', fontFamily: 'var(--font-fk-grotesk), sans-serif' }}
               >
                 <span style={{
                   background: 'linear-gradient(to bottom, #4CA7E6 0%, #2882c8 100%)',
@@ -1094,7 +1120,7 @@ export default function IronClawWhiteApp() {
             </div>
 
             {/* Mobile-only: image in flow so hero expands to fit */}
-            <div className="flex justify-center pt-4 pb-2 lg:hidden">
+            <div className="flex justify-center pt-4 pb-2 md:hidden">
               <Image
                 src="/images/iron_claw_guy1.png"
                 alt="IronClaw"
@@ -1429,13 +1455,15 @@ export default function IronClawWhiteApp() {
         style={{ backgroundColor: '#f6f6f6', borderTop: '1px solid rgba(0,0,0,0.07)', borderRadius: '2.5rem 2.5rem 0 0', marginBottom: '-1px' }}
       >
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <Shield size={18} style={{ color: '#4CA7E6' }} />
-            <div className="flex items-baseline gap-[1px]">
-              <span style={{ fontWeight: 400, letterSpacing: '-0.04em', color: '#111' }}>iron</span>
-              <span style={{ fontWeight: 700, letterSpacing: '-0.04em', color: '#4CA7E6' }}>claw</span>
-            </div>
-            <span className="text-sm" style={{ color: '#888' }}>&nbsp;— by NEAR AI</span>
+          <div className="flex items-center gap-3">
+            <Image
+              src="/images/ironclaw-logo.svg"
+              alt="IronClaw"
+              width={110}
+              height={30}
+              style={{ height: 'auto' }}
+            />
+            <span className="text-sm" style={{ color: '#888' }}>— by NEAR AI</span>
           </div>
           <div className="flex items-center gap-8">
             {[
