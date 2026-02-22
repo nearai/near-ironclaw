@@ -1455,27 +1455,27 @@ export default function IronClawWhiteApp() {
         style={{ backgroundColor: '#f6f6f6', borderTop: '1px solid rgba(0,0,0,0.07)', borderRadius: '2.5rem 2.5rem 0 0', marginBottom: '-1px' }}
       >
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-0">
             <Image
               src="/images/ironclaw-logo.png"
               alt="IronClaw"
-              width={110}
-              height={30}
+              width={130}
+              height={36}
               style={{ height: 'auto' }}
             />
-            <span className="text-sm" style={{ color: '#888' }}>— by NEAR AI</span>
+            <span className="text-sm" style={{ color: '#888', marginLeft: '-8px' }}>— by NEAR AI</span>
           </div>
           <div className="flex items-center gap-8">
             {[
               { label: 'GitHub', href: 'https://github.com/nearai/ironclaw' },
-              { label: 'NEAR AI', href: '#' },
-              { label: 'OpenClaw', href: '#' },
+              { label: 'NEAR AI', href: 'https://near.ai' },
+              { label: 'OpenClaw', href: 'https://agent.near.ai' },
             ].map(link => (
               <a
                 key={link.label}
                 href={link.href}
-                target={link.href !== '#' ? '_blank' : undefined}
-                rel={link.href !== '#' ? 'noopener noreferrer' : undefined}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-base transition-colors"
                 style={{ color: '#4CA7E6' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#111')}
