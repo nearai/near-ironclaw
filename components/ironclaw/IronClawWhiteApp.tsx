@@ -957,7 +957,7 @@ export default function IronClawWhiteApp() {
           }}
         >
           <Image
-            src="/images/ironclaw-logo.svg"
+            src="/images/ironclaw-logo.png"
             alt="IronClaw"
             width={140}
             height={36}
@@ -1457,7 +1457,7 @@ export default function IronClawWhiteApp() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
             <Image
-              src="/images/ironclaw-logo.svg"
+              src="/images/ironclaw-logo.png"
               alt="IronClaw"
               width={110}
               height={30}
