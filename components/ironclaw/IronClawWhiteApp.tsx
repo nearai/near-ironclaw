@@ -947,7 +947,7 @@ export default function IronClawWhiteApp() {
           style={{
             width: '100%',
             maxWidth: scrolled ? '1472px' : '1600px',
-            padding: scrolled ? '16px 24px' : '20px 24px',
+            padding: scrolled ? '8px' : '20px 24px',
             backgroundColor: scrolled ? 'rgba(241,241,241,0.92)' : 'transparent',
             backdropFilter: scrolled ? 'blur(12px)' : 'none',
             border: '1px solid',
@@ -956,13 +956,13 @@ export default function IronClawWhiteApp() {
             boxShadow: scrolled ? '0 8px 40px rgba(0,0,0,0.08)' : 'none',
           }}
         >
-          <div className="flex items-center gap-2">
-            <Shield size={28} style={{ color: '#4CA7E6' }} />
-            <div className="flex items-baseline gap-[1px]">
-              <span style={{ fontSize: '1.1rem', fontWeight: 400, letterSpacing: '-0.04em', color: '#111' }}>iron</span>
-              <span style={{ fontSize: '1.1rem', fontWeight: 700, letterSpacing: '-0.04em', color: '#4CA7E6' }}>claw</span>
-            </div>
-          </div>
+          <Image
+            src="/images/ironclaw-logo.svg"
+            alt="IronClaw"
+            width={140}
+            height={36}
+            style={{ height: 'auto' }}
+          />
 
           <div className="hidden lg:flex items-center gap-8">
             {[
@@ -1455,13 +1455,15 @@ export default function IronClawWhiteApp() {
         style={{ backgroundColor: '#f6f6f6', borderTop: '1px solid rgba(0,0,0,0.07)', borderRadius: '2.5rem 2.5rem 0 0', marginBottom: '-1px' }}
       >
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <Shield size={18} style={{ color: '#4CA7E6' }} />
-            <div className="flex items-baseline gap-[1px]">
-              <span style={{ fontWeight: 400, letterSpacing: '-0.04em', color: '#111' }}>iron</span>
-              <span style={{ fontWeight: 700, letterSpacing: '-0.04em', color: '#4CA7E6' }}>claw</span>
-            </div>
-            <span className="text-sm" style={{ color: '#888' }}>&nbsp;— by NEAR AI</span>
+          <div className="flex items-center gap-3">
+            <Image
+              src="/images/ironclaw-logo.svg"
+              alt="IronClaw"
+              width={110}
+              height={30}
+              style={{ height: 'auto' }}
+            />
+            <span className="text-sm" style={{ color: '#888' }}>— by NEAR AI</span>
           </div>
           <div className="flex items-center gap-8">
             {[
