@@ -41,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* <head>
+      <head>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17691708623"
           strategy="afterInteractive"
@@ -54,7 +54,7 @@ export default function RootLayout({
             gtag('config', 'AW-17691708623');
           `}
         </Script>
-      </head> */}
+      </head>
       <body className={`${fkGrotesk.variable} ${fkGroteskMono.variable} antialiased`}>
         {children}
       </body>
