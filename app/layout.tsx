@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import "./globals.css";
 
 const fkGrotesk = localFont({
@@ -29,8 +30,30 @@ const fkGroteskMono = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ironclaw.com"),
   title: "IronClaw - Secure AI Agents with Encrypted Enclaves",
   description: "IronClaw: Unleash Your AI Agent, With Peace of Mind - On NEAR AI",
+  openGraph: {
+    title: "IronClaw - Secure AI Agents with Encrypted Enclaves",
+    description: "IronClaw: Unleash Your AI Agent, With Peace of Mind - On NEAR AI",
+    url: "https://ironclaw.com",
+    siteName: "IronClaw",
+    images: [
+      {
+        url: "/featured-v1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "IronClaw - Secure AI Agents with Encrypted Enclaves",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IronClaw - Secure AI Agents with Encrypted Enclaves",
+    description: "IronClaw: Unleash Your AI Agent, With Peace of Mind - On NEAR AI",
+    images: ["/featured-v1.jpg"],
+  },
 };
 
 export default function RootLayout({
@@ -40,6 +63,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17691708623"
+          strategy="afterInteractive"
+        />
+        <Script id="google-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17691708623');
+          `}
+        </Script>
+      </head>
       <body className={`${fkGrotesk.variable} ${fkGroteskMono.variable} antialiased`}>
         {children}
       </body>

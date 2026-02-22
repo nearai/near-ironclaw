@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /demos/
+Disallow: /ironclaw/
+Disallow: /ironclaw-blue/
+Disallow: /ironclaw-blue-grid/
+Disallow: /ironclaw-forest/
+Disallow: /ironclaw-hybrid/
+Disallow: /ironclaw-magnetic/
+Disallow: /ironclaw-near/
+Disallow: /ironclaw-renew/
+Disallow: /ironclaw-sticky/
+Disallow: /ironclaw-v2/
+Disallow: /ironclaw-white/
