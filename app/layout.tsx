@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import "./globals.css";
 
 const fkGrotesk = localFont({
@@ -40,6 +41,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17691708623"
+          strategy="afterInteractive"
+        />
+        <Script id="google-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17691708623');
+          `}
+        </Script>
+      </head> */}
       <body className={`${fkGrotesk.variable} ${fkGroteskMono.variable} antialiased`}>
         {children}
       </body>
