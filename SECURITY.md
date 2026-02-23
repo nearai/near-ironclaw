@@ -26,10 +26,18 @@ Added middleware with security headers to protect against common attacks:
 
 ### Dev Dependencies Vulnerabilities
 There are 14 high-severity vulnerabilities in transitive dev dependencies:
-- **Location**: `eslint-config-next` internal dependencies (`minimatch` ReDoS vulnerabilities)
-- **Impact**: Dev-time only, does not affect production build
-- **Status**: Upstream issue - awaiting eslint-config-next updates to resolve
-- **Workaround**: These are in dev dependencies and are lower priority than production vulnerabilities
+- **Location**: ESLint plugin ecosystem transitive dependencies
+  - `minimatch` ReDoS via repeated wildcards
+  - `ajv` ReDoS when using `$data` option
+- **Affected Packages**: `eslint-plugin-import`, `eslint-plugin-react`, `@typescript-eslint/*`
+- **Impact**: Dev-time only, does NOT affect production build or runtime
+- **Severity**: Low for production - these only affect development/linting workflow
+- **Status**: Upstream issue - waiting for eslint ecosystem to update minimatch to >=10.2.1
+- **Workaround**:
+  - These are in dev dependencies (`eslint-config-next`)
+  - Production bundle is NOT affected
+  - Build verification: ✅ Production build succeeds without issues
+  - Recommendation: Monitor for upstream updates but not critical for production
 
 ## TypeScript Configuration
 - Strict mode enabled for type safety
