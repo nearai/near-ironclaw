@@ -25,6 +25,7 @@ import {
   Database,
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
+import { usePostHog } from 'posthog-js/react';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Magnetic Canvas — blue dots on dark bg
@@ -897,6 +898,16 @@ export default function IronClawWhiteApp() {
   const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' && window.innerWidth >= 1024);
   const [imageRight, setImageRight] = useState('right-16');
   const lastScrollY = useRef(0);
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    posthog?.capture('page_view', {
+      page_url: window.location.href,
+      page_path: window.location.pathname,
+      page_title: document.title,
+      referrer: document.referrer,
+    });
+  }, [posthog]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -988,16 +999,26 @@ export default function IronClawWhiteApp() {
                 className="nav-link-white text-[13px] font-semibold uppercase tracking-wider"
                 onClick={e => {
                   e.preventDefault();
+                  posthog?.capture('nav_section_clicked', {
+                    section: href.substring(1),
+                  });
                   scrollToSection(href.substring(1));
                 }}
               >{label}</a>
             ))}
-            <a href="https://github.com/nearai/ironclaw" target="_blank" rel="noopener noreferrer" className="nav-link-white flex items-center gap-1 text-[13px] font-semibold uppercase tracking-wider">
+            <a href="https://github.com/nearai/ironclaw" target="_blank" rel="noopener noreferrer" className="nav-link-white flex items-center gap-1 text-[13px] font-semibold uppercase tracking-wider" onClick={() => posthog?.capture('cta_clicked', { cta_text: 'GitHub', cta_type: 'github', page_section: 'nav' })}>
               <Github size={14} /> GitHub
             </a>
           </div>
 
-          <GradientCipherButton label="Deploy Now" icon={Rocket} className="hidden lg:flex text-sm px-6 py-3" onClick={() => window.open('https://agent.near.ai', '_blank')} />
+          <GradientCipherButton label="Deploy Now" icon={Rocket} className="hidden lg:flex text-sm px-6 py-3" onClick={() => {
+            posthog?.capture('cta_clicked', {
+              cta_text: 'Deploy Now',
+              cta_type: 'deploy',
+              page_section: 'nav',
+            });
+            window.open('https://agent.near.ai?utm_source=ironclaw&utm_medium=web&utm_campaign=nav_deploy', '_blank');
+          }} />
 
           <button className="lg:hidden cursor-pointer" style={{ color: '#111' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X size={24} /> : <AlignRight size={24} />}
@@ -1034,18 +1055,29 @@ export default function IronClawWhiteApp() {
               { label: 'Features', href: '#features' },
               { label: 'Why Switch', href: '#why-switch' },
               { label: 'Compare', href: '#compare' },
-              { label: 'GitHub', href: 'https://github.com' },
+              { label: 'GitHub', href: 'https://github.com/nearai/ironclaw' },
             ].map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
                 className="block py-3 text-sm font-medium"
                 style={{ color: '#111' }}
+                target={href.startsWith('#') ? undefined : '_blank'}
+                rel={href.startsWith('#') ? undefined : 'noopener noreferrer'}
                 onClick={e => {
                   if (href.startsWith('#')) {
                     e.preventDefault();
                     setIsMenuOpen(false);
+                    posthog?.capture('nav_section_clicked', {
+                      section: href.substring(1),
+                    });
                     scrollToSection(href.substring(1));
+                  } else {
+                    posthog?.capture('cta_clicked', {
+                      cta_text: label,
+                      cta_type: 'github',
+                      page_section: 'nav',
+                    });
                   }
                 }}
               >{label}</a>
@@ -1118,7 +1150,14 @@ export default function IronClawWhiteApp() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-6 md:mb-12">
-                <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} onClick={() => window.open('https://agent.near.ai', '_blank')} />
+                <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} onClick={() => {
+                  posthog?.capture('cta_clicked', {
+                    cta_text: 'Deploy Secure Agent',
+                    cta_type: 'deploy',
+                    page_section: 'hero',
+                  });
+                  window.open('https://agent.near.ai?utm_source=ironclaw&utm_medium=web&utm_campaign=hero_deploy', '_blank');
+                }} />
                 <a
                   href="https://github.com/nearai/ironclaw"
                   target="_blank"
@@ -1127,6 +1166,11 @@ export default function IronClawWhiteApp() {
                   style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent', color: '#111', textDecoration: 'none' }}
                   onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
                   onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#111'; e.currentTarget.style.boxShadow = 'none'; }}
+                  onClick={() => posthog?.capture('cta_clicked', {
+                    cta_text: 'Read the Source',
+                    cta_type: 'github',
+                    page_section: 'hero',
+                  })}
                 >
                   <span className="group-hover:[animation:github-nudge_3.5s_ease-in-out_infinite]"><Github size={19} /></span> Read the Source
                 </a>
@@ -1449,7 +1493,14 @@ export default function IronClawWhiteApp() {
           Open source. One-click deploy on NEAR AI Cloud. Your secrets never leave the encrypted vault.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10 w-full sm:w-auto">
-          <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} className="w-full sm:w-auto" onClick={() => window.open('https://agent.near.ai', '_blank')} />
+          <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} className="w-full sm:w-auto" onClick={() => {
+            posthog?.capture('cta_clicked', {
+              cta_text: 'Deploy Secure Agent',
+              cta_type: 'deploy',
+              page_section: 'bottom',
+            });
+            window.open('https://agent.near.ai?utm_source=ironclaw&utm_medium=web&utm_campaign=bottom_deploy', '_blank');
+          }} />
           <a
             href="https://github.com/nearai/ironclaw"
             target="_blank"
@@ -1458,6 +1509,11 @@ export default function IronClawWhiteApp() {
             style={{ border: '2px solid rgba(76,167,230,0.6)', backgroundColor: 'transparent', borderRadius: '16px', color: '#fff', textDecoration: 'none' }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = 'none'; }}
+            onClick={() => posthog?.capture('cta_clicked', {
+              cta_text: 'Star on GitHub',
+              cta_type: 'github',
+              page_section: 'bottom',
+            })}
           >
             <span className="group-hover:[animation:github-nudge_3.5s_ease-in-out_infinite]"><Github size={21} /></span> Star on GitHub
           </a>
@@ -1482,9 +1538,9 @@ export default function IronClawWhiteApp() {
           </div>
           <div className="flex items-center gap-8">
             {[
-              { label: 'GitHub', href: 'https://github.com/nearai/ironclaw' },
-              { label: 'NEAR AI', href: 'https://near.ai' },
-              { label: 'OpenClaw', href: 'https://agent.near.ai' },
+              { label: 'GitHub', href: 'https://github.com/nearai/ironclaw', cta_type: 'github' },
+              { label: 'NEAR AI', href: 'https://near.ai?utm_source=ironclaw&utm_medium=web&utm_campaign=footer_link', cta_type: 'near_ai' },
+              { label: 'OpenClaw', href: 'https://agent.near.ai?utm_source=ironclaw&utm_medium=web&utm_campaign=footer_openclaw', cta_type: 'deploy' },
             ].map(link => (
               <a
                 key={link.label}
@@ -1495,6 +1551,11 @@ export default function IronClawWhiteApp() {
                 style={{ color: '#4CA7E6' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#111')}
                 onMouseLeave={e => (e.currentTarget.style.color = '#4CA7E6')}
+                onClick={() => posthog?.capture('cta_clicked', {
+                  cta_text: link.label,
+                  cta_type: link.cta_type,
+                  page_section: 'footer',
+                })}
               >
                 {link.label}
               </a>
