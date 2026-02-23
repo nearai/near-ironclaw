@@ -900,14 +900,6 @@ export default function IronClawWhiteApp() {
   const lastScrollY = useRef(0);
   const posthog = usePostHog();
 
-  useEffect(() => {
-    posthog?.capture('page_view', {
-      page_url: window.location.href,
-      page_path: window.location.pathname,
-      page_title: document.title,
-      referrer: document.referrer,
-    });
-  }, [posthog]);
 
   useEffect(() => {
     const handleResize = () => {

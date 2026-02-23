@@ -13,10 +13,19 @@ export function PHProvider({ children }: { children: React.ReactNode }) {
       cookie_expiration: 90,
       respect_dnt: true,
       opt_out_capturing_by_default: false,
+      loaded: (ph) => {
+        ph.capture('page_view', {
+          page_url: window.location.href,
+          page_path: window.location.pathname,
+          page_title: document.title,
+          referrer: document.referrer,
+        })
+        if ((navigator as any).globalPrivacyControl === true) {
+          ph.opt_out_capturing()
+        }
+      },
     })
-    if ((navigator as any).globalPrivacyControl === true) {
-      posthog.opt_out_capturing()
-    }
   }, [])
+
   return <PostHogProvider client={posthog}>{children}</PostHogProvider>
 }
