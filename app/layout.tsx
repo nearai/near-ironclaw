@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
+import { PHProvider } from "./providers";
 
 const fkGrotesk = localFont({
   src: [
@@ -78,7 +79,11 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={`${fkGrotesk.variable} ${fkGroteskMono.variable} antialiased`}>
-        {children}
+        {process.env.NEXT_PUBLIC_POSTHOG_KEY ? (
+          <PHProvider>{children}</PHProvider>
+        ) : (
+          children
+        )}
       </body>
     </html>
   );
