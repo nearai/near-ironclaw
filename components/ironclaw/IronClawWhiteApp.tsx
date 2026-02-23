@@ -312,21 +312,34 @@ type GradientCipherButtonProps = {
   icon?: React.ComponentType<LucideProps>;
   onClick?: () => void;
   className?: string;
+  color?: 'blue' | 'red';
 };
 
-const GradientCipherButton = ({ label, icon: Icon, onClick, className = '' }: GradientCipherButtonProps) => {
+const GradientCipherButton = ({ label, icon: Icon, onClick, className = '', color = 'blue' }: GradientCipherButtonProps) => {
   const [hovered, setHovered] = useState(false);
+
+  const colorConfig = color === 'red'
+    ? {
+        gradient: 'radial-gradient(ellipse 100% 100% at 50% 130%, #DC3545 0%, #A71D2A 65%)',
+        hoverGradient: 'radial-gradient(ellipse 200% 220% at 50% 110%, #E85D75 0%, #A71D2A 60%)',
+        shadowColor: 'rgba(220, 53, 69, 0.55)',
+      }
+    : {
+        gradient: 'radial-gradient(ellipse 100% 100% at 50% 130%, #4CA7E6 0%, #2882c8 65%)',
+        hoverGradient: 'radial-gradient(ellipse 200% 220% at 50% 110%, #5BBAF5 0%, #2882c8 60%)',
+        shadowColor: 'rgba(76,167,230,0.55)',
+      };
 
   return (
     <button
       onClick={onClick}
       className={`font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 relative overflow-hidden whitespace-nowrap cursor-pointer ${className}`}
       style={{
-        background: 'radial-gradient(ellipse 100% 100% at 50% 130%, #4CA7E6 0%, #2882c8 65%)',
+        background: colorConfig.gradient,
         color: '#fff',
         borderRadius: '16px',
         transition: 'box-shadow 0.3s ease',
-        boxShadow: hovered ? '0 24px 24px -20px rgba(76,167,230,0.55)' : 'none',
+        boxShadow: hovered ? `0 24px 24px -20px ${colorConfig.shadowColor}` : 'none',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -336,7 +349,7 @@ const GradientCipherButton = ({ label, icon: Icon, onClick, className = '' }: Gr
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(ellipse 200% 220% at 50% 110%, #5BBAF5 0%, #2882c8 60%)',
+          background: colorConfig.hoverGradient,
           opacity: hovered ? 1 : 0,
           transition: 'opacity 0.35s ease',
           borderRadius: '16px',
@@ -1150,7 +1163,7 @@ export default function IronClawWhiteApp() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-6 md:mb-12">
-                <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} onClick={() => {
+                <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} color="red" onClick={() => {
                   posthog?.capture('cta_clicked', {
                     cta_text: 'Deploy Secure Agent',
                     cta_type: 'deploy',
@@ -1163,8 +1176,8 @@ export default function IronClawWhiteApp() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 transition-all cursor-pointer"
-                  style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent', color: '#111', textDecoration: 'none' }}
-                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
+                  style={{ border: '2px solid rgba(220,53,69,0.6)', borderRadius: '16px', backgroundColor: 'transparent', color: '#111', textDecoration: 'none' }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#DC3545'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(220,53,69,0.55)'; }}
                   onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#111'; e.currentTarget.style.boxShadow = 'none'; }}
                   onClick={() => posthog?.capture('cta_clicked', {
                     cta_text: 'Read the Source',
