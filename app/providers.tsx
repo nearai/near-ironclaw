@@ -14,6 +14,7 @@ export function PHProvider({ children }: { children: React.ReactNode }) {
       respect_dnt: true,
       opt_out_capturing_by_default: false,
       loaded: (ph) => {
+        ;(window as any).posthog = ph
         ph.capture('page_view', {
           page_url: window.location.href,
           page_path: window.location.pathname,
