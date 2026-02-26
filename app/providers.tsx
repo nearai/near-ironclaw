@@ -12,8 +12,10 @@ export function PHProvider({ children }: { children: React.ReactNode }) {
       persistence: 'localStorage+cookie',
       cookie_expiration: 90,
       respect_dnt: true,
+      disable_session_recording: true,
       opt_out_capturing_by_default: false,
       loaded: (ph) => {
+        ;(window as any).posthog = ph
         ph.capture('page_view', {
           page_url: window.location.href,
           page_path: window.location.pathname,
