@@ -1512,6 +1512,32 @@ export default function IronClawWhiteApp() {
         </div>
       </div>
 
+      {/* ── Meetup Section ────────────────────────────────────────────────────── */}
+      <div className="relative z-20 flex flex-col items-center justify-center p-12 md:p-16" style={{ backgroundColor: '#f6f6f6', borderRadius: '2.5rem', border: '1px solid rgba(0,0,0,0.07)' }}>
+        <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-4 text-balance text-center" style={{ letterSpacing: '-0.03em', color: '#111' }}>
+          Join the next IronClaw Meetup
+        </h2>
+        <p className="text-lg max-w-2xl mx-auto mb-8 text-balance text-center" style={{ color: 'rgba(0,0,0,0.55)' }}>
+          online or IRL and start launching your agents
+        </p>
+        <a
+          href="https://wagmipilled.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-8 py-3 font-bold transition-all"
+          style={{ backgroundColor: '#4CA7E6', color: '#fff', borderRadius: '16px', textDecoration: 'none', cursor: 'pointer' }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#3a8bc0'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; }}
+          onClick={() => posthog?.capture('cta_clicked', {
+            cta_text: 'Explore Events',
+            cta_type: 'meetup',
+            page_section: 'meetup',
+          })}
+        >
+          Explore Events
+        </a>
+      </div>
+
       {/* ── Footer ───────────────────────────────────────────────────────────── */}
       <footer
         className="relative z-10 py-10 px-6"
