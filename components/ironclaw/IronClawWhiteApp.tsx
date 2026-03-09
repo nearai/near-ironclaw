@@ -1521,7 +1521,7 @@ export default function IronClawWhiteApp() {
           online or IRL and start launching your agents
         </p>
         <a
-          href="https://wagmipilled.com/"
+          href="https://community.ironclaw.com/"
           target="_blank"
           rel="noopener noreferrer"
           className="px-8 py-3 font-bold transition-all"
