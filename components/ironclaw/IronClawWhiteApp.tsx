@@ -1354,14 +1354,14 @@ export default function IronClawWhiteApp() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
               <div>
                 <p className="text-lg leading-relaxed mb-6" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                  IronClaw&apos;s security model doesn&apos;t rely on telling the AI &quot;please don&apos;t leak this.&quot; Your credentials live in a Trusted Execution Environment that provides hardware-enforced security. Your credentials are injected at the network boundary—only for endpoints you&apos;ve pre-approved.
+                  IronClaw&apos;s security model doesn&apos;t rely on telling the AI &quot;please don&apos;t leak this.&quot; Your credentials are injected at the network boundary—only for endpoints you&apos;ve pre-approved.
                 </p>
                 <p className="text-lg leading-relaxed mb-6 lg:mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
                   Every tool runs in its own WebAssembly sandbox with no filesystem access and no outbound connections beyond your allowlist. The entire runtime is Rust — no garbage collector, no buffer overflows, no use-after-free.
                 </p>
                 {/* Mobile: 2-2-1 */}
                 <div className="flex flex-col gap-2 lg:hidden">
-                {[['Rust', 'Wasm Sandbox'], ['Encrypted Vault', 'TEE / CVM'], ['Endpoint Allowlist']].map((row, r) => (
+                {[['Rust', 'Wasm Sandbox'], ['Encrypted Vault', 'CVM'], ['Endpoint Allowlist']].map((row, r) => (
                   <div key={r} className="flex gap-2">
                     {row.map(tag => (
                       <span key={tag} className="font-mono-ic px-2.5 py-0.5 rounded-full text-[11px] font-normal" style={{ backgroundColor: 'rgba(76,167,230,0.1)', color: '#4CA7E6', border: '1px solid rgba(76,167,230,0.25)' }}>{tag}</span>
@@ -1371,7 +1371,7 @@ export default function IronClawWhiteApp() {
                 </div>
                 {/* Desktop: 3-2 */}
                 <div className="hidden lg:flex flex-col gap-2">
-                {[['Rust', 'Wasm Sandbox', 'Encrypted Vault'], ['TEE / CVM', 'Endpoint Allowlist']].map((row, r) => (
+                {[['Rust', 'Wasm Sandbox', 'Encrypted Vault'], ['CVM', 'Endpoint Allowlist']].map((row, r) => (
                   <div key={r} className="flex gap-2">
                     {row.map(tag => (
                       <span key={tag} className="font-mono-ic px-3 py-1 rounded-full text-[14px] font-normal" style={{ backgroundColor: 'rgba(76,167,230,0.1)', color: '#4CA7E6', border: '1px solid rgba(76,167,230,0.25)' }}>{tag}</span>
