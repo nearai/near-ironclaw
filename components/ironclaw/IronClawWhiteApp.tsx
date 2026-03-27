@@ -1554,6 +1554,59 @@ export default function IronClawWhiteApp() {
             />
             <span className="text-sm" style={{ color: '#888', marginLeft: '-8px' }}>— by NEAR AI</span>
           </div>
+          <div className="flex items-center gap-5">
+            {[
+              {
+                label: 'X',
+                href: 'https://x.com/near_ai',
+                cta_type: 'x_twitter',
+                icon: (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                ),
+              },
+              {
+                label: 'Reddit',
+                href: 'https://www.reddit.com/r/nearprotocol/',
+                cta_type: 'reddit',
+                icon: (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.373 0 0 5.373 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12C24 5.373 18.627 0 12 0zm6.066 13.612c.037.201.055.406.055.613 0 3.14-3.656 5.688-8.167 5.688-4.51 0-8.167-2.548-8.167-5.688 0-.207.018-.412.055-.613a1.64 1.64 0 0 1-.654-1.31 1.65 1.65 0 0 1 1.647-1.647c.429 0 .816.17 1.103.443 1.09-.744 2.585-1.22 4.242-1.282l.812-3.823a.39.39 0 0 1 .463-.3l2.713.578a1.17 1.17 0 0 1 1.096-.76 1.174 1.174 0 0 1 0 2.348 1.17 1.17 0 0 1-1.146-.94l-2.42-.516-.724 3.406c1.628.073 3.092.55 4.163 1.282.287-.273.674-.443 1.103-.443a1.65 1.65 0 0 1 1.647 1.647c0 .524-.249.99-.637 1.29zM9.166 12.986a1.174 1.174 0 1 0 0 2.348 1.174 1.174 0 0 0 0-2.348zm5.668 0a1.174 1.174 0 1 0 0 2.348 1.174 1.174 0 0 0 0-2.348zm-4.94 3.87a.39.39 0 0 1 .55-.55c.745.745 2.366.805 3.556 0a.39.39 0 0 1 .55.55c-1.078 1.078-3.578 1.078-4.656 0z" />
+                  </svg>
+                ),
+              },
+              {
+                label: 'Telegram',
+                href: 'https://t.me/ironclawAI',
+                cta_type: 'telegram',
+                icon: (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                  </svg>
+                ),
+              },
+            ].map(link => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.label}
+                className="transition-colors"
+                style={{ color: '#4CA7E6' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#111')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#4CA7E6')}
+                onClick={() => posthog?.capture('cta_clicked', {
+                  cta_text: link.label,
+                  cta_type: link.cta_type,
+                  page_section: 'footer',
+                })}
+              >
+                {link.icon}
+              </a>
+            ))}
+          </div>
           <div className="flex items-center gap-8">
             {[
               { label: 'GitHub', href: 'https://github.com/nearai/ironclaw', cta_type: 'github' },
