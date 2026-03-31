@@ -23,6 +23,7 @@ import {
   Network,
   ArrowRight,
   Database,
+  BookOpen,
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import { usePostHog } from 'posthog-js/react';
@@ -998,6 +999,9 @@ export default function IronClawWhiteApp() {
                 }}
               >{label}</a>
             ))}
+            <a href="https://docs.ironclaw.com" target="_blank" rel="noopener noreferrer" className="nav-link-white text-[13px] font-semibold uppercase tracking-wider" onClick={() => posthog?.capture('cta_clicked', { cta_text: 'Docs', cta_type: 'docs', page_section: 'nav' })}>
+              Docs
+            </a>
             <a href="https://github.com/nearai/ironclaw" target="_blank" rel="noopener noreferrer" className="nav-link-white flex items-center gap-1 text-[13px] font-semibold uppercase tracking-wider" onClick={() => posthog?.capture('cta_clicked', { cta_text: 'GitHub', cta_type: 'github', page_section: 'nav' })}>
               <Github size={14} /> GitHub
             </a>
@@ -1047,6 +1051,7 @@ export default function IronClawWhiteApp() {
               { label: 'Features', href: '#features' },
               { label: 'Why Switch', href: '#why-switch' },
               { label: 'Compare', href: '#compare' },
+              { label: 'Docs', href: 'https://docs.ironclaw.com' },
               { label: 'GitHub', href: 'https://github.com/nearai/ironclaw' },
             ].map(({ label, href }) => (
               <a
@@ -1165,6 +1170,22 @@ export default function IronClawWhiteApp() {
                   })}
                 >
                   <span className="group-hover:[animation:github-nudge_3.5s_ease-in-out_infinite]"><Github size={19} /></span> Read the Source
+                </a>
+                <a
+                  href="https://docs.ironclaw.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent', color: '#111', textDecoration: 'none' }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#111'; e.currentTarget.style.boxShadow = 'none'; }}
+                  onClick={() => posthog?.capture('cta_clicked', {
+                    cta_text: 'Docs',
+                    cta_type: 'docs',
+                    page_section: 'hero',
+                  })}
+                >
+                  <BookOpen size={19} /> Docs
                 </a>
               </div>
             </div>
@@ -1509,6 +1530,22 @@ export default function IronClawWhiteApp() {
           >
             <span className="group-hover:[animation:github-nudge_3.5s_ease-in-out_infinite]"><Github size={21} /></span> Star on GitHub
           </a>
+          <a
+            href="https://docs.ironclaw.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-3 font-bold flex items-center justify-center gap-2 transition-all w-full sm:w-auto cursor-pointer"
+            style={{ border: '2px solid rgba(76,167,230,0.6)', backgroundColor: 'transparent', borderRadius: '16px', color: '#fff', textDecoration: 'none' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = 'none'; }}
+            onClick={() => posthog?.capture('cta_clicked', {
+              cta_text: 'Docs',
+              cta_type: 'docs',
+              page_section: 'bottom',
+            })}
+          >
+            <BookOpen size={21} /> Docs
+          </a>
         </div>
       </div>
 
@@ -1530,6 +1567,7 @@ export default function IronClawWhiteApp() {
           </div>
           <div className="flex items-center gap-8">
             {[
+              { label: 'Docs', href: 'https://docs.ironclaw.com', cta_type: 'docs' },
               { label: 'GitHub', href: 'https://github.com/nearai/ironclaw', cta_type: 'github' },
               { label: 'NEAR AI', href: 'https://near.ai?utm_source=ironclaw&utm_medium=web&utm_campaign=footer_link', cta_type: 'near_ai' },
               { label: 'OpenClaw', href: 'https://agent.near.ai?utm_source=ironclaw&utm_medium=web&utm_campaign=footer_openclaw', cta_type: 'deploy' },
