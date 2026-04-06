@@ -847,9 +847,10 @@ type PricingCardProps = {
   description: string;
   features: string[];
   popular?: boolean;
+  ctaLabel?: string;
 };
 
-function PricingCard({ name, price, originalPrice, period, description, features, popular }: PricingCardProps) {
+function PricingCard({ name, price, originalPrice, period, description, features, popular, ctaLabel = 'Get Started' }: PricingCardProps) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -878,7 +879,7 @@ function PricingCard({ name, price, originalPrice, period, description, features
         <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.9rem' }}>{period}</span>
       </div>
       <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.875rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>{description}</p>
-      <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+      <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1.75rem' }}>
         {features.map(f => (
           <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>
             <CheckCircle2 size={16} style={{ color: '#4CA7E6', flexShrink: 0 }} />
@@ -886,6 +887,27 @@ function PricingCard({ name, price, originalPrice, period, description, features
           </li>
         ))}
       </ul>
+      <a
+        href={`https://agent.near.ai?utm_source=ironclaw&utm_medium=web&utm_campaign=pricing_${name.toLowerCase().replace('+', 'plus')}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: 'block',
+          padding: '0.75rem',
+          textAlign: 'center',
+          borderRadius: '12px',
+          backgroundColor: '#fff',
+          color: '#111',
+          fontWeight: 700,
+          fontSize: '0.95rem',
+          textDecoration: 'none',
+          transition: 'opacity 0.2s',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+        onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+      >
+        {ctaLabel}
+      </a>
     </div>
   );
 }
@@ -1469,22 +1491,22 @@ export default function IronClawWhiteApp() {
               originalPrice="$5"
               period="/month"
               description="Activate 1 agent instance in our secure environment, and use NEAR AI Inference to power your agent"
-              features={['Secure deployment', 'Trusted Execution Environment', 'Pay per usage token']}
+              features={['Secure deployment', 'Trusted Execution Environment', 'NEAR AI Inference', '$5 credits included']}
             />
             <PricingCard
               name="Basic"
               price="$20"
               period="/month"
               description="Everything you need to get started, plus credits to get up and running quickly with up to 2 agent instances"
-              features={['Everything in Starter', 'Included 13M tokens', 'Usage pooling']}
+              features={['Everything in Starter', 'Shared across all deployments', 'Usage pooling', '$20 credits included']}
               popular
             />
             <PricingCard
               name="Pro+"
               price="$200"
               period="/month"
-              description="Activate up to 5 agent instances in our environment, plus advanced features and more tokens for high usage"
-              features={['Everything in Basic', 'Included 130M tokens', 'Priority support']}
+              description="Activate up to 5 agent instances in our environment, plus advanced features and more credits for high usage"
+              features={['Everything in Basic', 'Early access to advanced models', 'Priority support', '$200 credits included']}
             />
           </div>
         </div>
