@@ -77,6 +77,22 @@ export default function RootLayout({
             gtag('config', 'AW-17691708623');
           `}
         </Script>
+        <Script id="google-ads-conversion" strategy="afterInteractive">
+          {`
+            function gtag_report_conversion(url) {
+              var callback = function () {
+                if (typeof(url) != 'undefined') {
+                  window.location = url;
+                }
+              };
+              gtag('event', 'conversion', {
+                'send_to': 'AW-17691708623/99PrCPjJopgcEM-ZiPRB',
+                'event_callback': callback
+              });
+              return false;
+            }
+          `}
+        </Script>
       </head>
       <body className={`${fkGrotesk.variable} ${fkGroteskMono.variable} antialiased`}>
         {process.env.NEXT_PUBLIC_POSTHOG_KEY ? (
