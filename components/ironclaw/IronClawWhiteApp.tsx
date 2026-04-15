@@ -1030,9 +1030,7 @@ export default function IronClawWhiteApp() {
           </div>
 
           <GradientCipherButton label="Deploy Now" icon={Rocket} className="hidden lg:flex text-sm px-6 py-3" onClick={() => {
-            if (typeof window !== 'undefined' && typeof window.gtag_report_conversion === 'function') {
-              window.gtag_report_conversion();
-            }
+            (window as any).gtag?.('event', 'conversion', { send_to: 'AW-17691708623/99PrCPjJopgcEM-ZiPRB' });
             posthog?.capture('cta_clicked', {
               cta_text: 'Deploy Now',
               cta_type: 'deploy',
@@ -1173,9 +1171,7 @@ export default function IronClawWhiteApp() {
 
               <div className="flex flex-col sm:flex-row gap-4 mb-6 md:mb-12">
                 <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} onClick={() => {
-                  if (typeof window !== 'undefined' && typeof window.gtag_report_conversion === 'function') {
-                    window.gtag_report_conversion();
-                  }
+                  (window as any).gtag?.('event', 'conversion', { send_to: 'AW-17691708623/99PrCPjJopgcEM-ZiPRB' });
                   posthog?.capture('cta_clicked', {
                     cta_text: 'Deploy Secure Agent',
                     cta_type: 'deploy',
@@ -1535,9 +1531,7 @@ export default function IronClawWhiteApp() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10 w-full sm:w-auto">
           <GradientCipherButton label="Deploy Secure Agent" icon={Rocket} className="w-full sm:w-auto" onClick={() => {
-            if (typeof window !== 'undefined' && typeof window.gtag_report_conversion === 'function') {
-              window.gtag_report_conversion();
-            }
+            (window as any).gtag?.('event', 'conversion', { send_to: 'AW-17691708623/99PrCPjJopgcEM-ZiPRB' });
             posthog?.capture('cta_clicked', {
               cta_text: 'Deploy Secure Agent',
               cta_type: 'deploy',
