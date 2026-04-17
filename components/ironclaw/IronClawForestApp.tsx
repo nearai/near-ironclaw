@@ -402,7 +402,7 @@ const ComparisonTable = () => {
     { feature: 'Memory Safety', open: '✗ Runtime GC', iron: '✓ Compile-time', highlight: true },
     { feature: 'Secret Handling', open: '✗ LLM can see secrets', iron: '✓ Encrypted vault', highlight: true },
     { feature: 'Tool Isolation', open: '✗ Shared process', iron: '✓ Per-tool Wasm sandbox', highlight: true },
-    { feature: 'Prompt Injection', open: "✗ \"Please don't leak\"", iron: '✓ Architectural separation', highlight: true },
+    { feature: 'Prompt Injection', open: "✗ “Please don't leak”, iron: '✓ Architectural separation', highlight: true },
     { feature: 'Cloud Privacy', open: 'Standard VPS', iron: 'Encrypted TEE', highlight: false },
     { feature: 'Network Control', open: '✗ Unrestricted', iron: '✓ Endpoint allowlist', highlight: true },
     { feature: 'Leak Detection', open: '✗ None', iron: '✓ Real-time scanning', highlight: true },

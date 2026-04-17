@@ -1456,7 +1456,7 @@ export default function IronClawWhiteApp() {
           <HybridComparisonRow feature="Memory Safety" openClaw="Runtime GC" ironClaw="Compile-time" />
           <HybridComparisonRow feature="Secret Handling" openClaw="LLM sees secrets" ironClaw="Encrypted vault" />
           <HybridComparisonRow feature="Tool Isolation" openClaw="Shared process" ironClaw="Per-tool Wasm" />
-          <HybridComparisonRow feature="Prompt Injection" openClaw={`"Please don't leak"`} ironClaw="Architectural" />
+          <HybridComparisonRow feature="Prompt Injection" openClaw={`“Please don't leak”`} ironClaw="Architectural" />
           <HybridComparisonRow feature="Network Control" openClaw="Unrestricted" ironClaw="Allowlist" />
         </div>
       </div>
