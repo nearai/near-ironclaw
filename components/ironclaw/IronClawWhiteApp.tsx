@@ -1456,7 +1456,7 @@ export default function IronClawWhiteApp() {
           <HybridComparisonRow feature="Memory Safety" openClaw="Runtime GC" ironClaw="Compile-time" />
           <HybridComparisonRow feature="Secret Handling" openClaw="LLM sees secrets" ironClaw="Encrypted vault" />
           <HybridComparisonRow feature="Tool Isolation" openClaw="Shared process" ironClaw="Per-tool Wasm" />
-          <HybridComparisonRow feature=”Prompt Injection” openClaw={`\u201cPlease don't leak\u201d`} ironClaw=”Architectural” />
+          <HybridComparisonRow feature="Prompt Injection" openClaw={String.fromCharCode(0x201c) + "Please don't leak" + String.fromCharCode(0x201d)} ironClaw="Architectural" />
           <HybridComparisonRow feature="Network Control" openClaw="Unrestricted" ironClaw="Allowlist" />
         </div>
       </div>
@@ -1620,7 +1620,7 @@ export default function IronClawWhiteApp() {
             {[
               {
                 label: 'X',
-                href: 'https://x.com/near_intents',
+                href: 'https://x.com/ironclawai',
                 cta_type: 'x_twitter',
                 icon: (
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -1630,7 +1630,7 @@ export default function IronClawWhiteApp() {
               },
               {
                 label: 'Telegram',
-                href: 'https://t.me/near_intents',
+                href: 'https://t.me/ironclawAI',
                 cta_type: 'telegram',
                 icon: (
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -1660,7 +1660,7 @@ export default function IronClawWhiteApp() {
               },
               {
                 label: 'Reddit',
-                href: 'https://www.reddit.com/r/nearprotocol/',
+                href: 'https://www.reddit.com/r/ironclawAI/',
                 cta_type: 'reddit',
                 icon: (
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
