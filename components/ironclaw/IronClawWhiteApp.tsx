@@ -24,6 +24,7 @@ import {
   ArrowRight,
   Database,
   BookOpen,
+  Star,
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import { usePostHog } from 'posthog-js/react';
@@ -879,7 +880,7 @@ function PricingCard({ name, price, originalPrice, period, description, features
       <p style={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.5rem' }}>{name}</p>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', marginBottom: '1rem' }}>
         {originalPrice && (
-          <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: '1.5rem', fontWeight: 700, textDecoration: 'line-through' }}>{originalPrice}</span>
+          <span style={{ color: 'rgba(255,255,255,0.05)', fontSize: '1.5rem', fontWeight: 700, textDecoration: 'line-through' }}>{originalPrice}</span>
         )}
         <span style={{ color: '#fff', fontSize: '2.5rem', fontWeight: 800 }}>{price}</span>
         <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.9rem' }}>{period}</span>
@@ -926,6 +927,7 @@ export default function IronClawWhiteApp() {
   const [navVisible, setNavVisible] = useState(true);
   const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' && window.innerWidth >= 1024);
   const [imageRight, setImageRight] = useState('right-16');
+  const [githubStars, setGithubStars] = useState<number | null>(null);
   const lastScrollY = useRef(0);
   const posthog = usePostHog();
 
@@ -963,6 +965,12 @@ export default function IronClawWhiteApp() {
     };
   }, []);
 
+  useEffect(() => {
+    fetch('/api/github-stars').then(r => r.json()).then(d => { if (d.stars !== null) setGithubStars(d.stars); }).catch(() => {});
+  }, []);
+
+  const formatStars = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
+
   return (
     <div
       className="min-h-screen selection:bg-[#4CA7E6] selection:text-white"
@@ -992,7 +1000,7 @@ export default function IronClawWhiteApp() {
             maxWidth: scrolled ? '1472px' : '1600px',
             padding: scrolled ? '8px' : '20px 24px',
             backgroundColor: scrolled ? 'rgba(241,241,241,0.92)' : 'transparent',
-            backdropFilter: scrolled ? 'blur(12px)' : 'none',
+            backdropFilter: scrolled ? 'blur(4px)' : 'none',
             border: '1px solid',
             borderColor: scrolled ? 'rgba(0,0,0,0.08)' : 'transparent',
             borderRadius: scrolled ? '0 0 24px 24px' : '0',
@@ -1190,25 +1198,25 @@ export default function IronClawWhiteApp() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 transition-all cursor-pointer"
-                  style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent', color: '#111', textDecoration: 'none' }}
+                  style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.05)', color: '#111', textDecoration: 'none', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
                   onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#111'; e.currentTarget.style.boxShadow = 'none'; }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#111'; e.currentTarget.style.boxShadow = 'none'; }}
                   onClick={() => posthog?.capture('cta_clicked', {
                     cta_text: 'Read the Source',
                     cta_type: 'github',
                     page_section: 'hero',
                   })}
                 >
-                  <span className="group-hover:[animation:github-nudge_3.5s_ease-in-out_infinite]"><Github size={19} /></span> Read the Source
+                  <span className="group-hover:[animation:github-nudge_3.5s_ease-in-out_infinite]"><Github size={19} /></span> Read the Source{githubStars !== null && <span className="ml-2 text-[15px] font-medium opacity-60 flex items-center gap-1"><Star size={16} /> {formatStars(githubStars)}</span>}
                 </a>
                 <a
                   href="https://docs.ironclaw.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-bold text-base px-7 py-3.5 flex items-center justify-center gap-2 transition-all cursor-pointer"
-                  style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'transparent', color: '#111', textDecoration: 'none' }}
+                  style={{ border: '2px solid rgba(76,167,230,0.6)', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.05)', color: '#111', textDecoration: 'none', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
                   onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.boxShadow = '0 24px 24px -20px rgba(76,167,230,0.55)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#111'; e.currentTarget.style.boxShadow = 'none'; }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#111'; e.currentTarget.style.boxShadow = 'none'; }}
                   onClick={() => posthog?.capture('cta_clicked', {
                     cta_text: 'Docs',
                     cta_type: 'docs',
@@ -1395,7 +1403,7 @@ export default function IronClawWhiteApp() {
               <div>
                 <span className="font-mono-ic text-[14px] font-light uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How IronClaw Fixes This</span>
                 <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
-                  Running IronClaw on NEAR AI Cloud, your credentials live in an encrypted vault empowering your agent with full system access and persistent memory while still protecting your secrets.
+                  The Hosted Solution.
                 </h2>
               </div>
               <div />
@@ -1405,7 +1413,7 @@ export default function IronClawWhiteApp() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
               <div>
                 <p className="text-lg leading-relaxed mb-6" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                  IronClaw&apos;s security model doesn&apos;t rely on telling the AI &quot;please don&apos;t leak this.&quot; Your credentials are injected at the network boundary—only for endpoints you&apos;ve pre-approved.
+                  Running IronClaw on NEAR AI Cloud, your credentials live in an encrypted vault empowering your agent with full system access and persistent memory while still protecting your secrets.
                 </p>
                 <p className="text-lg leading-relaxed mb-6 lg:mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
                   Every tool runs in its own WebAssembly sandbox with no filesystem access and no outbound connections beyond your allowlist. The entire runtime is Rust — no garbage collector, no buffer overflows, no use-after-free.
@@ -1580,31 +1588,7 @@ export default function IronClawWhiteApp() {
         </div>
       </div>
 
-      {/* ── Meetup Section ────────────────────────────────────────────────────── */}
-      <div className="relative z-20 flex flex-col items-center justify-center p-12 md:p-16" style={{ backgroundColor: '#f6f6f6', borderRadius: '2.5rem', border: '1px solid rgba(0,0,0,0.07)' }}>
-        <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-4 text-balance text-center" style={{ letterSpacing: '-0.03em', color: '#111' }}>
-          Join the next IronClaw Meetup
-        </h2>
-        <p className="text-lg max-w-2xl mx-auto mb-8 text-balance text-center" style={{ color: 'rgba(0,0,0,0.55)' }}>
-          online or IRL and start launching your agents
-        </p>
-        <a
-          href="https://community.ironclaw.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-8 py-3 font-bold transition-all"
-          style={{ backgroundColor: '#4CA7E6', color: '#fff', borderRadius: '16px', textDecoration: 'none', cursor: 'pointer' }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#3a8bc0'; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#4CA7E6'; }}
-          onClick={() => posthog?.capture('cta_clicked', {
-            cta_text: 'Explore Events',
-            cta_type: 'meetup',
-            page_section: 'meetup',
-          })}
-        >
-          Explore Events
-        </a>
-      </div>
+      {/* ── Meetup Section (hidden) ───────────────────────────────────────────── */}
 
       {/* ── Footer ───────────────────────────────────────────────────────────── */}
       <footer
