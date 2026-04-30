@@ -234,14 +234,20 @@ const HybridStickyStep = ({ number, title, children, index, bg = '#f6f6f6', minH
 
 // ─── Horizontal Marquee ───────────────────────────────────────────────────────
 
+const TICKER_MODELS = ['Anthropic', 'OpenAI', 'GitHub Copilot', 'Google Gemini', 'MiniMax', 'Mistral', 'Ollama', 'OpenRouter', 'Together AI', 'Fireworks AI'];
+
 const HybridHorizontalMarquee = () => (
   <div className="py-4 overflow-hidden relative z-20 mb-1">
-    <div className="animate-hybrid-marquee-x whitespace-nowrap flex items-center space-x-8 font-mono-ic text-[15px] font-light" style={{ color: '#E7E7E7' }}>
-      {[...Array(6)].map((_, i) => (
+    <div className="animate-hybrid-marquee-x whitespace-nowrap flex items-center space-x-6 font-mono-ic text-[15px] font-light" style={{ color: '#E7E7E7' }}>
+      {[...Array(3)].map((_, i) => (
         <React.Fragment key={i}>
-          <span className="flex items-center gap-2"><Shield size={18} style={{ color: '#4CA7E6' }} /> Your secrets never touch the LLM.</span>
-          <span className="flex items-center gap-2"><Terminal size={18} style={{ color: '#4CA7E6' }} /> Running in encrypted enclaves on NEAR AI Cloud.</span>
-          <span className="flex items-center gap-2"><Code2 size={18} style={{ color: '#4CA7E6' }} /> Built completely in Rust.</span>
+          <span className="flex items-center gap-2 px-2" style={{ color: '#4CA7E6' }}>Model-agnostic &middot; compatible with</span>
+          {TICKER_MODELS.map((model) => (
+            <React.Fragment key={model}>
+              <span className="opacity-40">&middot;</span>
+              <span>{model}</span>
+            </React.Fragment>
+          ))}
         </React.Fragment>
       ))}
     </div>
@@ -1166,7 +1172,7 @@ export default function IronClawWhiteApp() {
               </h1>
 
               <p className="text-base md:text-lg max-w-xl leading-relaxed mb-5 md:mb-10" style={{ color: 'rgba(0,0,0,0.55)' }}>
-                IronClaw is the secure, open-source alternative to OpenClaw that runs in encrypted enclaves on NEAR AI Cloud. AI agents that actually do things, but your secrets never touch the LLM.
+                IronClaw is the secure, open-source alternative to OpenClaw that runs in encrypted enclaves on NEAR AI Cloud or download the source code from Github and run it locally. AI agents that actually do things, but your secrets never touch the model.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-6 md:mb-12">
@@ -1277,7 +1283,7 @@ export default function IronClawWhiteApp() {
                 {[
                   { icon: Rocket, title: 'Deploy in one click.', desc: 'Launch your own IronClaw instance on NEAR AI Cloud. It boots inside a Trusted Execution Environment — encrypted from the start, no setup required.' },
                   { icon: Lock, title: 'Store your credentials.', desc: 'Add API keys, tokens, and passwords to the encrypted vault. IronClaw injects them only where you\'ve allowed — the AI never sees the raw values.' },
-                  { icon: Zap, title: 'Work like you always do.', desc: 'Browse, research, code, automate. Same capabilities as OpenClaw — except now a prompt injection can\'t steal your credentials.' },
+                  { icon: Zap, title: 'Work like you always do.', desc: 'Browse, research, code, automate. Powerful capabilities that are exempt from protected injection that can steal your credentials.' },
                 ].map((step, idx) => (
                   <div key={idx} className="flex gap-4">
                     <div className="flex-shrink-0 flex items-start pt-0.5">
@@ -1382,14 +1388,14 @@ export default function IronClawWhiteApp() {
         </HybridStickyStep>
 
         {/* STEP 4: THE SOLUTION */}
-        <HybridStickyStep index={4} number="4" title="The Solution" bg="#f6f6f6" overlayGradient="radial-gradient(ellipse 70% 70% at 100% 0%, rgba(76,167,230,0.02) 0%, transparent 65%)">
+        <HybridStickyStep index={4} number="4" title="The Hosted Solution" bg="#f6f6f6" overlayGradient="radial-gradient(ellipse 70% 70% at 100% 0%, rgba(76,167,230,0.02) 0%, transparent 65%)">
           <div className="space-y-8 lg:space-y-12">
             {/* Header: Title left, Description right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-start">
               <div>
                 <span className="font-mono-ic text-[14px] font-light uppercase tracking-[0.15em] mb-4 block" style={{ color: '#4CA7E6' }}>How IronClaw Fixes This</span>
                 <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-medium text-balance" style={{ letterSpacing: '-0.03em', lineHeight: 1.05, color: '#111' }}>
-                  Your credentials live in an encrypted vault on NEAR AI Cloud.
+                  Running IronClaw on NEAR AI Cloud, your credentials live in an encrypted vault empowering your agent with full system access and persistent memory while still protecting your secrets.
                 </h2>
               </div>
               <div />
@@ -1712,8 +1718,6 @@ export default function IronClawWhiteApp() {
           <div className="flex items-center gap-8">
             {[
               { label: 'Docs', href: 'https://docs.ironclaw.com', cta_type: 'docs' },
-              { label: 'Explorer', href: 'https://explorer.near-intents.org/', cta_type: 'explorer' },
-              { label: 'Status', href: 'https://status.near-intents.org/posts/dashboard', cta_type: 'status' },
               { label: 'GitHub', href: 'https://github.com/nearai/ironclaw', cta_type: 'github' },
               { label: 'NEAR AI', href: 'https://near.ai?utm_source=ironclaw&utm_medium=web&utm_campaign=footer_link', cta_type: 'near_ai' },
               { label: 'OpenClaw', href: 'https://agent.near.ai?utm_source=ironclaw&utm_medium=web&utm_campaign=footer_openclaw', cta_type: 'deploy' },
