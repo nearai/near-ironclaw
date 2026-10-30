@@ -29,7 +29,7 @@ export function AnnouncementBar({ onDismiss }: { onDismiss: () => void }) {
         rel="noopener noreferrer"
         className="flex items-center gap-2 min-w-0 text-[11px] sm:text-[13px] leading-snug hover:opacity-90"
         onClick={() => posthog?.capture('cta_clicked', {
-          cta_text: 'Try NEAR AI',
+          cta_text: 'Try NEAR AI Cloud',
           cta_type: 'near_ai',
           page_section: 'announcement_bar',
         })}
@@ -41,8 +41,7 @@ export function AnnouncementBar({ onDismiss }: { onDismiss: () => void }) {
           <span className="md:hidden">Private AI models for your agent.</span>
         </span>
         <span className="flex-shrink-0 font-medium" style={{ color: '#4CA7E6' }}>
-          <span className="hidden sm:inline">Try NEAR AI</span>
-          <span className="sm:hidden">Try near.ai</span>
+          <span>Try NEAR AI Cloud</span>
           <span aria-hidden="true"> →</span>
         </span>
       </a>
