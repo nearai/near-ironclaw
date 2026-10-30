@@ -27,22 +27,21 @@ export function AnnouncementBar({ onDismiss }: { onDismiss: () => void }) {
         href={NEAR_AI_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 min-w-0 text-[11px] sm:text-[13px] leading-none hover:opacity-90"
+        className="flex items-center gap-2 min-w-0 text-[11px] sm:text-[13px] leading-snug hover:opacity-90"
         onClick={() => posthog?.capture('cta_clicked', {
-          cta_text: 'Explore private inference',
+          cta_text: 'Try NEAR AI Cloud',
           cta_type: 'near_ai',
           page_section: 'announcement_bar',
         })}
       >
         <span className="truncate">
           <span className="hidden md:inline">
-            Private AI inference you can verify. TEE-hosted open-weight models on NEAR AI Cloud.
+            Give your agent private AI models that run in secure enclaves.
           </span>
-          <span className="md:hidden">Private inference on TEE-hosted models.</span>
+          <span className="md:hidden">Private AI models for your agent.</span>
         </span>
         <span className="flex-shrink-0 font-medium" style={{ color: '#4CA7E6' }}>
-          <span className="hidden sm:inline">Explore near.ai</span>
-          <span className="sm:hidden">near.ai</span>
+          <span>Try NEAR AI Cloud</span>
           <span aria-hidden="true"> →</span>
         </span>
       </a>
