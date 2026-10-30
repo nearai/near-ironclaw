@@ -53,6 +53,7 @@ import {
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import { usePostHog } from 'posthog-js/react';
+import { AnnouncementBar, ANNOUNCEMENT_BAR_HEIGHT, ANNOUNCEMENT_STORAGE_KEY } from './AnnouncementBar';
 import {
   INTEGRATIONS,
   USE_CASES,
@@ -1436,6 +1437,10 @@ export default function IronClawNuxApp() {
   const [imageRight, setImageRight] = useState('right-16');
   const [githubStars, setGithubStars] = useState<number | null>(null);
   const [activeSection, setActiveSection] = useState('');
+  const [announcementVisible, setAnnouncementVisible] = useState(true);
+  // How far the bar still sits below the top of the viewport. The fixed nav
+  // rides this offset so it starts under the bar and docks to the top on scroll.
+  const [barShift, setBarShift] = useState(ANNOUNCEMENT_BAR_HEIGHT);
   const lastScrollY = useRef(0);
   const posthog = usePostHog();
 
@@ -1485,6 +1490,7 @@ export default function IronClawNuxApp() {
 
     const fn = () => {
       const y = window.scrollY;
+      setBarShift(Math.max(0, ANNOUNCEMENT_BAR_HEIGHT - y));
       setScrolled(y > 80);
       if (y < 80) {
         setNavVisible(true);
@@ -1501,6 +1507,24 @@ export default function IronClawNuxApp() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    const syncAnnouncement = () => {
+      try {
+        if (sessionStorage.getItem(ANNOUNCEMENT_STORAGE_KEY) === '1') setAnnouncementVisible(false);
+      } catch {}
+      setBarShift(Math.max(0, ANNOUNCEMENT_BAR_HEIGHT - window.scrollY));
+    };
+    syncAnnouncement();
+  }, []);
+
+  const dismissAnnouncement = () => {
+    setAnnouncementVisible(false);
+    try { sessionStorage.setItem(ANNOUNCEMENT_STORAGE_KEY, '1'); } catch {}
+    posthog?.capture('announcement_dismissed', { page_section: 'announcement_bar' });
+  };
+
+  const navTop = announcementVisible ? barShift : 0;
 
   useEffect(() => {
     fetch('/api/github-stars').then(r => r.json()).then(d => { if (d.stars !== null) setGithubStars(d.stars); }).catch(() => {});
@@ -1528,10 +1552,13 @@ export default function IronClawNuxApp() {
         .nav-link-active { color: var(--ic-accent-deep) !important; background-color: var(--ic-accent-tint) !important; }
       `}</style>
 
+      {announcementVisible && <AnnouncementBar onDismiss={dismissAnnouncement} />}
+
       {/* ── Nav ─────────────────────────────────────────────────────────────── */}
       <nav
-        className="fixed top-0 left-0 right-0 z-[60] flex justify-center"
+        className="fixed left-0 right-0 z-[60] flex justify-center"
         style={{
+          top: navTop,
           transform: !isDesktop ? 'translateY(0)' : (navVisible ? 'translateY(0)' : 'translateY(-160%)'),
           transition: 'transform 0.35s ease',
         }}
@@ -1630,7 +1657,7 @@ export default function IronClawNuxApp() {
             boxShadow: isMenuOpen ? '0 8px 24px rgba(0,0,0,0.1)' : 'none'
           }}
         >
-          <div style={{ paddingTop: '80px', paddingBottom: '24px', paddingLeft: '24px', paddingRight: '24px' }}>
+          <div style={{ paddingTop: `${80 + navTop}px`, paddingBottom: '24px', paddingLeft: '24px', paddingRight: '24px' }}>
             {[
               { label: 'Use Cases', href: '#use-cases' },
               { label: 'Integrations', href: '#integrations' },
